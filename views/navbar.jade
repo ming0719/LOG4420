@@ -1,11 +1,13 @@
 ul.nav
   each name in ["index", "character", "help"]
     if (name=="index")
-      li.active
-        a(href="./")= "Accueil"
+      li.nav
+        a.nav(href="./")= "Accueil"
     else if (name=="character")
-      li
-        a(href="./character")= "Création d'un personnage"
+      li.nav
+        a.nav(href="./character")= "Création d'un personnage"
     else if (name=="help")
-      li
-        a(href="./help")= "Aide"
+      li.nav
+        a.nav(href="./help")= "Aide"
+
+
