@@ -2,15 +2,6 @@ h2= "Création d'un personnage"
 
 h3="Propriétés du joueur"
 
-div.proprietes
-	p Habileté : 
-	span= character.habilete
-	p Endurance :
-	span= character.endurance
-	p Pièces d'or : 
-	span= character.pieces 
-
-
 h3= "Choix des armes"
 form(action='/postCharacter',method='post')
 	div.form-arme1
@@ -74,8 +65,9 @@ form(action='/postCharacter',method='post')
 	| La Maîtrise Des Armes 
 	| Choisissez une valeur entre 0 et 9 : 
 	input(disabled, type='text',value='', name='maitrisearme', id='valeurmaitrisearmes')
+	input(type='hidden',value=character.habilete, name='habilete')
+	input(type='hidden',value=character.pieces, name='pieces')
+	input(type='hidden',value=character.endurance, name='endurance')
 	br
 	div.form-submit
 	input(type='submit', value='Valider')
-  
-
