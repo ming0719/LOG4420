@@ -11,10 +11,10 @@ router.get('/', function(req, res, next) {
 /* GET character. */
 router.get('/character', function(req, res, next) {
   var character = {
-        habilete: Math.floor(Math.random() * (19 - 10 +1) + 10),
-        endurance: Math.floor(Math.random() * (29 - 20 +1) + 20),
-        pieces: Math.floor(Math.random() * (19 - 10 +1) + 10),
-    }
+      habilete: Math.floor(Math.random() * (19 - 10 +1) + 10),
+      endurance: Math.floor(Math.random() * (29 - 20 +1) + 20),
+      pieces: Math.floor(Math.random() * (19 - 10 +1) + 10),
+  };
   res.render("./character.jade", {character: character}, function(err, html) {
 	 res.render('page', { title: 'Lone Wolf : Les Grottes de Katle', htmlPage: html})
 	});  
@@ -25,13 +25,16 @@ router.post('/postCharacter', function(req, res, next) {
   // Les valeurs propres au personnage sont stockées sous forme de variable de session
   character = req.cookies.character;
   var character = {
-        habilete: req.body.habilete,
-        endurance: req.body.endurance,
-        pieces: req.body.pieces,
-        arme1: req.body.arme,
-        arme2: req.body.arme2,
-        disciplines: req.body.discipline,
-    }
+      habilete: req.body.habilete,
+      endurance: req.body.endurance,
+      pieces: req.body.pieces,
+      equipement1: req.body.equipement1,
+      equipement2: req.body.equipement2,
+      disciplines: req.body.discipline,
+  };
+  if(character.disciplines.indexOf('La Maîtrise Des Armes')>=0){
+    character.maitriseArme = Math.floor(Math.random() * 10);
+  }
   res.cookie('character', character, { maxAge: 900000, httpOnly: true });
   // Mène à la 1ere page de jeu
   res.render("./page1.jade", {character: character}, function(err, html) {

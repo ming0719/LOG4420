@@ -1,70 +1,75 @@
 h2= "Création d'un personnage"
 
-h3="Propriétés du joueur"
-
-h3= "Choix des armes"
+h3= "Choix des équipements"
 form(action='/postCharacter',method='post')
 	div.form-arme1
-	select(name='arme')
-		option(value='Epée', name='arme') Epée 
-		option(value='Sabre', name='arme') Sabre 
-		option(value='Lance', name='arme') Lance 
-		option(value='Masse d\'armes', name='arme') Masse d'armes 
-		option(value='Marteau de guerre ', name='arme') Marteau de guerre 
-		option(value='Hâche', name='arme') Hâche 
-		option(value='Bâton', name='arme') Bâton 
-		option(value='Glaive', name='arme') Glaive 
-		option(value='Gilet De Cuir Matelassé', name='arme') Gilet De Cuir Matelassé
-		option(value='Potion de Lampsur', name='arme') Potion de Lampsur 
-		option(value='Rations spéciales', name='arme') Rations spéciales 
+		p Choisissez un 1er équipement :
+		select(name='equipement1')
+			optgroup(label='Arme')
+				option(value='Epée', name='arme') Epée 
+				option(value='Sabre', name='arme') Sabre 
+				option(value='Lance', name='arme') Lance 
+				option(value='Masse d\'armes', name='arme') Masse d'armes 
+				option(value='Marteau de guerre ', name='arme') Marteau de guerre 
+				option(value='Hâche', name='arme') Hâche 
+				option(value='Bâton', name='arme') Bâton 
+				option(value='Glaive', name='arme') Glaive 
+			optgroup(label='Objet Special')
+				option(value='Gilet De Cuir Matelassé', name='objetSpecial') Gilet De Cuir Matelassé
+			optgroup(label='Objet Sac A Dos')
+				option(value='Potion de Lampsur', name='objetSacADos') Potion de Lampsur 
+				option(value='Rations spéciales', name='objetSacADos') Rations spéciales
+
 
 	div.form-arme2
-	select(name='arme2')
-		option(value='Epée', name='arme2') Epée 
-		option(value='Sabre', name='arme2') Sabre 
-		option(value='Lance', name='arme2') Lance 
-		option(value='Masse d\'armes', name='arme2') Masse d'armes 
-		option(value='Marteau de guerre ', name='arme2') Marteau de guerre 
-		option(value='Hâche', name='arme2') Hâche 
-		option(value='Bâton', name='arme2') Bâton 
-		option(value='Glaive', name='arme2') Glaive 
-		option(value='Gilet De Cuir Matelassé', name='arme2') Gilet De Cuir Matelassé
-		option(value='Potion de Lampsur', name='arme2') Potion de Lampsur 
-		option(value='Rations spéciales', name='arme2') Rations spéciales 
+		p Choisissez un 2nd équipement :
+		select(name='equipement2')
+			optgroup(label='Arme')
+				option(value='Epée', name='arme') Epée 
+				option(value='Sabre', name='arme') Sabre 
+				option(value='Lance', name='arme') Lance 
+				option(value='Masse d\'armes', name='arme') Masse d'armes 
+				option(value='Marteau de guerre ', name='arme') Marteau de guerre 
+				option(value='Hâche', name='arme') Hâche 
+				option(value='Bâton', name='arme') Bâton 
+				option(value='Glaive', name='arme') Glaive 
+			optgroup(label='Objet Special')
+				option(value='Gilet De Cuir Matelassé', name='objetSpecial') Gilet De Cuir Matelassé
+			optgroup(label='Objet Sac A Dos')
+				option(value='Potion de Lampsur', name='objetSacADos') Potion de Lampsur 
+				option(value='Rations spéciales', name='objetSacADos') Rations spéciales 
 
 	div.form-discipline
-	h3= "Choix des disciplines"
-	input(type='checkbox',value='Le Camouflage', name='discipline')
-	| Le Camouflage 
-	br
-	input(type='checkbox',value='La Chasse', name='discipline')
-	| La Chasse 
-	br
-	input(type='checkbox',value='Le 6ème Sens ', name='discipline')
-	| Le 6ème Sens 
-	br
-	input(type='checkbox',value='L\'Orientation', name='discipline')
-	| L'Orientation 
-	br
-	input(type='checkbox',value='La Guérison', name='discipline')
-	| La Guérison 
-	br
-	input(type='checkbox',value='Le Bouclier Psychique', name='discipline')
-	| Le Bouclier Psychique 
-	br
-	input(type='checkbox',value='La Puissance Psychique', name='discipline')
-	| La Puissance Psychique 
-	br
-	input(type='checkbox',value='La Communication Animale ', name='discipline')
-	| La Communication Animale 
-	br
-	input(type='checkbox',value='La Maîtrise Psychique De La Matière', name='discipline')
-	| La Maîtrise Psychique De La Matière 
-	br
-	input(type='checkbox',value='La Maîtrise Des Armes', name='discipline' id="maitrisearmes")
-	| La Maîtrise Des Armes 
-	| Choisissez une valeur entre 0 et 9 : 
-	input(disabled, type='text',value='', name='maitrisearme', id='valeurmaitrisearmes')
+		h3= "Choix des disciplines"
+		input(type='checkbox',value='Le Camouflage', name='discipline')
+		| Le Camouflage 
+		br
+		input(type='checkbox',value='La Chasse', name='discipline')
+		| La Chasse 
+		br
+		input(type='checkbox',value='Le 6ème Sens ', name='discipline')
+		| Le 6ème Sens 
+		br
+		input(type='checkbox',value='L\'Orientation', name='discipline')
+		| L'Orientation 
+		br
+		input(type='checkbox',value='La Guérison', name='discipline')
+		| La Guérison 
+		br
+		input(type='checkbox',value='Le Bouclier Psychique', name='discipline')
+		| Le Bouclier Psychique 
+		br
+		input(type='checkbox',value='La Puissance Psychique', name='discipline')
+		| La Puissance Psychique 
+		br
+		input(type='checkbox',value='La Communication Animale ', name='discipline')
+		| La Communication Animale 
+		br
+		input(type='checkbox',value='La Maîtrise Psychique De La Matière', name='discipline')
+		| La Maîtrise Psychique De La Matière 
+		br
+		input(type='checkbox',value='La Maîtrise Des Armes', name='discipline' id='maitrisearmes')
+		| La Maîtrise Des Armes 
 	input(type='hidden',value=character.habilete, name='habilete')
 	input(type='hidden',value=character.pieces, name='pieces')
 	input(type='hidden',value=character.endurance, name='endurance')
