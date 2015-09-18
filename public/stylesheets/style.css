@@ -3,6 +3,12 @@ body {
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
 }
 
+.container {
+  position:relative;
+  margin:auto;
+  max-width:940px;
+}
+
 /* NavBar Style */
 
 ul.nav {

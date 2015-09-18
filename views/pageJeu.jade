@@ -1,0 +1,95 @@
+extends layout
+
+block content
+
+	h2 Page de jeu
+	a.btn(href='/reset', id="reinitialiserJeu") Reinitialiser Jeu
+	br
+	br
+	br
+	a.btn(href='/jeu/1', id="commencerJeu") Commencer Jeu
+	h3 Propriété du personnage :
+	
+	div.proprietes
+		p 
+			| Habileté : #{character.habilete}
+		p 
+			| Endurance : #{character.endurance}
+		p 
+			| Pièces d'or : #{character.pieces}
+			
+		hr
+		
+		if character.arme1 && character.arme2
+			p
+				| Votre première arme : 
+				| #{character.arme1}
+			p 
+				| Votre seconde arme : 
+				| #{character.arme2}
+				
+		else if character.arme1
+			p
+				| Votre arme : #{character.arme1}
+		else
+			p
+				| Vous n'avez aucune arme
+		
+		if character.sacADos.length		
+			p 
+				| Votre sac à dos contient :
+			ul
+				each val in character.sacADos
+					li= val
+		else
+			p 
+			| Votre sac à dos est vide
+			
+		if character.objSpeciaux.length		
+			p 
+				| Vos objets spéciaux :
+			ul
+				each val in character.objSpeciaux
+					li= val
+		else
+			p 
+				| Vous n'avez pas d'objets spéciaux.
+			
+		hr
+		
+		p 
+			| Vos disciplines :
+		ul
+			each val in character.disciplines
+				if val == "La Maîtrise Des Armes"
+					li= val + " : " + character.maitriseArme
+				else 
+					li= val
+	
+	h3 Combats
+	
+	div.combats
+		table
+			tr
+				th Combat n°X
+				th Adversaire
+				th Score
+				th Résultat
+			tr
+				td 1
+				td Bernie le Dingo
+				td 23-4
+				td Victoire
+			tr
+				td 2
+				td Doudou le tombeur
+				td 69-18
+				td Victoire
+			tr
+				td 3
+				td Modou la douceur du Sénégal
+				td 27-4
+				td Victoire
+				
+			
+		

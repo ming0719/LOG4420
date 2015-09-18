@@ -3,8 +3,10 @@ html
   head
     title= title
     link(rel='stylesheet', href='/stylesheets/style.css')
-  include ./navbar.jade
   body
-    block content
-  include ./footer.jade
-  script(src='script.js')
+    div.container
+      h1 Lone Wolf : Les Grottes de Katle
+      include ./navbar.jade
+      block content
+      include ./footer.jade
+  script(src='/js/script.js')
