@@ -1,12 +1,24 @@
 body {
   padding: 50px;
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+  background: #000 url("../images/parchment.gif") no-repeat center top;
+  font: 18px Georgia, Helvetica, Arial, sans-serif;
 }
 
 .container {
   position:relative;
   margin:auto;
-  max-width:940px;
+  max-width:880px;
+  padding-top:110px;
+}
+
+h1, h2, h3 {
+  font-family: "Cinzel Decorative";
+  
+}
+
+h1 {
+  text-align: center;
+  font-size:40px;
 }
 
 /* NavBar Style */
@@ -16,10 +28,12 @@ ul.nav {
     margin: 0;
     padding: 0;
     overflow: hidden;
+    text-align: center;
+    font-weight: bold;
 }
 
-li.nav {
-	float: left;	
+.nav li {
+  display:inline-block;
 }
 
 a.nav {
@@ -27,17 +41,16 @@ a.nav {
 }
 
 a.nav:link, a.nav:visited{
-	width: 300px;
+	width: 260px;
 	display: block;
-    font-weight: bold;
-    background-color: #848484;
-    text-align: center;
-    padding: 4px;
-    text-decoration: none;
+  background-color: rgba(0, 0, 0, 0.5);
+  text-align: center;
+  padding: 4px;
+  text-decoration: none;
 }
 
 a.nav:hover, a.nav:active {
-    background-color: #BDBDBD;
+    background-color: rgba(0, 0, 0, 0.6);
 }
 
 /* Button Style */
@@ -48,18 +61,15 @@ a.btn {
   border-radius: 10px;
   color: #ffffff;
   font-size: 15px;
-  font-weight: bold;
-  background: #848484;
+  background-color: rgba(0, 0, 0, 0.5);
   padding: 10px 10px 10px 10px;
   text-decoration: none;
   width: 300px;
   text-align: center;
-
+  font-weight: bold;
   position: relative;
-  margin-left: -150px;
-  top: 10%;
-  right: 50%;
-  left: 50%;
+  display: block;
+  margin: 10px auto;
 }
 
 a.btn:hover {
@@ -84,5 +94,10 @@ a.btn:hover {
 }
 
 .illustration {
-  
+  position: relative;
+  margin: 10px auto;
+  display: block;
+  border:5px solid #fff;
+  box-shadow: 3px 3px 3px rgba(0,0,0,0.4);
+  border-radius:2px;
 }
