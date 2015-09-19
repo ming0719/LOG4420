@@ -115,6 +115,15 @@ router.get('/jeu/:page', function(req, res, next) {
   });  
 });
 
+/* GET help pages. */
+router.get('/help/:valeur', function(req, res, next) {
+  var v = req.params.valeur;
+  var page = "./" + v + ".jade";
+  res.render(page, function(err, html) {
+  	res.render('page', { title: 'Lone Wolf : Les Grottes de Katle - Aide', htmlPage: html })
+  });  
+});
+
 /* GET other pages. */
 router.get('/:valeur', function(req, res, next) {
   var v = req.params.valeur;
