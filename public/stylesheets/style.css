@@ -67,3 +67,22 @@ a.btn:hover {
   text-decoration: none;
 }
 
+.barre-vie div {
+  border-radius: 5px;
+  display: block;
+  height: 10px;
+  width: 100%;
+  background: #2ecc71;
+}
+
+.barre-vie {
+  border-radius: 5px;
+  display: block;
+  background: #ccc;
+  height: 10px;
+  width: 100%;
+}
+
+.illustration {
+  
+}

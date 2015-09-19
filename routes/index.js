@@ -89,7 +89,7 @@ router.post('/jeu', function(req, res, next) {
   if(character.disciplines.indexOf('La Maîtrise Des Armes')>=0){
     character.maitriseArme = ARMES_IDS[Math.floor(Math.random() * 10)];
   }
-  res.cookie('character', character, { maxAge: 900000, httpOnly: true });
+  res.cookie('character', character, { expires: new Date(Date.now() + 86400000), maxAge: 900000, httpOnly: true });
   // Mène à la 1ere page de jeu
   res.redirect('/jeu');
 });
