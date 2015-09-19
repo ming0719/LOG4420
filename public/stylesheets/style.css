@@ -11,7 +11,7 @@ body {
   padding-top:110px;
 }
 
-h1, h2, h3 {
+h1, h2, h3, h4 {
   font-family: "Cinzel Decorative";
   
 }
@@ -21,41 +21,83 @@ h1 {
   font-size:40px;
 }
 
+h2 {
+  text-align: center;
+}
+
+h4 {
+  margin: 3px 0;
+}
+
+.form-armes{
+  display: flex;
+  justify-content: space-around;
+}
+
+.form-discipline{
+  position: relative;
+}
+
+.liste-disciplines {
+  -webkit-columns: auto 2; /* Chrome, Safari, Opera */
+  -moz-columns: auto 2; /* Firefox */
+  columns: auto 2;
+}
+
+.form-submit{
+  position: relative;
+}
+
+.combats table{
+  text-align: center;
+  width: 80%;
+  margin-left: auto; 
+  margin-right: auto;
+  margin-bottom: 20px;
+}
+
+.combat table{
+  text-align: center;
+  width: 80%;
+  margin-left: 0%;
+  margin-bottom: 20px;
+}
 /* NavBar Style */
 
-ul.nav {
-    list-style-type: none;
-    margin: 0;
-    padding: 0;
-    overflow: hidden;
-    text-align: center;
-    font-weight: bold;
+.nav {
+  list-style-type: none;
+  margin: 0 30px;
+  padding: 0;
+  text-align: center;
+  font-weight: bold;
+  font-size: 18px;
+  display: flex;
+  align-content: stretch;
 }
 
 .nav li {
-  display:inline-block;
-}
-
-a.nav {
-  color: #FFFFFF;
-}
-
-a.nav:link, a.nav:visited{
-	width: 260px;
-	display: block;
+  display: inline-block;
   background-color: rgba(0, 0, 0, 0.5);
-  text-align: center;
-  padding: 4px;
-  text-decoration: none;
+  flex-grow: 1;
+  height: 2em;
+  line-height: 2em;
 }
 
-a.nav:hover, a.nav:active {
+.nav a {
+  color: #FFFFFF;
+  text-decoration: none;
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.nav a:hover, .nav a:active {
     background-color: rgba(0, 0, 0, 0.6);
 }
 
 /* Button Style */
 
-a.btn {
+.btn {
   -webkit-border-radius: 10;
   -moz-border-radius: 10;
   border-radius: 10px;
@@ -70,24 +112,25 @@ a.btn {
   position: relative;
   display: block;
   margin: 10px auto;
+  border: none;
+  box-sizing: border-box;
 }
 
-a.btn:hover {
-  background: #BDBDBD;
+.btn:hover {
+  background-color: rgba(0, 0, 0, 0.6);
   text-decoration: none;
 }
 
 .barre-vie div {
   border-radius: 5px;
-  display: block;
-  height: 10px;
+  height: 100%;
   width: 100%;
   background: #2ecc71;
+  transition: all 1s ease;
 }
 
 .barre-vie {
   border-radius: 5px;
-  display: block;
   background: #ccc;
   height: 10px;
   width: 100%;
@@ -100,4 +143,63 @@ a.btn:hover {
   border:5px solid #fff;
   box-shadow: 3px 3px 3px rgba(0,0,0,0.4);
   border-radius:2px;
+}
+
+.imgright {
+  position: relative;
+  float: right;
+}
+
+/* Details de Jeu */
+
+.detailsJeu {
+  padding: 0 15px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.invisible {
+  display: none;
+}
+
+.detailsJeu div {
+    padding: 0 15px;
+}
+
+.detailsJeu ul {
+  padding-left:18px;
+}
+
+.detailsJeu h3, .detailsJeu ul {
+  margin: 0;
+}
+
+.detailCaracteristiques{
+    margin: 0;
+    padding: 0;
+    order: 1;
+}
+
+.detailSac{
+    order: 2;
+}
+
+.detailDisciplines{
+    order: 3;
+}
+
+#btnDetails, #btnCombats {
+  cursor: pointer;
+}
+
+.regionButton{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.contenu {
+  height: 950px;
+  overflow: auto;
 }

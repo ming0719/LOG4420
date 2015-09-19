@@ -1,0 +1,75 @@
+div.detailsHeader
+	h3#btnDetails Détails
+div#detailsJeu.detailsJeu.invisible
+	div.detailCaracteristiques
+		h4 Caractéristiques
+		ul
+			li Habileté : #{character.habilete}
+			li Endurance : #{character.endurance}
+			li Pièces d'or : #{character.pieces}
+	
+	div.detailSac
+		h4 Equipement
+		ul
+			if character.arme1 && character.arme2
+				li Première Arme : 
+					| #{character.arme1} 
+				li Seconde arme : 
+					| #{character.arme2}
+					
+			else if character.arme1
+				li Votre arme : #{character.arme1}
+			else
+				li Vous n'avez aucune arme
+			
+			if character.sacADos.length		
+				li Sac à dos :
+					ul
+						each val in character.sacADos
+							li= val
+			else
+				li Votre sac à dos est vide
+			
+			if character.objSpeciaux.length		
+				li Vos objets spéciaux :
+					ul
+						each val in character.objSpeciaux
+							li= val
+			else
+				li Vous n'avez pas d'objets spéciaux.
+	
+	div.detailDisciplines
+		h4 Disciplines Kaï
+		ul
+			each val in character.disciplines
+				if val == "La Maîtrise Des Armes"
+					li= val + " : " + character.maitriseArme
+				else 
+					li= val
+hr
+
+div.combatsHeader
+	h3#btnCombats Résumé Combats 
+div#combats.combats.invisible
+	table
+			tr
+				th Combat n°
+				th Adversaire
+				th Nombre de rounds
+				th Résultat
+			tr
+				td 1
+				td Bernie le Dingo
+				td 3
+				td Victoire
+			tr
+				td 2
+				td Doudou le tombeur
+				td 3
+				td Victoire
+			tr
+				td 3
+				td Modou Sénégalito
+				td 4
+				td Victoire
+hr

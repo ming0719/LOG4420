@@ -2,12 +2,11 @@ extends layout
 
 block content
 
-	h2 Page de jeu
-	a.btn(href='/reset', id="reinitialiserJeu") Reinitialiser Jeu
-	a.btn(href='/jeu/1', id="commencerJeu") Commencer Jeu
-	h3 Propriété du personnage :
+	h2 Page de jeu : Propriétés de votre personnage
 	
 	div.proprietes
+		hr
+		h3 Caractéristiques
 		p 
 			| Habileté : #{character.habilete}
 		p 
@@ -16,6 +15,11 @@ block content
 			| Pièces d'or : #{character.pieces}
 			
 		hr
+		
+		div.imgright
+			img(src="/images/bag.png", style="height:210px")
+			
+		h3 Equipement
 		
 		if character.arme1 && character.arme2
 			p
@@ -54,39 +58,47 @@ block content
 			
 		hr
 		
-		p 
-			| Vos disciplines :
+		h3 Disciplines Kaï
 		ul
 			each val in character.disciplines
 				if val == "La Maîtrise Des Armes"
 					li= val + " : " + character.maitriseArme
 				else 
 					li= val
-	
-	h3 Combats
+					
+		hr
 	
 	div.combats
+		h3 Combats
 		table
 			tr
-				th Combat n°X
+				th Combat n°
 				th Adversaire
-				th Score
+				th Nombre de rounds
 				th Résultat
 			tr
 				td 1
 				td Bernie le Dingo
-				td 23-4
+				td 3
 				td Victoire
 			tr
 				td 2
 				td Doudou le tombeur
-				td 69-18
+				td 3
 				td Victoire
 			tr
 				td 3
-				td Modou la douceur du Sénégal
-				td 27-4
+				td Modou Sénégalito
+				td 4
 				td Victoire
+		hr
+	
+	div.regionButton
+		button.btn(href='/reset', id="reinitialiserJeu") Réinitialiser la partie
+		if pageActuelle
+			a.btn(href='/jeu/'+ pageActuelle, id="commencerJeu") Reprendre la partie
+		else
+			a.btn(href='/jeu/1', id="commencerJeu") Commencer la partie
 				
 			
 		

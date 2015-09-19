@@ -1,0 +1,25 @@
+- var endurancePerso = character.endurance;
+div.combat(id="combat", data-enduranceperso=endurancePerso, data-enduranceadversaire=enduranceAdversaire)
+    h2 Combat
+    p 
+        | #{nomAdversaire}
+        | : COMBAT SKILL 
+        | #{habileteAdversaire}   
+        | ENDURANCE 
+        | #{enduranceAdversaire}
+    div.regionButton
+        button.btn(id="combatbtn") Prochain round
+        button.btn(id="fuitebtn") Fuir
+    table(width="80%", align="center", id="tableau-rounds")
+        tr 
+            th(width="20%")
+            th Votre personnage
+            th Votre adversaire
+        tr
+            td
+            td 
+                div.barre-vie(id="barre-perso")
+                    div(style="background:#2ecc71")
+            td 
+                div.barre-vie(id="barre-adversaire")
+                    div(style="background:#f39c12")
