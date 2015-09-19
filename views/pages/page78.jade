@@ -1,25 +1,7 @@
-div.contenu
-    p Preparing yourself, you pull back the flap of the tent and quickly leave. The wind has become much stronger, and it whips the fine snow into small eddies, obscuring your vision. A shadow to your right betrays the Baknar as it lopes towards you. There is no time to evade its attack and you must fight the creature to the death.
-    img.illustration(src="/images/ill5.png")
-    
-div.combat(id="combat", data-enduranceperso="19", data-enduranceadversaire="30")
-    h2 Combat
-    p Baknar: COMBAT SKILL 19   ENDURANCE 30
-    table(width="80%", align="center", id="tableau-rounds")
-        tr 
-            th 
-            th Votre personnage
-            th Votre adversaire
-        tr
-            td
-            td 
-                div.barre-vie(id="barre-perso")
-                    div(style="background:#2ecc71")
-            td 
-                div.barre-vie(id="barre-adversaire")
-                    - var enduranceAdversaireTotal = 30
-                    - var enduranceAdversaireActu = 12
-                    - var barreAdversaire = enduranceAdversaireActu * 100 / enduranceAdversaireTotal
-                    div(style="background:#f39c12")
-            
-    button(id="combatbtn") Prochain round
+p Preparing yourself, you pull back the flap of the tent and quickly leave. The wind has become much stronger, and it whips the fine snow into small eddies, obscuring your vision. A shadow to your right betrays the Baknar as it lopes towards you. There is no time to evade its attack and you must fight the creature to the death.
+img.illustration(src="/images/ill5.png" height="300")
+
+- var nomAdversaire = "Baknar";
+- var enduranceAdversaire = 30;
+- var habileteAdversaire = 19;
+include ../combat.jade
