@@ -145,7 +145,7 @@ router.get('/help/:valeur', function(req, res, next) {
   var v = req.params.valeur;
   var page = "help/" + v + ".jade";
   res.render(page, function(err, html) {
-  	res.render('page', { title: 'Lone Wolf : Les Grottes de Katle - Aide', htmlPage: html })
+  	res.render('helpPages', { title: 'Lone Wolf : Les Grottes de Katle - Aide', htmlPage: html })
   });  
 });
 
