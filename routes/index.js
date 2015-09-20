@@ -117,6 +117,8 @@ router.get('/jeu', function(req, res, next) {
     res.redirect('/character');
   }
   
+  // Cookie page actuelle permettant de pouvoir revenir à la dernière page visitée 
+  // pendant la partie
   var pageActuelle = req.cookies.pageActuelle;
   res.render("./pageJeu.jade", { character: character, title: 'Lone Wolf : Les Grottes de Katle', pageActuelle: pageActuelle });
 });
@@ -134,9 +136,10 @@ router.get('/jeu/:page', function(req, res, next) {
   
   res.cookie('pageActuelle', pageNum, { expires: new Date(Date.now() + 86400000), maxAge: 900000, httpOnly: true });
   
+  // le cookie character est à la fois envoyé à page en particulier et au template, sinon 
+  // impossibilité d'y accèder sur la page de combat (dû à la l'include dans l'include)
   res.render(page, { character: character }, function(err, html) {
-    console.log(err);
-    res.render('page', { character: character, title: 'Lone Wolf : Les Grottes de Katle', htmlPage: html });
+    res.render('page', { character: character, title: 'Lone Wolf : Les Grottes de Katle', pageNum: pageNum, htmlPage: html });
   });  
 });
 
