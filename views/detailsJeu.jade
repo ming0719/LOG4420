@@ -1,3 +1,5 @@
+// Page défissant les détails qui seront présents sur chaque page de jeu
+
 div.detailsHeader
 	h3#btnDetails Détails
 div#detailsJeu.detailsJeu.invisible
@@ -12,10 +14,8 @@ div#detailsJeu.detailsJeu.invisible
 		h4 Equipement
 		ul
 			if character.arme1 && character.arme2
-				li Première Arme : 
-					| #{character.arme1} 
-				li Seconde arme : 
-					| #{character.arme2}
+				li Première Arme : #{character.arme1} 
+				li Seconde arme : #{character.arme2}
 					
 			else if character.arme1
 				li Votre arme : #{character.arme1}
@@ -48,6 +48,7 @@ div#detailsJeu.detailsJeu.invisible
 					li= val
 hr
 
+// Résumé des combats précédents qui sera chargé dynamiquement en fonction des combats
 div.combatsHeader
 	h3#btnCombats Résumé Combats 
 div#combats.combats.invisible
@@ -59,17 +60,17 @@ div#combats.combats.invisible
 				th Résultat
 			tr
 				td 1
-				td Bernie le Dingo
+				td Vonotar
 				td 3
 				td Victoire
 			tr
 				td 2
-				td Doudou le tombeur
+				td Baknar
 				td 3
 				td Victoire
 			tr
 				td 3
-				td Modou Sénégalito
+				td Skolin
 				td 4
 				td Victoire
 hr

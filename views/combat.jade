@@ -1,3 +1,5 @@
+// Page définissant la section combat
+
 - var endurancePerso = character.endurance;
 div.combat(id="combat", data-enduranceperso=endurancePerso, data-enduranceadversaire=enduranceAdversaire)
     h2 Combat
@@ -9,6 +11,7 @@ div.combat(id="combat", data-enduranceperso=endurancePerso, data-enduranceadvers
         | #{enduranceAdversaire}
     div.regionButton
         button.btn(id="combatbtn") Prochain round
+        // Le bouton "fuir" n'est pas fonctionnel pour le moment
         button.btn(id="fuitebtn") Fuir
     table(width="80%", align="center", id="tableau-rounds")
         tr 

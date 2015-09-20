@@ -1,6 +1,11 @@
+// Ce template concerne seulement les pages de jeu, la partie combat n'est pas incluse mais est rajouté
+// à chaque page de jeu contenant un combat, ce qui permet aussi d'initialiser les variables propres à 
+// chaque combat
+
 extends layout
 
 block content
     include ./detailsJeu.jade
     div#contenu.contenu
+        h1= pageNum
         !{htmlPage}

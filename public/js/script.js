@@ -1,3 +1,5 @@
+// Script vérifiant si les exigeances du formulaires sont respectées
+
 var formCharacter = document.getElementById('formCharacter');
 if(formCharacter){
     var checkboxes = formCharacter.querySelectorAll("input[type='checkbox']");
@@ -44,6 +46,8 @@ if(formCharacter){
     });
 }
 
+// Script permettant de prévenir le joueur que la création d'un nouveau personnage
+// écrasera la partie et le personnage qu'il a crée auparavant
 var reinitialiserJeu = document.getElementById("reinitialiserJeu");
 if(reinitialiserJeu) {
     reinitialiserJeu.addEventListener('click', function() {
@@ -55,7 +59,8 @@ if(reinitialiserJeu) {
     
 }
 
-
+// Script de déroulement du combat : permet d'animer les barres de vie et de rajouter
+// des lignes au tableau pour chaque round
 var combat = document.getElementById("combat");
 if(combat) {
     var btnRound = document.getElementById("combatbtn");
@@ -117,6 +122,7 @@ if(combat) {
     })
 }
 
+// Script permettant de dérouler la section "Détails" dans les pages de jeu
 var details = document.getElementById("btnDetails");
 if(details) {
     details.addEventListener('click', function(){
@@ -125,6 +131,7 @@ if(details) {
     })
 }
 
+// Script permettant de dérouler la section "Combats précédents" dans les pages de jeu
 var combats = document.getElementById("btnCombats");
 if(combats) {
     combats.addEventListener('click', function(){
@@ -133,6 +140,9 @@ if(combats) {
     })
 }
 
+// Script permettant d'ajuster la taille des paragraphes (qui varie si on a déroulé les
+// sections précédentes). Nécessaire si on veut pas dépasser du background, une scrollbar
+// s'affiche au besoin
 function updateContentSize() {
     document.getElementById('contenu').style.height = (950 - 
         document.getElementById('detailsJeu').getBoundingClientRect().height - 
