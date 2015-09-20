@@ -29,7 +29,19 @@ h4 {
   margin: 3px 0;
 }
 
-.form-armes{
+.contenu {
+  height: 950px;
+  overflow: auto;
+}
+
+.footer {
+  font-size: 14px;
+  text-align: center;
+}
+
+/* Style du formulaire */
+
+.form-equipement{
   display: flex;
   justify-content: space-around;
 }
@@ -38,7 +50,7 @@ h4 {
   position: relative;
 }
 
-.liste-disciplines {
+.liste-disciplines{
   -webkit-columns: auto 2; /* Chrome, Safari, Opera */
   -moz-columns: auto 2; /* Firefox */
   columns: auto 2;
@@ -47,6 +59,8 @@ h4 {
 .form-submit{
   position: relative;
 }
+
+/* Style des tableaux de combats */
 
 .combats table{
   text-align: center;
@@ -59,10 +73,11 @@ h4 {
 .combat table{
   text-align: center;
   width: 80%;
-  margin-left: 0%;
+  margin-left: 15px; 
   margin-bottom: 20px;
 }
-/* NavBar Style */
+
+/* Style de la barre de menu */
 
 .nav {
   list-style-type: none;
@@ -95,7 +110,7 @@ h4 {
     background-color: rgba(0, 0, 0, 0.6);
 }
 
-/* Button Style */
+/* Style des boutons et lien */
 
 .btn {
   -webkit-border-radius: 10;
@@ -121,6 +136,31 @@ h4 {
   text-decoration: none;
 }
 
+#btnDetails, #btnCombats {
+  cursor: pointer;
+}
+
+.region-bouton{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.lien-page, .lien-page:visited {
+  font-style: bold;
+  color : #DF0101;
+  background-color:rgba(255,255,255,0.3);
+  border-radius:1em;
+  padding:1px 7px;
+  text-decoration: none;
+}
+
+.lien-page:hover {
+  background:rgba(255,255,255,0.5);
+}
+
+/* Style des barres de vie */
+
 .barre-vie div {
   border-radius: 5px;
   height: 100%;
@@ -136,6 +176,8 @@ h4 {
   width: 100%;
 }
 
+/* Style pour les images */
+
 .illustration {
   position: relative;
   margin: 10px auto;
@@ -145,12 +187,12 @@ h4 {
   border-radius:2px;
 }
 
-.imgright {
+.img-droite {
   position: relative;
   float: right;
 }
 
-/* Details de Jeu */
+/* Style pour les éléments de détails de Jeu */
 
 .detailsJeu {
   padding: 0 15px;
@@ -187,23 +229,4 @@ h4 {
 
 .detailDisciplines{
     order: 3;
-}
-
-#btnDetails, #btnCombats {
-  cursor: pointer;
-}
-
-.regionButton{
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-}
-
-.contenu {
-  height: 950px;
-  overflow: auto;
-}
-
-.footer {
-  font-size: 14px
 }

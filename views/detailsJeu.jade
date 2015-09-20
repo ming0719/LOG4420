@@ -2,38 +2,40 @@
 
 div.detailsHeader
 	h3#btnDetails Détails
+
+// Détails du personnage, invisible par défaut mais s'affiche lorsque qu'on clique sur le titre	
 div#detailsJeu.detailsJeu.invisible
 	div.detailCaracteristiques
 		h4 Caractéristiques
 		ul
-			li Habileté : #{character.habilete}
-			li Endurance : #{character.endurance}
-			li Pièces d'or : #{character.pieces}
+			li Habileté : #{perso.habilete}
+			li Endurance : #{perso.endurance}
+			li Pièces d'or : #{perso.pieces}
 	
 	div.detailSac
 		h4 Equipement
 		ul
-			if character.arme1 && character.arme2
-				li Première Arme : #{character.arme1} 
-				li Seconde arme : #{character.arme2}
+			if perso.arme1 && perso.arme2
+				li Première Arme : #{perso.arme1} 
+				li Seconde arme : #{perso.arme2}
 					
-			else if character.arme1
-				li Votre arme : #{character.arme1}
+			else if perso.arme1
+				li Votre arme : #{perso.arme1}
 			else
 				li Vous n'avez aucune arme
 			
-			if character.sacADos.length		
+			if perso.sacADos.length		
 				li Sac à dos :
 					ul
-						each val in character.sacADos
+						each val in perso.sacADos
 							li= val
 			else
 				li Votre sac à dos est vide
 			
-			if character.objSpeciaux.length		
+			if perso.objSpeciaux.length		
 				li Vos objets spéciaux :
 					ul
-						each val in character.objSpeciaux
+						each val in perso.objSpeciaux
 							li= val
 			else
 				li Vous n'avez pas d'objets spéciaux.
@@ -41,16 +43,17 @@ div#detailsJeu.detailsJeu.invisible
 	div.detailDisciplines
 		h4 Disciplines Kaï
 		ul
-			each val in character.disciplines
+			each val in perso.disciplines
 				if val == "La Maîtrise Des Armes"
-					li= val + " : " + character.maitriseArme
+					li= val + " : " + perso.maitriseArme
 				else 
 					li= val
 hr
 
 // Résumé des combats précédents qui sera chargé dynamiquement en fonction des combats
 div.combatsHeader
-	h3#btnCombats Résumé Combats 
+	h3#btnCombats Résumé des Combats 
+// invisible par défaut mais s'affiche lorsque qu'on clique sur le titre	
 div#combats.combats.invisible
 	table
 			tr

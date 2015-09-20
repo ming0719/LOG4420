@@ -11,64 +11,56 @@ block content
 		hr
 		h3 Caractéristiques
 		p 
-			| Habileté : #{character.habilete}
+			| Habileté : #{perso.habilete}
 		p 
-			| Endurance : #{character.endurance}
+			| Endurance : #{perso.endurance}
 		p 
-			| Pièces d'or : #{character.pieces}
-			
+			| Pièces d'or : #{perso.pieces}
 		hr
 		
-		div.imgright
+		div.img-droite
 			img(src="/images/bag.png", style="height:210px")
 			
 		h3 Equipement
-		
-		if character.arme1 && character.arme2
+		if perso.arme1 && perso.arme2
 			p
 				| Votre première arme : 
-				| #{character.arme1}
+				| #{perso.arme1}
 			p 
 				| Votre seconde arme : 
-				| #{character.arme2}
-				
-		else if character.arme1
+				| #{perso.arme2}
+		else if perso.arme1
 			p
-				| Votre arme : #{character.arme1}
+				| Votre arme : #{perso.arme1}
 		else
 			p
 				| Vous n'avez aucune arme
-		
-		if character.sacADos.length		
+		if perso.sacADos.length		
 			p 
 				| Votre sac à dos contient :
 			ul
-				each val in character.sacADos
+				each val in perso.sacADos
 					li= val
 		else
 			p 
 			| Votre sac à dos est vide
-			
-		if character.objSpeciaux.length		
+		if perso.objSpeciaux.length		
 			p 
 				| Vos objets spéciaux :
 			ul
-				each val in character.objSpeciaux
+				each val in perso.objSpeciaux
 					li= val
 		else
 			p 
 				| Vous n'avez pas d'objets spéciaux.
-			
 		hr
-		
 		h3 Disciplines Kaï
 		ul
-			each val in character.disciplines
+			each val in perso.disciplines
 				if val == "La Maîtrise Des Armes"
-					li= val + " : " + character.maitriseArme
+					li= val + " : " + perso.maitriseArme
 				else 
 					li= val
-					
 		hr
 	
 	div.combats
@@ -81,22 +73,22 @@ block content
 				th Résultat
 			tr
 				td 1
-				td Bernie le Dingo
+				td Vonotar
 				td 3
 				td Victoire
 			tr
 				td 2
-				td Doudou le tombeur
+				td Baknar
 				td 3
 				td Victoire
 			tr
 				td 3
-				td Modou Sénégalito
+				td Skolin
 				td 4
 				td Victoire
 		hr
 	
-	div.regionButton
+	div.region-bouton
 		button.btn(href='/reset', id="reinitialiserJeu") Réinitialiser la partie
 		if pageActuelle
 			a.btn(href='/jeu/'+ pageActuelle, id="commencerJeu") Reprendre la partie

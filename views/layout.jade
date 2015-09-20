@@ -1,16 +1,15 @@
 // Ce template est valable pour toutes les pages du site
-
 doctype html
 html
   head
-    title= title
+    title Lone Wolf : Les Grottes de Katle
     link(rel='stylesheet', href='/stylesheets/normalize.css')
     link(rel='stylesheet', href='https://fonts.googleapis.com/css?family=Cinzel+Decorative')
     link(rel='stylesheet', href='/stylesheets/style.css')
   body
     div.container
       h1 Lone Wolf : Les Grottes de Katle
-      include ./navbar.jade
+      include ./menu.jade
       block content
       include ./footer.jade
   script(src='/js/script.js')

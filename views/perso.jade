@@ -3,8 +3,8 @@ extends layout
 block content
 	h2= "Création d'un personnage"
 	h3= "Choix des équipements"
-	form(action='/jeu',method='post', id='formCharacter')
-		div.form-armes
+	form(action='/jeu',method='post', id='formPerso')
+		div.form-equipement
 			div.form-arme1
 				p Choisissez un 1er équipement :
 				select(name='equipement1')
@@ -77,9 +77,10 @@ block content
 				br
 				input(type='checkbox',value='La Maîtrise Des Armes', name='discipline' id='maitrisearmes')
 				|  La Maîtrise Des Armes 
-		input(type='hidden',value=character.habilete, name='habilete')
-		input(type='hidden',value=character.pieces, name='pieces')
-		input(type='hidden',value=character.endurance, name='endurance')
+		// Champs cachés utilisant les valeurs aléatoires générées à partir d'index.js		
+		input(type='hidden',value=perso.habilete, name='habilete')
+		input(type='hidden',value=perso.pieces, name='pieces')
+		input(type='hidden',value=perso.endurance, name='endurance')
 		br
 		div.form-submit
 			hr
