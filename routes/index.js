@@ -96,7 +96,7 @@ router.post('/jeu', function(req, res, next) {
       disciplines: req.body.discipline,
   };
   // On associe l'arme si la discipline maitrise des armes est choisie
-  if(perso.disciplines.indexOf('La Maîtrise Des Armes')>=0){
+  if(req.body.discipline && perso.disciplines.indexOf('La Maîtrise Des Armes')>=0){
     perso.maitriseArme = ARMES_IDS[Math.floor(Math.random() * 10)];
   }
   res.cookie('perso', perso, { expires: new Date(Date.now() + 86400000), maxAge: 900000, httpOnly: true });

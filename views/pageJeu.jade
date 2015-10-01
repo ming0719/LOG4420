@@ -56,11 +56,14 @@ block content
 		hr
 		h3 Disciplines Kaï
 		ul
-			each val in perso.disciplines
-				if val == "La Maîtrise Des Armes"
-					li= val + " : " + perso.maitriseArme
-				else 
-					li= val
+			if perso.disciplines
+				each val in perso.disciplines
+					if val == "La Maîtrise Des Armes"
+						li= val + " : " + perso.maitriseArme
+					else 
+						li= val
+			else
+				p Vous n'avez aucune discipline
 		hr
 	
 	div.combats
@@ -89,7 +92,7 @@ block content
 		hr
 	
 	div.region-bouton
-		button.btn(href='/reset', id="reinitialiserJeu") Réinitialiser la partie
+		a.btn(href='/reset', id="reinitialiserJeu") Réinitialiser la partie
 		if pageActuelle
 			a.btn(href='/jeu/'+ pageActuelle, id="commencerJeu") Reprendre la partie
 		else
