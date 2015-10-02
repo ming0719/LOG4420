@@ -1,82 +1,63 @@
 // Page défissant les détails qui seront présents sur chaque page de jeu
 
-div.detailsHeader
-	h3#btnDetails Détails
-
 // Détails du personnage, invisible par défaut mais s'affiche lorsque qu'on clique sur le titre	
-div#detailsJeu.detailsJeu.invisible
-	div.detailCaracteristiques
-		h4 Caractéristiques
-		ul
-			li Habileté : #{perso.habilete}
-			li Endurance : #{perso.endurance}
-			li Pièces d'or : #{perso.pieces}
-	
-	div.detailSac
-		h4 Equipement
-		ul
-			if perso.arme1 && perso.arme2
-				li Première Arme : #{perso.arme1} 
-				li Seconde arme : #{perso.arme2}
-					
-			else if perso.arme1
-				li Votre arme : #{perso.arme1}
-			else
-				li Vous n'avez aucune arme
-			
-			if perso.sacADos.length		
-				li Sac à dos :
-					ul
-						each val in perso.sacADos
-							li= val
-			else
-				li Votre sac à dos est vide
-			
-			if perso.objSpeciaux.length		
-				li Vos objets spéciaux :
-					ul
-						each val in perso.objSpeciaux
-							li= val
-			else
-				li Vous n'avez pas d'objets spéciaux.
-	
-	div.detailDisciplines
-		h4 Disciplines Kaï
-		ul
-			if perso.disciplines
-				each val in perso.disciplines
-					if val == "La Maîtrise Des Armes"
-						li= val + " : " + perso.maitriseArme
-					else 
-						li= val
-			else
-				p Vous n'avez aucune discipline
-hr
+div#detailsJeu.detailsJeu
+	div.detailHabilete
+		img.icon(src="/images/icons/supersonic-arrow.svg")
+		| Habileté
+		br
+		span #{perso.habilete}
+	div.detailEndurance
+		img.icon(src="/images/icons/glass-heart.svg")
+		| Endurance
+		br
+		span #{perso.endurance}
+	div.detailPieces
+		img.icon(src="/images/icons/cash.svg")
+		| Pièces d'or
+		br
+		span #{perso.pieces}
 
-// Résumé des combats précédents qui sera chargé dynamiquement en fonction des combats
-div.combatsHeader
-	h3#btnCombats Résumé des Combats 
-// invisible par défaut mais s'affiche lorsque qu'on clique sur le titre	
-div#combats.combats.invisible
-	table
-			tr
-				th Combat n°
-				th Adversaire
-				th Nombre de rounds
-				th Résultat
-			tr
-				td 1
-				td Vonotar
-				td 3
-				td Victoire
-			tr
-				td 2
-				td Baknar
-				td 3
-				td Victoire
-			tr
-				td 3
-				td Skolin
-				td 4
-				td Victoire
-hr
+div.detailsWrapper
+	div.detailsCol
+		label.btnDetailsLabel(for="btnDisciplines") Disciplines Kaï
+		input.btnDetails#btnDisciplines(type="checkbox") 
+		div#disciplines.detailsJeu
+			ul
+				if perso.disciplines
+					each val in perso.disciplines
+						if val == "La Maîtrise Des Armes"
+							li= val + " : " + perso.maitriseArme
+						else 
+							li= val
+				else
+					p Vous n'avez aucune discipline
+			
+	div.detailsCol					
+		// Résumé des combats précédents qui sera chargé dynamiquement en fonction des combats
+		label.btnDetailsLabel(for="btnCombats") Résumé des Combats
+		input.btnDetails#btnCombats(type="checkbox") 
+		// invisible par défaut mais s'affiche lorsque qu'on clique sur le titre	
+		div#combats.detailsJeu
+			table
+					tr
+						th Combat n°
+						th Adversaire
+						th Nombre de rounds
+						th Résultat
+					tr
+						td 1
+						td Vonotar
+						td 3
+						td Victoire
+					tr
+						td 2
+						td Baknar
+						td 3
+						td Victoire
+					tr
+						td 3
+						td Skolin
+						td 4
+						td Victoire
+hr.styledRuler

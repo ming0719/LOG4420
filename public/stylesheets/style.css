@@ -1,14 +1,15 @@
 body {
   padding: 50px;
-  background: #000 url("../images/parchment.gif") no-repeat center top;
+  background: #000 url("../images/old-paper-seamless.jpg") repeat center top;
+  background-size: 100% auto;
   font: 18px Georgia, Helvetica, Arial, sans-serif;
 }
 
 .container {
   position:relative;
   margin:auto;
-  max-width:880px;
-  padding-top:110px;
+  max-width:1000px;
+  text-align: justify;
 }
 
 h1, h2, h3, h4 {
@@ -30,11 +31,12 @@ h4 {
 }
 
 .contenu {
-  height: 950px;
-  overflow: auto;
+  /*height: 950px;
+  overflow: auto;*/
 }
 
 .footer {
+  margin-top: 100px;
   font-size: 14px;
   text-align: center;
 }
@@ -136,10 +138,6 @@ h4 {
   text-decoration: none;
 }
 
-#btnDetails, #btnCombats {
-  cursor: pointer;
-}
-
 .region-bouton{
   display: flex;
   flex-direction: row;
@@ -195,14 +193,14 @@ h4 {
 /* Style pour les éléments de détails de Jeu */
 
 .detailsJeu {
-  padding: 0 15px;
+  margin-top: 20px;
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
+  justify-content: space-around;
 }
 
-.invisible {
-  display: none;
+#combats, #detailsJeu{
+  text-align: center;
 }
 
 .detailsJeu div {
@@ -217,16 +215,74 @@ h4 {
   margin: 0;
 }
 
-.detailCaracteristiques{
+.detailHabilete{
     margin: 0;
     padding: 0;
     order: 1;
 }
 
-.detailSac{
+.detailEndurance{
     order: 2;
 }
 
-.detailDisciplines{
+.detailPieces{
     order: 3;
+}
+
+.btnDetails {
+  display:none;
+}
+
+.btnDetailsLabel {
+  cursor: pointer;
+  font-family: "Cinzel Decorative";
+  font-size:1.13em;
+  font-weight:bold;
+}
+
+.btnDetails + .detailsJeu {
+  display:none;
+}
+
+.btnDetails:checked + .detailsJeu {
+  display:flex;
+  height: 100px;
+}
+
+.icon{
+  height: 30px;
+  width: 30px;
+  vertical-align: middle;
+  margin-right: 8px;
+}
+
+.detailsJeu span{
+  font-size : 1.5em;
+}
+
+.detailsWrapper{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  margin-top: 30px;
+}
+
+.detailsCol {
+  width: 50%;
+  text-align: center;
+}
+
+#disciplines {
+  text-align: left;
+}
+
+#combats th{
+  padding: 5px;
+}
+
+hr.styledRuler {
+  background: url("../images/bar.png") no-repeat top center;
+  background-size:auto 100%;
+  height:20px;
+  border:none;
 }
