@@ -13,6 +13,14 @@ div.combat(id="combat", data-enduranceperso=endurancePerso, data-enduranceadvers
         button.btn(id="combatbtn") Prochain round
         // Le bouton "fuir" n'est pas fonctionnel pour le moment
         button.btn(id="fuitebtn") Fuir
+    div.donneesJeu
+        div
+            img.icon(src="/images/icons/shield.svg")
+            | Ratio combat : 0
+        div
+            img.icon(src="/images/icons/dice.svg")
+            | Numéro aléatoire : 4
+
     table(id="tableau-rounds")
         tr 
             th(width="20%")
@@ -28,12 +36,27 @@ div.combat(id="combat", data-enduranceperso=endurancePerso, data-enduranceadvers
                     div(style="background:#f39c12")
         tr 
             th Round n°1
-            td #{endurancePerso-2}
-            td #{endurancePerso-6}
+            td
+                span.round-damage (
+                    img.icon(src="/images/icons/damage.svg")
+                    | -1) 
+                | #{endurancePerso-1}
+            td 
+                span.round-damage (
+                    img.icon(src="/images/icons/damage.svg")
+                    | -3) 
+                | #{enduranceAdversaire-3}
         tr 
             th Round n°2
-            td #{endurancePerso-1}
-            td #{endurancePerso-8}
+            td 
+                span.round-damage (
+                    img.icon(src="/images/icons/damage.svg")
+                    | -2) 
+                | #{endurancePerso-2}
+            td 
+                span.round-damage (
+                    img.icon(src="/images/icons/damage.svg")
+                    | -4) 
+                | #{enduranceAdversaire-4}
 
-        
         
