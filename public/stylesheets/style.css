@@ -64,19 +64,14 @@ h4 {
 
 /* Style des tableaux de combats */
 
-.combats table{
-  text-align: center;
-  width: 80%;
-  margin-left: auto; 
-  margin-right: auto;
-  margin-bottom: 20px;
+.combat {
+  text-align:center;
 }
 
 .combat table{
   text-align: center;
   width: 80%;
-  margin-left: 15px; 
-  margin-bottom: 20px;
+  margin: 0 auto 20px;
 }
 
 /* Style de la barre de menu */
@@ -183,11 +178,17 @@ h4 {
   border:5px solid #fff;
   box-shadow: 3px 3px 3px rgba(0,0,0,0.4);
   border-radius:2px;
+  float: left;
+  margin-right: 25px;
+}
+
+.img-break {
+  float:none;
 }
 
 .img-droite {
-  position: relative;
   float: right;
+  margin-left:25px;
 }
 
 /* Style pour les éléments de détails de Jeu */
