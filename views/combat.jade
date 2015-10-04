@@ -10,18 +10,18 @@ div.combat(id="combat", data-enduranceperso=endurancePerso, data-enduranceadvers
         | ENDURANCE 
         | #{enduranceAdversaire}
     div.region-bouton
-        button.btn(id="combatbtn") Prochain round
+        button.btn Prochain round
         // Le bouton "fuir" n'est pas fonctionnel pour le moment
-        button.btn(id="fuitebtn") Fuir
-    div.donneesJeu
+        button.btn Fuir
+    div.donnees-jeu
         div
-            img.icon(src="/images/icons/shield.svg")
+            img.icone(src="/images/icons/shield.svg")
             | Ratio combat : 0
         div
-            img.icon(src="/images/icons/dice.svg")
+            img.icone(src="/images/icons/dice.svg")
             | Numéro aléatoire : 4
 
-    table(id="tableau-rounds")
+    table.tableau-rounds
         tr 
             th(width="20%")
             th Votre personnage
@@ -37,25 +37,25 @@ div.combat(id="combat", data-enduranceperso=endurancePerso, data-enduranceadvers
         tr 
             th Round n°1
             td
-                span.round-damage (
-                    img.icon(src="/images/icons/damage.svg")
+                span.round-dommages (
+                    img.icone(src="/images/icons/damage.svg")
                     | -1) 
                 | #{endurancePerso-1}
             td 
-                span.round-damage (
-                    img.icon(src="/images/icons/damage.svg")
+                span.round-dommages (
+                    img.icone(src="/images/icons/damage.svg")
                     | -3) 
                 | #{enduranceAdversaire-3}
         tr 
             th Round n°2
             td 
-                span.round-damage (
-                    img.icon(src="/images/icons/damage.svg")
+                span.round-dommages (
+                    img.icone(src="/images/icons/damage.svg")
                     | -2) 
                 | #{endurancePerso-2}
             td 
-                span.round-damage (
-                    img.icon(src="/images/icons/damage.svg")
+                span.round-dommages (
+                    img.icone(src="/images/icons/damage.svg")
                     | -4) 
                 | #{enduranceAdversaire-4}
 

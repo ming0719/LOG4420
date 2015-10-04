@@ -1,28 +1,28 @@
 // Page défissant les détails qui seront présents sur chaque page de jeu
 
-// Détails du personnage, invisible par défaut mais s'affiche lorsque qu'on clique sur le titre	
-div#detailsJeu.detailsJeu
-	div.detailHabilete
-		img.icon(src="/images/icons/supersonic-arrow.svg")
+div#stats-jeu.details-jeu
+	div.detail-habilete
+		img.icone(src="/images/icons/supersonic-arrow.svg")
 		| Habileté
 		br
 		span #{perso.habilete}
-	div.detailEndurance
-		img.icon(src="/images/icons/glass-heart.svg")
+	div.detail-endurance
+		img.icone(src="/images/icons/glass-heart.svg")
 		| Endurance
 		br
 		span #{perso.endurance}
-	div.detailPieces
-		img.icon(src="/images/icons/cash.svg")
+	div.detail-pieces
+		img.icone(src="/images/icons/cash.svg")
 		| Pièces d'or
 		br
 		span #{perso.pieces}
 
-div.detailsWrapper
-	div.detailsCol
-		label.btnDetailsLabel(for="btnDisciplines") Disciplines Kaï
-		input.btnDetails#btnDisciplines(type="checkbox") 
-		div#disciplines.detailsJeu
+div.details-wrapper
+	div.details-col
+		// invisible par défaut mais s'affiche lorsque qu'on clique sur le titre	
+		label.btn-details-label(for="btnDisciplines") Disciplines Kaï
+		input.btn-details#btnDisciplines(type="checkbox") 
+		div#disciplines.details-jeu
 			ul
 				if perso.disciplines
 					each val in perso.disciplines
@@ -33,12 +33,12 @@ div.detailsWrapper
 				else
 					p Vous n'avez aucune discipline
 			
-	div.detailsCol					
+	div.details-col					
 		// Résumé des combats précédents qui sera chargé dynamiquement en fonction des combats
-		label.btnDetailsLabel(for="btnCombats") Résumé des Combats
-		input.btnDetails#btnCombats(type="checkbox") 
+		label.btn-details-label(for="btnCombats") Résumé des Combats
+		input.btn-details#btnCombats(type="checkbox") 
 		// invisible par défaut mais s'affiche lorsque qu'on clique sur le titre	
-		div#combats.detailsJeu
+		div#combats.details-jeu
 			table
 					tr
 						th Combat n°
@@ -60,4 +60,4 @@ div.detailsWrapper
 						td Skolin
 						td 4
 						td Victoire
-hr.styledRuler
+hr.stylisee

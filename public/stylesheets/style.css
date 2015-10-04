@@ -5,10 +5,10 @@ body {
   font: 18px Georgia, Helvetica, Arial, sans-serif;
 }
 
-.container {
-  position:relative;
-  margin:auto;
-  max-width:1000px;
+.conteneur {
+  position: relative;
+  margin: auto;
+  max-width: 1000px;
   text-align: justify;
 }
 
@@ -19,7 +19,7 @@ h1, h2, h3, h4 {
 
 h1 {
   text-align: center;
-  font-size:40px;
+  font-size: 40px;
 }
 
 h2 {
@@ -30,9 +30,11 @@ h4 {
   margin: 3px 0;
 }
 
-.contenu {
-  /*height: 950px;
-  overflow: auto;*/
+hr.stylisee {
+  background: url("../images/bar.png") no-repeat top center;
+  background-size: auto 100%;
+  height: 20px;
+  border: none;
 }
 
 .footer {
@@ -62,19 +64,9 @@ h4 {
   position: relative;
 }
 
-/* Style des tableaux de combats */
+/* Style du tableau résumant les combats dabs pageJeu.jade */
 
-.combat {
-  text-align:center;
-}
-
-.combat table{
-  text-align: center;
-  width: 80%;
-  margin: 0 auto 20px;
-}
-
-.combats table{
+.combats-precedents table{
   text-align: center;
   width: 80%;
   margin-left: auto; 
@@ -150,40 +142,52 @@ h4 {
 .lien-page, .lien-page:visited {
   font-style: bold;
   color : #DF0101;
-  background-color:rgba(255,255,255,0.3);
-  border-radius:1em;
-  padding:1px 7px;
+  background-color: rgba(255,255,255,0.3);
+  border-radius: 1em;
+  padding: 1px 7px;
   text-decoration: none;
 }
 
 .lien-page:hover {
-  background:rgba(255,255,255,0.5);
+  background: rgba(255,255,255,0.5);
 }
 
-.confirmationPerteEndurance, .confirmationPerteEndurance:visited{
+.confirmation-perte-endurance, .confirmation-perte-endurance:visited{
   display: block;
   margin: auto;
   width: 300px;
   text-align: center;
   font-style: bold;
   color : #BDBDBD;
-  background-color:rgba(0, 0, 0, 0.5);
-  border-radius:1em;
-  padding:7px 7px;
+  background-color: rgba(0, 0, 0, 0.5);
+  border-radius: 1em;
+  padding: 7px 7px;
   text-decoration: none;
 }
 
-.confirmationPerteEndurance:hover {
-  background:rgba(0, 0, 0, 0.6);
+.confirmation-perte-endurance:hover {
+  background: rgba(0, 0, 0, 0.6);
 }
 
-/* Style des barres de vie */
+/* Style relatif à la section combats */
+
+.combat {
+  text-align:center;
+}
+
+.donnees-jeu{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  margin-top: 15px;
+}
 
 .barre-vie div {
   border-radius: 5px;
   height: 100%;
   width: 100%;
   background: #2ecc71;
+  /* fonctionnera lorsqu'on utilisera du js pour changer l'état de la barre de vie*/
   transition: all 1s ease;
 }
 
@@ -194,15 +198,31 @@ h4 {
   width: 100%;
 }
 
+.combat table{
+  text-align: center;
+  width: 80%;
+  margin: 0 auto 20px;
+}
+
+.round-dommages {
+  color: #B83535;
+  margin-right: 20px;
+}
+
+.round-dommages img{
+  height: 1.4em;
+  margin: 0;
+}
+
 /* Style pour les images */
 
 .illustration {
   position: relative;
   margin: 10px auto;
   display: block;
-  border:5px solid #fff;
+  border: 5px solid #fff;
   box-shadow: 3px 3px 3px rgba(0,0,0,0.4);
-  border-radius:2px;
+  border-radius: 2px;
   float: left;
   margin-right: 25px;
 }
@@ -213,87 +233,83 @@ h4 {
 
 .img-droite {
   float: right;
-  margin-left:25px;
+  margin-left: 25px;
 }
 
-/* Style pour les éléments de détails de Jeu */
-
-.detailsJeu {
-  margin-top: 20px;
-  display: flex;
-  flex-direction: row;
-  justify-content: space-around;
-}
-
-#combats, #detailsJeu{
-  text-align: center;
-}
-
-.detailsJeu div {
-    padding: 0 15px;
-}
-
-.detailsJeu ul {
-  padding-left:18px;
-}
-
-.detailsJeu h3, .detailsJeu ul {
-  margin: 0;
-}
-
-.detailHabilete{
-    margin: 0;
-    padding: 0;
-    order: 1;
-}
-
-.detailEndurance{
-    order: 2;
-}
-
-.detailPieces{
-    order: 3;
-}
-
-.btnDetails {
-  display:none;
-}
-
-.btnDetailsLabel {
-  cursor: pointer;
-  font-family: "Cinzel Decorative";
-  font-size:1.13em;
-  font-weight:bold;
-}
-
-.btnDetails + .detailsJeu {
-  display:none;
-}
-
-.btnDetails:checked + .detailsJeu {
-  display:flex;
-  height: 100px;
-}
-
-.icon{
+.icone{
   height: 30px;
   width: 30px;
   vertical-align: middle;
   margin-right: 8px;
 }
 
-.detailsJeu span{
-  font-size : 1.5em;
+/* Style pour les éléments de détails de Jeu */
+
+.details-jeu {
+  margin-top: 20px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
 }
 
-.detailsWrapper{
+.details-jeu div {
+    padding: 0 15px;
+}
+
+.details-jeu ul {
+  padding-left: 18px;
+}
+
+.details-jeu h3, .details-jeu ul {
+  margin: 0;
+}
+
+.detail-habilete{
+    margin: 0;
+    padding: 0;
+    order: 1;
+}
+
+.detail-endurance{
+    order: 2;
+}
+
+.detail-pieces{
+    order: 3;
+}
+
+.btn-details{
+  display: none;
+}
+
+.btn-details-label {
+  cursor: pointer;
+  font-family: "Cinzel Decorative";
+  font-size: 1.13em;
+  font-weight: bold;
+}
+
+.btn-details+ .details-jeu {
+  display: none;
+}
+
+.btn-details:checked + .details-jeu {
+  display: flex;
+  height: 100px;
+}
+
+.details-jeu span{
+  font-size: 1.5em;
+}
+
+.details-wrapper{
   display: flex;
   flex-direction: row;
   justify-content: space-around;
   margin-top: 30px;
 }
 
-.detailsCol {
+.details-col {
   width: 50%;
   text-align: center;
 }
@@ -306,26 +322,6 @@ h4 {
   padding: 5px;
 }
 
-hr.styledRuler {
-  background: url("../images/bar.png") no-repeat top center;
-  background-size:auto 100%;
-  height:20px;
-  border:none;
-}
-
-.donneesJeu{
-  display: flex;
-  flex-direction: row;
-  justify-content: space-around;
-  margin-top: 15px;
-}
-
-.round-damage {
-  color: #B83535;
-  margin-right: 20px;
-}
-
-.round-damage img{
-  height:1.4em;
-  margin:0;
+#combats, #stats-jeu{
+  text-align: center;
 }
