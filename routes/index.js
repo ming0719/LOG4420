@@ -136,6 +136,49 @@ router.get('/jeu/:page', function(req, res, next) {
   });  
 });
 
+/* POST page de jeu. */
+// Objets speciaux ammasses au cours du jeu
+router.post('/jeu/:page', function(req, res, next) {
+  var pageNum = req.params.page;
+  var objSpeciaux = req.body.objSpeciaux;
+  var objSacADos = req.body.objSacADos;
+  
+  if(objSpeciaux) {
+    objSpeciaux = objSpeciaux.toString().split(',');
+  }
+
+  if(objSacADos) {
+    objSacADos = objSacADos.toString().split(',');
+  }
+  
+  perso = req.cookies.perso;
+  if(!perso) {
+    res.redirect('/perso');
+  }
+
+  // On ajoute les objets speciaux obtenus a ceux qu'on possede deja
+  if (objSpeciaux) {
+    objSpeciaux.forEach(
+      function(value) {
+        perso.objSpeciaux.push(value);
+      }
+    );
+  }
+
+  // On ajoute les objets sac a dos obtenus a ceux qu'on possede deja
+  if (objSacADos) {
+    objSacADos.forEach(
+      function(value) {
+        perso.sacADos.push(value);
+      }
+    );
+  }
+
+  res.cookie('perso', perso, { expires: new Date(Date.now() + 86400000), maxAge: 900000, httpOnly: true });
+  // Une fois le perso crée, on va à la 1ere page de jeu
+  res.redirect('/jeu/' + pageNum);
+});
+
 /* GET pages d'aide. */
 router.get('/aide/:valeur', function(req, res, next) {
   var v = req.params.valeur;

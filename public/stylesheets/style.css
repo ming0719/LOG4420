@@ -54,6 +54,10 @@ hr.stylisee {
   position: relative;
 }
 
+.form-objSpeciaux{
+  position: relative;
+}
+
 .liste-disciplines{
   -webkit-columns: auto 2; /* Chrome, Safari, Opera */
   -moz-columns: auto 2; /* Firefox */
@@ -324,4 +328,43 @@ hr.stylisee {
 
 #combats, #stats-jeu{
   text-align: center;
+}
+
+.round-damage img{
+  height:1.4em;
+  margin:0;
+}
+
+/* Style pour le popup de confirmation*/
+
+.overlay {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: rgba(0, 0, 0, 0.7);
+  transition: opacity 500ms;
+  opacity: 1;
+}
+
+.popup {
+  margin: 70px auto;
+  padding: 20px;
+  background: #fff;
+  border-radius: 5px;
+  width: 50%;
+  position: relative;
+  transition: all 5s ease-in-out;
+}
+
+.popup .close {
+  transition: all 200ms;
+  font-size: 20px;
+  text-decoration: none;
+}
+
+.overlay:target {
+  visibility: hidden;
+  opacity: 0;
 }
