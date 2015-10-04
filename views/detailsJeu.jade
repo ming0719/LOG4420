@@ -60,4 +60,49 @@ div.details-wrapper
 						td Skolin
 						td 4
 						td Victoire
+
+div.details-wrapper
+	div.details-col
+		// Sac a dos
+		a.label.btn-details-label(href="#sacADos") Sac à dos
+	// invisible par défaut mais s'affiche lorsque qu'on clique sur le titre
+	// Popup sac a dos
+	div#sacADos.items.overlay
+		// Ferme le popup si on clique a l'exterieur
+		a(href="#")
+			div.cancel
+		div.popup
+			h2 
+				| Votre sac à dos
+			div.img-droite
+				img(src="/images/bag.png", style="height:180px")
+			if perso.sacADos.length
+				ul
+					each val in perso.sacADos
+						li= val
+			else
+				p 
+					| Votre sac à dos est vide
+
+	div.details-col
+		// Objets speciaux
+		a.btn-details-label(href="#objSpeciaux") Objets spéciaux
+	// invisible par défaut mais s'affiche lorsque qu'on clique sur le titre
+	// Popup obbjets speciaux
+	div#objSpeciaux.items.overlay
+		// Ferme le popup si on clique a l'exterieur
+		a(href="#")
+			div.cancel
+		div.popup
+			h2
+				| Vos objets spéciaux
+			div.img-droite
+				img(src="/images/weapon.png", style="height:180px")
+			if perso.objSpeciaux.length		
+				ul
+					each val in perso.objSpeciaux
+						li= val
+			else
+				p 
+					| Vous n'avez pas d'objets spéciaux.
 hr.stylisee

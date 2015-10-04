@@ -291,6 +291,8 @@ hr.stylisee {
   font-family: "Cinzel Decorative";
   font-size: 1.13em;
   font-weight: bold;
+  text-decoration: none;
+  color: rgba(0, 0, 0, 1);
 }
 
 .btn-details+ .details-jeu {
@@ -335,7 +337,7 @@ hr.stylisee {
   margin:0;
 }
 
-/* Style pour le popup de confirmation*/
+/* Style pour les popups*/
 
 .overlay {
   position: absolute;
@@ -345,17 +347,19 @@ hr.stylisee {
   right: 0;
   background: rgba(0, 0, 0, 0.7);
   transition: opacity 500ms;
-  opacity: 1;
+  visibility: hidden;
+  opacity: 0;
 }
 
 .popup {
   margin: 70px auto;
   padding: 20px;
-  background: #fff;
+  background: #000 url("../images/old-paper-seamless.jpg") repeat center top;
   border-radius: 5px;
   width: 50%;
   position: relative;
   transition: all 5s ease-in-out;
+  min-height: 250px;
 }
 
 .popup .close {
@@ -365,6 +369,13 @@ hr.stylisee {
 }
 
 .overlay:target {
-  visibility: hidden;
-  opacity: 0;
+  visibility: visible;
+  opacity: 1;
+}
+
+.cancel {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  cursor: default;
 }

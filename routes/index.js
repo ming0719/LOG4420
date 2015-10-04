@@ -143,10 +143,12 @@ router.post('/jeu/:page', function(req, res, next) {
   var objSpeciaux = req.body.objSpeciaux;
   var objSacADos = req.body.objSacADos;
   
+  // On mets les objets speciaux dans un tableau
   if(objSpeciaux) {
     objSpeciaux = objSpeciaux.toString().split(',');
   }
 
+  // On mets les objets du sac a dos dans un tableau
   if(objSacADos) {
     objSacADos = objSacADos.toString().split(',');
   }
@@ -158,17 +160,14 @@ router.post('/jeu/:page', function(req, res, next) {
 
   // On ajoute les objets speciaux obtenus a ceux qu'on possede deja
   if (objSpeciaux) {
-    objSpeciaux.forEach(
-      function(value) {
+    objSpeciaux.forEach( function(value) {
         perso.objSpeciaux.push(value);
-      }
-    );
+    });
   }
 
   // On ajoute les objets sac a dos obtenus a ceux qu'on possede deja
   if (objSacADos) {
-    objSacADos.forEach(
-      function(value) {
+    objSacADos.forEach( function(value) {
         perso.sacADos.push(value);
       }
     );
