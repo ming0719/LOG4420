@@ -4,15 +4,15 @@ var router = express.Router();
 // Pour le choix de l'arme pour la discipline Maitrise d'armes
 var ARMES_IDS = [
   "Le poignard",
-  "La lance",
-  "La masse d'armes",
-  "Le sabre",
-  "Le marteau de guerre",
-  "L'épée",
-  "La hâche",
-  "L'épée",
-  "Le bâton",
-  "Le glaive",
+  "Lance",
+  "Masse d'armes",
+  "Sabre",
+  "Marteau de guerre",
+  "Epée",
+  "Hâche",
+  "Epée",
+  "Bâton",
+  "Glaive",
 ];
 
 /* GET home page. */
@@ -32,7 +32,7 @@ router.get('/reset', function(req, res, next) {
 /* GET perso. */
 // Formulaire de création d'un perso
 router.get('/perso', function(req, res, next) {
-  var passedVariable = req.query.error;
+  var erreur = req.query.erreur;
   // Les valeurs propres au personnage sont stockées sous forme de cookie
   // Si le cookie existe déjà on redirige vers la page de jeu (avec les infos du joueur déjà crée)
   if(req.cookies.perso) {
@@ -44,10 +44,9 @@ router.get('/perso', function(req, res, next) {
       endurance: Math.floor(Math.random() * (29 - 20 +1) + 20),
       pieces: Math.floor(Math.random() * (19 - 10 +1) + 10),
   };
-  console.log(passedVariable);
-  if(passedVariable == 1)
+  if(erreur == 1)
   {
-    res.render("./perso.jade", {perso: perso, error: true});
+    res.render("./perso.jade", {perso: perso, erreur: true});
     return;
   }
   res.render("./perso.jade", {perso: perso}); 
@@ -65,7 +64,7 @@ router.post('/jeu', function(req, res, next) {
   var sacADos = [];
   if(req.body.discipline == null || req.body.discipline.length != 5 || req.body.equipement1 == '' || req.body.equipement2 == '')
   {
-    res.redirect('/perso?' + "error=1");
+    res.redirect('/perso?erreur=1');
   }
   
   // On place les objets en fonction de leur type
@@ -108,8 +107,21 @@ router.post('/jeu', function(req, res, next) {
       disciplines: req.body.discipline,
   };
   // On associe l'arme si la discipline maitrise des armes est choisie
-  if(req.body.discipline && perso.disciplines.indexOf('La Maîtrise Des Armes')>=0){
+  if(req.body.discipline && perso.disciplines.indexOf('La Maîtrise Des Armes')>=0)
+  {
     perso.maitriseArme = ARMES_IDS[Math.floor(Math.random() * 10)];
+    // On vérifie si l'arme désignée par la maîtrise d'arme est une des armes du joueur
+    if(perso.maitriseArme == perso.arme1 || perso.maitriseArme == perso.arme2)
+    {
+      // Si oui, on ajoute 2 points d'habileté
+      perso.habilete = parseInt(perso.habilete) + 2;
+    }
+  }
+  // On vérifie si le gilet de cuir a été choisi
+  if(perso.objSpeciaux.indexOf('Gilet De Cuir Matelassé') >= 0)
+  {
+    // Si oui, on ajoute 2 points d'endurance
+    perso.endurance = parseInt(perso.endurance) + 2;
   }
   res.cookie('perso', perso, { expires: new Date(Date.now() + 86400000), maxAge: 900000, httpOnly: true });
   // Une fois le perso crée, on va à la 1ere page de jeu
