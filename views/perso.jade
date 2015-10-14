@@ -1,8 +1,11 @@
 extends layout
 
 block content
-	h2= "Création d'un personnage"
-	h3= "Choix des équipements"
+	h2 Création d'un personnage
+	if error
+		div.erreur
+			p Vous devez choisir 2 équipements et 5 disciplines exactement
+	h3 Choix des équipements
 	form(action='/jeu',method='post', id='formPerso')
 		div.form-equipement
 			div.form-arme1

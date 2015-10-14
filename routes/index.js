@@ -32,6 +32,7 @@ router.get('/reset', function(req, res, next) {
 /* GET perso. */
 // Formulaire de création d'un perso
 router.get('/perso', function(req, res, next) {
+  var passedVariable = req.query.error;
   // Les valeurs propres au personnage sont stockées sous forme de cookie
   // Si le cookie existe déjà on redirige vers la page de jeu (avec les infos du joueur déjà crée)
   if(req.cookies.perso) {
@@ -43,7 +44,13 @@ router.get('/perso', function(req, res, next) {
       endurance: Math.floor(Math.random() * (29 - 20 +1) + 20),
       pieces: Math.floor(Math.random() * (19 - 10 +1) + 10),
   };
-  res.render("./perso.jade", {perso: perso});  
+  console.log(passedVariable);
+  if(passedVariable == 1)
+  {
+    res.render("./perso.jade", {perso: perso, error: true});
+    return;
+  }
+  res.render("./perso.jade", {perso: perso}); 
 });
 
 /* POST jeu. */
@@ -56,6 +63,11 @@ router.post('/jeu', function(req, res, next) {
   var arme1, arme2 = null;
   var objSpeciaux = [];
   var sacADos = [];
+  if(req.body.discipline == null || req.body.discipline.length != 5 || req.body.equipement1 == '' || req.body.equipement2 == '')
+  {
+    res.redirect('/perso?' + "error=1");
+  }
+  
   // On place les objets en fonction de leur type
   switch(equipement1[0]){
     case "arme":

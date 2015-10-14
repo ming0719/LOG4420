@@ -68,6 +68,11 @@ hr.stylisee {
   position: relative;
 }
 
+.erreur {
+  color: #DF0101;
+  text-align: center;
+}
+
 /* Style du tableau résumant les combats dabs pageJeu.jade */
 
 .combats-precedents table{
