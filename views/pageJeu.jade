@@ -25,13 +25,13 @@ block content
 		if perso.arme1 && perso.arme2
 			p
 				| Votre première arme : 
-				| #{perso.arme1}
+				| #{armes[perso.arme1]}
 			p 
 				| Votre seconde arme : 
-				| #{perso.arme2}
+				| #{armes[perso.arme2]}
 		else if perso.arme1
 			p
-				| Votre arme : #{perso.arme1}
+				| Votre arme : #{armes[perso.arme1]}
 		else
 			p
 				| Vous n'avez aucune arme
@@ -40,7 +40,7 @@ block content
 				| Votre sac à dos contient :
 			ul
 				each val in perso.sacADos
-					li= val
+					li #{objSacADos[val]}
 		else
 			p 
 			| Votre sac à dos est vide
@@ -49,7 +49,7 @@ block content
 				| Vos objets spéciaux :
 			ul
 				each val in perso.objSpeciaux
-					li= val
+					li #{objSpeciaux[val]}
 		else
 			p 
 				| Vous n'avez pas d'objets spéciaux.
@@ -59,10 +59,10 @@ block content
 		ul
 			if perso.disciplines
 				each val in perso.disciplines
-					if val == "La Maîtrise Des Armes"
-						li= val + " : " + perso.maitriseArme
+					if val == 'MAITRISE_ARMES'
+						li #{disciplines[val]} : #{perso.maitriseArme}
 					else 
-						li= val
+						li #{disciplines[val]}
 			else
 				p Vous n'avez aucune discipline
 		hr

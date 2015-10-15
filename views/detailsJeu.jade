@@ -26,10 +26,10 @@ div.details-wrapper
 			ul
 				if perso.disciplines
 					each val in perso.disciplines
-						if val == "La Maîtrise Des Armes"
-							li= val + " : " + perso.maitriseArme
+						if val == 'MAITRISE_ARMES'
+							li #{disciplines[val]} : #{perso.maitriseArme}
 						else 
-							li= val
+							li #{disciplines[val]}
 				else
 					p Vous n'avez aucune discipline
 			
@@ -79,7 +79,7 @@ div.details-wrapper
 			if perso.sacADos.length
 				ul
 					each val in perso.sacADos
-						li= val
+						li #{objSacADos[val]}
 			else
 				p 
 					| Votre sac à dos est vide
@@ -101,7 +101,7 @@ div.details-wrapper
 			if perso.objSpeciaux.length		
 				ul
 					each val in perso.objSpeciaux
-						li= val
+						li #{objSpeciaux[val]}
 			else
 				p 
 					| Vous n'avez pas d'objets spéciaux.

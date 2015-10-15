@@ -54,18 +54,18 @@ router.post('/jeu', function(req, res, next) {
   }
   
   // On place les objets en fonction de leur type
-  if(equipement1.indexOf('#{armes}') >= 0)
+  if(req.app.locals.armes.hasOwnProperty(equipement1))
     arme1 = equipement1;
-  else if (equipement1.indexOf('#{objSpeciaux}') >= 0)
+  else if (req.app.locals.objSpeciaux.hasOwnProperty(equipement1))
     objSpeciaux.push(equipement1);
-  else if (equipement1.indexOf('#{objSacADos}') >= 0)
+  else if (req.app.locals.objSacADos.hasOwnProperty(equipement1))
     sacADos.push(equipement1);
-    
-  if(equipement2.indexOf('#{armes}') >= 0)
+  
+  if(req.app.locals.armes.hasOwnProperty(equipement2))
     arme2 = equipement2;
-  else if (equipement2.indexOf('#{objSpeciaux}') >= 0)
+  else if (req.app.locals.objSpeciaux.hasOwnProperty(equipement2))
     objSpeciaux.push(equipement2);
-  else if (equipement2.indexOf('#{objSacADos}') >= 0)
+  else if (req.app.locals.objSacADos.hasOwnProperty(equipement2))
     sacADos.push(equipement2);
     
   // On crée le cookie
@@ -81,9 +81,9 @@ router.post('/jeu', function(req, res, next) {
       disciplines: req.body.discipline,
   };
   // On associe l'arme si la discipline maitrise des armes est choisie
-  if(req.body.discipline && perso.disciplines.indexOf('#{armes.MAITRISE_ARMES}')>=0)
+  if(req.body.discipline && perso.disciplines.indexOf('MAITRISE_ARMES')>=0)
   {
-    perso.maitriseArme = armes_ids[Math.floor(Math.random() * 10)];
+    perso.maitriseArme = req.app.locals.armes_ids[Math.floor(Math.random() * 10)];
     // On vérifie si l'arme désignée par la maîtrise d'arme est une des armes du joueur
     if(perso.maitriseArme == perso.arme1 || perso.maitriseArme == perso.arme2)
     {
@@ -92,7 +92,7 @@ router.post('/jeu', function(req, res, next) {
     }
   }
   // On vérifie si le gilet de cuir a été choisi
-  if(perso.objSpeciaux.indexOf('#{objSpeciaux.GILET}') >= 0)
+  if(perso.objSpeciaux.indexOf('GILET') >= 0)
   {
     // Si oui, on ajoute 2 points d'endurance
     perso.endurance = parseInt(perso.endurance) + 2;
