@@ -7,6 +7,7 @@ var bodyParser = require('body-parser');
 
 var routes = require('./routes/index');
 var users = require('./routes/users');
+var constantes = require('./var.js');
 
 var app = express();
 
@@ -56,5 +57,10 @@ app.use(function(err, req, res, next) {
   });
 });
 
+app.locals.disciplines = constantes.disciplines;
+app.locals.armes = constantes.armes;
+app.locals.objSpeciaux = constantes.objSpeciaux;
+app.locals.objSacADos = constantes.objSacADos;
+app.locals.armes_ids = constantes.armes_ids;
 
 module.exports = app;

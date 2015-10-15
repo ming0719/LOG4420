@@ -1,20 +1,6 @@
 var express = require('express');
 var router = express.Router();
 
-// Pour le choix de l'arme pour la discipline Maitrise d'armes
-var ARMES_IDS = [
-  "Le poignard",
-  "Lance",
-  "Masse d'armes",
-  "Sabre",
-  "Marteau de guerre",
-  "Epée",
-  "Hâche",
-  "Epée",
-  "Bâton",
-  "Glaive",
-];
-
 /* GET home page. */
 router.get('/', function(req, res, next) {
   res.render('./index.jade');
@@ -57,8 +43,8 @@ router.get('/perso', function(req, res, next) {
 router.post('/jeu', function(req, res, next) {
   // Les valeurs propres au personnage sont stockées sous forme de cookie
   // les valeurs équipement contiennent leur type (arme, objetSacADos, objetSpécial) et leur valeur ce qui permet d'éviter de faire des <select> globaux
-  var equipement1 = req.body.equipement1.split("|");
-  var equipement2 = req.body.equipement2.split("|");
+  var equipement1 = req.body.equipement1;
+  var equipement2 = req.body.equipement2;
   var arme1, arme2 = null;
   var objSpeciaux = [];
   var sacADos = [];
@@ -68,32 +54,20 @@ router.post('/jeu', function(req, res, next) {
   }
   
   // On place les objets en fonction de leur type
-  switch(equipement1[0]){
-    case "arme":
-      arme1 = equipement1[1];
-      break;
-    case "objetSpecial":
-      objSpeciaux.push(equipement1[1]);
-      break;
-    case "objetSacADos" :
-      sacADos.push(equipement1[1]);
-      break;
-  }
-  switch(equipement2[0]){
-    case "arme":
-      if(arme1) {
-        arme2 = equipement2[1];
-      } else {
-        arme1 = equipement2[1];
-      }
-      break;
-    case "objetSpecial":
-      objSpeciaux.push(equipement2[1]);
-      break;
-    case "objetSacADos" :
-      sacADos.push(equipement2[1]);
-      break;
-  }
+  if(equipement1.indexOf('#{armes}') >= 0)
+    arme1 = equipement1;
+  else if (equipement1.indexOf('#{objSpeciaux}') >= 0)
+    objSpeciaux.push(equipement1);
+  else if (equipement1.indexOf('#{objSacADos}') >= 0)
+    sacADos.push(equipement1);
+    
+  if(equipement2.indexOf('#{armes}') >= 0)
+    arme2 = equipement2;
+  else if (equipement2.indexOf('#{objSpeciaux}') >= 0)
+    objSpeciaux.push(equipement2);
+  else if (equipement2.indexOf('#{objSacADos}') >= 0)
+    sacADos.push(equipement2);
+    
   // On crée le cookie
   perso = req.cookies.perso;
   var perso = {
@@ -107,9 +81,9 @@ router.post('/jeu', function(req, res, next) {
       disciplines: req.body.discipline,
   };
   // On associe l'arme si la discipline maitrise des armes est choisie
-  if(req.body.discipline && perso.disciplines.indexOf('La Maîtrise Des Armes')>=0)
+  if(req.body.discipline && perso.disciplines.indexOf('#{armes.MAITRISE_ARMES}')>=0)
   {
-    perso.maitriseArme = ARMES_IDS[Math.floor(Math.random() * 10)];
+    perso.maitriseArme = armes_ids[Math.floor(Math.random() * 10)];
     // On vérifie si l'arme désignée par la maîtrise d'arme est une des armes du joueur
     if(perso.maitriseArme == perso.arme1 || perso.maitriseArme == perso.arme2)
     {
@@ -118,7 +92,7 @@ router.post('/jeu', function(req, res, next) {
     }
   }
   // On vérifie si le gilet de cuir a été choisi
-  if(perso.objSpeciaux.indexOf('Gilet De Cuir Matelassé') >= 0)
+  if(perso.objSpeciaux.indexOf('#{objSpeciaux.GILET}') >= 0)
   {
     // Si oui, on ajoute 2 points d'endurance
     perso.endurance = parseInt(perso.endurance) + 2;

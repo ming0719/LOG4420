@@ -13,19 +13,19 @@ block content
 				select(name='equipement1')
 					option(value='') ---
 					optgroup(label='Arme')
-						option(value='arme|Epée') Epée 
-						option(value='arme|Sabre') Sabre 
-						option(value='arme|Lance') Lance 
-						option(value='arme|Masse d\'armes') Masse d'armes 
-						option(value='arme|Marteau de guerre ') Marteau de guerre 
-						option(value='arme|Hâche') Hâche 
-						option(value='arme|Bâton') Bâton 
-						option(value='arme|Glaive') Glaive 
+						option(value='#{armes.EPEE}') #{armes.EPEE} 
+						option(value='#{armes.SABRE}') #{armes.SABRE} 
+						option(value='#{armes.LANCE}') #{armes.LANCE} 
+						option(value='#{armes.MASSE}') #{armes.MASSE} 
+						option(value='#{armes.MARTEAU}') #{armes.MARTEAU} 
+						option(value='#{armes.HACHE}') #{armes.HACHE} 
+						option(value='#{armes.BATON}') #{armes.BATON} 
+						option(value='#{armes.GLAIVE}') #{armes.GLAIVE} 
 					optgroup(label='Objet Special')
-						option(value='objetSpecial|Gilet De Cuir Matelassé') Gilet De Cuir Matelassé
+						option(value='#{objSpeciaux.GILET}') #{objSpeciaux.GILET}
 					optgroup(label='Objet Sac A Dos')
-						option(value='objetSacADos|Potion de Lampsur') Potion de Lampsur 
-						option(value='objetSacADos|Rations spéciales') Rations spéciales
+						option(value='#{objSacADos.POTION}') #{objSacADos.POTION}
+						option(value='#{objSacADos.RATIONS}') #{objSacADos.RATIONS}
 		
 		
 			div.form-arme2
@@ -33,53 +33,53 @@ block content
 				select(name='equipement2')
 					option(value='') ---
 					optgroup(label='Arme')
-						option(value='arme|Epée') Epée 
-						option(value='arme|Sabre') Sabre 
-						option(value='arme|Lance') Lance 
-						option(value='arme|Masse d\'armes') Masse d'armes 
-						option(value='arme|Marteau de guerre ') Marteau de guerre 
-						option(value='arme|Hâche') Hâche 
-						option(value='arme|Bâton') Bâton 
-						option(value='arme|Glaive') Glaive 
+						option(value='arme|#{armes.EPEE}') #{armes.EPEE} 
+						option(value='arme|#{armes.SABRE}') #{armes.SABRE} 
+						option(value='arme|#{armes.LANCE}') #{armes.LANCE} 
+						option(value='arme|#{armes.MASSE}') #{armes.MASSE} 
+						option(value='arme|#{armes.MARTEAU}') #{armes.MARTEAU} 
+						option(value='arme|#{armes.HACHE}') #{armes.HACHE} 
+						option(value='arme|#{armes.BATON}') #{armes.BATON} 
+						option(value='arme|#{armes.GLAIVE}') #{armes.GLAIVE} 
 					optgroup(label='Objet Special')
-						option(value='objetSpecial|Gilet De Cuir Matelassé') Gilet De Cuir Matelassé
+						option(value='objetSpecial|#{objSpeciaux.GILET}') #{objSpeciaux.GILET}
 					optgroup(label='Objet Sac A Dos')
-						option(value='objetSacADos|Potion de Lampsur') Potion de Lampsur 
-						option(value='objetSacADos|Rations spéciales') Rations spéciales 
+						option(value='objetSacADos|#{objSacADos.POTION}') #{objSacADos.POTION}
+						option(value='objetSacADos|#{objSacADos.RATIONS}') #{objSacADos.RATIONS} 
 		
 		div.form-discipline
 			hr
 			h3= "Choix des disciplines"
 			div.liste-disciplines
-				input(type='checkbox',value='Le Camouflage', name='discipline')
-				|  Le Camouflage 
+				input(type='checkbox',value='#{disciplines.CAMOUFLAGE}', name='discipline')
+				|  #{disciplines.CAMOUFLAGE} 
 				br
-				input(type='checkbox',value='La Chasse', name='discipline')
-				|  La Chasse 
+				input(type='checkbox',value='#{disciplines.CHASSE}', name='discipline')
+				|  #{disciplines.CHASSE} 
 				br
-				input(type='checkbox',value='Le 6ème Sens', name='discipline')
-				|  Le 6ème Sens 
+				input(type='checkbox',value='#{disciplines.SENS}', name='discipline')
+				|  #{disciplines.SENS}
 				br
-				input(type='checkbox',value='L\'Orientation', name='discipline')
-				|  L'Orientation 
+				input(type='checkbox',value='#{disciplines.ORIENTATION}', name='discipline')
+				|  #{disciplines.ORIENTATION}
 				br
-				input(type='checkbox',value='La Guérison', name='discipline')
-				|  La Guérison 
+				input(type='checkbox',value='#{disciplines.GUERISON}', name='discipline')
+				|  #{disciplines.GUERISON}
 				br
-				input(type='checkbox',value='Le Bouclier Psychique', name='discipline')
-				|  Le Bouclier Psychique 
+				input(type='checkbox',value=' #{disciplines.BOUCLIER}', name='discipline')
+				|  #{disciplines.BOUCLIER} 
 				br
-				input(type='checkbox',value='La Puissance Psychique', name='discipline')
-				|  La Puissance Psychique 
+				input(type='checkbox',value='#{disciplines.PUISSANCE}', name='discipline')
+				|  #{disciplines.PUISSANCE} 
 				br
-				input(type='checkbox',value='La Communication Animale ', name='discipline')
-				|  La Communication Animale 
+				input(type='checkbox',value='#{disciplines.COMMUNICATION}', name='discipline')
+				|  #{disciplines.COMMUNICATION}
 				br
-				input(type='checkbox',value='La Maîtrise Psychique De La Matière', name='discipline')
-				|  La Maîtrise Psychique De La Matière 
+				input(type='checkbox',value='#{disciplines.MAITRISE_MATIERE}', name='discipline')
+				|  #{disciplines.MAITRISE_MATIERE} 
 				br
-				input(type='checkbox',value='La Maîtrise Des Armes', name='discipline' id='maitrisearmes')
-				|  La Maîtrise Des Armes 
+				input(type='checkbox',value='#{disciplines.MAITRISE_ARMES}', name='discipline' id='maitrisearmes')
+				|  #{disciplines.MAITRISE_ARMES} 
 		// Champs cachés utilisant les valeurs aléatoires générées à partir d'index.js		
 		input(type='hidden',value=perso.habilete, name='habilete')
 		input(type='hidden',value=perso.pieces, name='pieces')
