@@ -10,8 +10,7 @@ router.get('/', function(req, res, next) {
 // Supprime le cookie contenant le personnage en cours et la page de jeu dernièrement visitée
 // et redirige vers la page de création d'un perso
 router.get('/reset', function(req, res, next) {
-  res.clearCookie('perso');
-  res.clearCookie('pageActuelle');
+  req.session.destroy();
   res.redirect('/perso');
 });
   
@@ -21,7 +20,7 @@ router.get('/perso', function(req, res, next) {
   var erreur = req.query.erreur;
   // Les valeurs propres au personnage sont stockées sous forme de cookie
   // Si le cookie existe déjà on redirige vers la page de jeu (avec les infos du joueur déjà crée)
-  if(req.cookies.perso) {
+  if(req.session.perso) {
     res.redirect('/jeu');
   }
   // Sinon on initialise les propriétés du perso qui seront en champs cachés dans le formulaire
@@ -51,6 +50,7 @@ router.post('/jeu', function(req, res, next) {
   if(req.body.discipline == null || req.body.discipline.length != 5 || req.body.equipement1 == '' || req.body.equipement2 == '')
   {
     res.redirect('/perso?erreur=1');
+    return;
   }
   
   // On place les objets en fonction de leur type
@@ -62,14 +62,17 @@ router.post('/jeu', function(req, res, next) {
     sacADos.push(equipement1);
   
   if(req.app.locals.armes.hasOwnProperty(equipement2))
-    arme2 = equipement2;
+    if(arme1 == null)
+      arme1 = equipement2;
+    else
+      arme2 = equipement2;
   else if (req.app.locals.objSpeciaux.hasOwnProperty(equipement2))
     objSpeciaux.push(equipement2);
   else if (req.app.locals.objSacADos.hasOwnProperty(equipement2))
     sacADos.push(equipement2);
     
   // On crée le cookie
-  perso = req.cookies.perso;
+  perso = req.session.perso;
   var perso = {
       habilete: req.body.habilete,
       endurance: req.body.endurance,
@@ -97,7 +100,7 @@ router.post('/jeu', function(req, res, next) {
     // Si oui, on ajoute 2 points d'endurance
     perso.endurance = parseInt(perso.endurance) + 2;
   }
-  res.cookie('perso', perso, { expires: new Date(Date.now() + 86400000), maxAge: 900000, httpOnly: true });
+  req.session.perso = perso;
   // Une fois le perso crée, on va à la 1ere page de jeu
   res.redirect('/jeu');
 });
@@ -106,14 +109,14 @@ router.post('/jeu', function(req, res, next) {
 // Page de jeu : première page depuis laquel on a le résumé du perso et où on peut commencer
 // la partie ou recréer un personnage
 router.get('/jeu', function(req, res, next) {
-  var perso = req.cookies.perso;
+  var perso = req.session.perso;
   // Si le cookie n'existe pas, on n'a pas de personnage il faut donc en créer un
   if(!perso) {
     res.redirect('/perso');
   }
   // Cookie page actuelle permettant de pouvoir revenir à la dernière page visitée 
   // pendant la partie
-  var pageActuelle = req.cookies.pageActuelle;
+  var pageActuelle = req.session.pageActuelle;
   res.render("./pageJeu.jade", { perso: perso, pageActuelle: pageActuelle });
 });
 
@@ -122,17 +125,36 @@ router.get('/jeu', function(req, res, next) {
 router.get('/jeu/:page', function(req, res, next) {
   var pageNum = req.params.page;
   var page = "pages/page" + pageNum + ".jade";
-  var perso = req.cookies.perso;
+  var perso = req.session.perso;
+  
   if(!perso) {
     res.redirect('/perso');
   }
-  res.cookie('pageActuelle', pageNum, { expires: new Date(Date.now() + 86400000), maxAge: 900000, httpOnly: true });
+  req.session.pageActuelle = pageNum;
   // le cookie perso est à la fois envoyé à page en particulier et au template, sinon 
   // impossibilité d'y accèder sur la page de combat (dû à la l'include dans l'include)
   res.render(page, { perso: perso }, function(err, html) {
     res.render('pageJeuTemplate', { perso: perso, pageNum: pageNum, htmlPage: html});
   });  
 });
+
+router.get('/jeu/:page/:sousPage', function(req, res, next) {
+  var pageNum = req.params.page;
+  var sousPage = req.params.sousPage;
+  console.log(sousPage);
+  var page = "pages/page" + pageNum + "_" + sousPage + ".jade";
+  var perso = req.session.perso;
+  if(!perso) {
+    res.redirect('/perso');
+  }
+  req.session.pageActuelle = pageNum;
+  // le cookie perso est à la fois envoyé à page en particulier et au template, sinon 
+  // impossibilité d'y accèder sur la page de combat (dû à la l'include dans l'include)
+  res.render(page, { perso: perso }, function(err, html) {
+    res.render('pageJeuTemplate', { perso: perso, pageNum: pageNum, htmlPage: html});
+  });  
+});
+
 
 /* POST page de jeu. */
 // Objets speciaux ammasses au cours du jeu
@@ -151,7 +173,7 @@ router.post('/jeu/:page', function(req, res, next) {
     objSacADos = objSacADos.toString().split(',');
   }
   
-  perso = req.cookies.perso;
+  var perso = req.session.perso;
   if(!perso) {
     res.redirect('/perso');
   }
@@ -170,8 +192,7 @@ router.post('/jeu/:page', function(req, res, next) {
       }
     );
   }
-
-  res.cookie('perso', perso, { expires: new Date(Date.now() + 86400000), maxAge: 900000, httpOnly: true });
+  req.session.perso = perso;
   // Une fois le perso crée, on va à la 1ere page de jeu
   res.redirect('/jeu/' + pageNum);
 });
@@ -183,6 +204,12 @@ router.get('/aide/:valeur', function(req, res, next) {
   res.render(page, function(err, html) {
   	res.render('aideTemplate', {htmlPage: html})
   });  
+});
+
+/* WS pour renvoyer le json du perso */
+router.get('/persoWS', function(req, res, next) {
+  var perso = req.session.perso;
+  res.json(perso);
 });
 
 /* GET autres pages. */
