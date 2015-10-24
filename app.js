@@ -68,5 +68,7 @@ app.locals.armes = constantes.armes;
 app.locals.objSpeciaux = constantes.objSpeciaux;
 app.locals.objSacADos = constantes.objSacADos;
 app.locals.armes_ids = constantes.armes_ids;
+app.locals.tableCombatPositifs = constantes.tableCombatPositifs;
+app.locals.tableCombatNegatifs = constantes.tableCombatNegatifs;
 
 module.exports = app;

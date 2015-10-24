@@ -60,7 +60,7 @@ block content
 			if perso.disciplines
 				each val in perso.disciplines
 					if val == 'MAITRISE_ARMES'
-						li #{disciplines[val]} : #{perso.maitriseArme}
+						li #{disciplines[val]} : #{armes[perso.maitriseArme]}
 					else 
 						li #{disciplines[val]}
 			else

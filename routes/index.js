@@ -88,7 +88,8 @@ router.post('/jeu', function(req, res, next) {
   {
     perso.maitriseArme = req.app.locals.armes_ids[Math.floor(Math.random() * 10)];
     // On vérifie si l'arme désignée par la maîtrise d'arme est une des armes du joueur
-    if(perso.maitriseArme == perso.arme1 || perso.maitriseArme == perso.arme2)
+    if(perso.maitriseArme == perso.arme1 
+      || perso.maitriseArme == perso.arme2)
     {
       // Si oui, on ajoute 2 points d'habileté
       perso.habilete = parseInt(perso.habilete) + 2;
@@ -210,6 +211,90 @@ router.get('/aide/:valeur', function(req, res, next) {
 router.get('/persoWS', function(req, res, next) {
   var perso = req.session.perso;
   res.json(perso);
+});
+
+/* WS pour renvoyer le json du combat */
+router.get('/combat/:habiletePerso/:habileteEnnemi', function(req, res, next) {
+  var perso = req.session.perso;
+  
+  // Les composants du json
+  var habiletePerso = Number(req.params.habiletePerso);
+  var habileteEnnemi = Number(req.params.habileteEnnemi);
+  var ratio;
+  var random;
+  var pertePerso;
+  var perteEnnemi;
+  
+  var pertesPoints;
+  var ratioIndice;
+
+  // On vérifie si le joueur a choisi "La puissance psychique"
+  if(perso.disciplines.indexOf('PUISSANCE') >= 0)
+  {
+    // Si oui, on ajoute 2 points d'habileté
+    habiletePerso += 2;
+  }
+  
+  // Calcul du ratio
+  ratio = habiletePerso - habileteEnnemi;
+  // Génération d'un chiffre aléatoire entre 0 et 9
+  random = Math.floor(Math.random() * 10);
+  console.log("Perso : " + habiletePerso + " Ennemi : " + habileteEnnemi + " Ratio : " + ratio + " Random : " + random);
+  
+  // Si le ratio est négatif on cherche à avoir des indices positifs
+  if(ratio < 0)
+  {
+    ratioIndice = ratio - 2 * ratio;
+  }
+  else
+  {
+    ratioIndice = ratio;
+  }
+  
+  // On ramène l'indice à 11 pour éviter un dépassement dans le tableau
+  if(ratioIndice > 11)
+  {
+    ratioIndice = 11;
+  }
+  // Si l'indice modulo 2 == 0 on divise par 2 l'indice pour tomber sur la bonne case du tableau
+  // car une case correspond à intervalle de 2 points de ratio
+  if(ratio % 2 == 0 && ratio != 0)
+  {
+    ratioIndice = parseInt(ratioIndice/2);
+  }
+  // Même problème, on veut faire correspondre avec la bonne case du tableau
+  else if(ratio > 1)
+  {
+    ratioIndice = parseInt(ratioIndice/2)+1;
+  }
+  
+  // On choisit le bon tableau en fonction du signe du ratio
+  if(ratio >= 0)
+  {
+    pertesPoints = req.app.locals.tableCombatPositifs[random][ratioIndice];
+    console.log("[" + random + "]" + "[" + ratioIndice + "] = " + pertesPoints);
+  }
+  else if(ratio < 0)
+  {
+    pertesPoints = req.app.locals.tableCombatNegatifs[random][ratioIndice];
+    console.log("[" + random + "]" + "[" + ratioIndice + "] = " + pertesPoints);
+  }
+  // Les cases du tableau contiennent des strings avec la perte du perso et de l'ennemi
+  // séparées par une virgule, d'où l'utilisation du split
+  perteEnnemi = Number(pertesPoints.split(',')[0]);
+  pertePerso = Number(pertesPoints.split(',')[1]);
+    
+  // On initialise la variable que l'on va retourner en json
+  var round = {
+    habiletePerso: habiletePerso,
+    habileteEnnemi: habileteEnnemi,
+    ratio: ratio,
+    random: random,
+    pertePerso: pertePerso,
+    perteEnnemi: perteEnnemi
+  }
+
+  res.json(round);
 });
 
 /* GET autres pages. */
