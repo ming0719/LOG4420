@@ -249,6 +249,7 @@ router.get('/persoWS', function(req, res, next) {
 });
 
 /* WS pour renvoyer le json du combat */
+/* Le personnage doit avoir ete prealablement cree */
 router.get('/combat/:habiletePerso/:habileteEnnemi', function(req, res, next) {
   var perso = req.session.perso;
   
@@ -335,18 +336,24 @@ router.get('/combat/:habiletePerso/:habileteEnnemi', function(req, res, next) {
 /* WS pour renvoyer le json du choix aleatoire */
 router.get('/choixAleatoire/:page', function(req, res, next) {
   var pageNum = req.params.page;
-  var intervalles = req.app.locals.pagesChoixAleatoires[pageNum].intervalles;
-  var accesPages = req.app.locals.pagesChoixAleatoires[pageNum].pages;
-  var randomNum = req.app.locals.pagesChoixAleatoires[pageNum].fonctionAleatoire();
-  var choix = [];
 
-  //Check dans quel intervalle est le numero aleatoire pour le choix de page
-  for (var i = 0; i < intervalles.length; i++) {
-    if (randomNum >= intervalles[i][0] && randomNum <= intervalles[i][1]) {
-      choix = accesPages[i];
-    }
-  };
+  var pageChoixAleatoire = req.app.locals.pagesChoixAleatoires[pageNum];
 
+  if (pageChoixAleatoire) {
+    var intervalles = pageChoixAleatoire.intervalles;
+    var accesPages = pageChoixAleatoire.pages;
+    var randomNum = pageChoixAleatoire.fonctionAleatoire();
+    var choix = [];
+
+    //Check dans quel intervalle est le numero aleatoire pour le choix de page
+    for (var i = 0; i < intervalles.length; i++) {
+      if (randomNum >= intervalles[i][0] && randomNum <= intervalles[i][1]) {
+        choix = accesPages[i];
+      }
+    };
+  }
+
+  //Creation de la structure du json
   var choixAleatoire = {
     numeroAleatoire: randomNum,
     choixPage: choix
