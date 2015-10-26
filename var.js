@@ -27,7 +27,8 @@ exports.armes =
 
 exports.objSpeciaux =
 {
-    GILET: "Gilet De Cuir Matelassé"
+    GILET: "Gilet De Cuir Matelassé",
+    HUILE: "Huile de Bakanal"
 };
 
 exports.objSacADos =
@@ -76,3 +77,35 @@ exports.tableCombatPositifs = [
     ["10,0", "11,0", "12,0", "14,0", "16,0", "18,0", "K,0"],
     ["11,0", "12,0", "14,0", "16,0", "18,0", "K,0", "K,0"]
 ]
+
+exports.tableCorrespondancePage = {
+    "1": [{id: 160, requis: ""}, {id: 273, requis: ""}],
+    "4": [{id: 331, requis: ""}],
+    "12": [{id: 180, requis: ""}, {id: 259, requis: ""}],
+    "70": [{id: 209, requis: exports.objSpeciaux["HUILE"]}, {id: 339, requis: ""}],
+    "78": [{id: 245, requis: ""}],
+    "91": [{id: 134, requis: ""}],
+    "129": [{id: 155, requis: ""}],
+    "134": [{id: 4, requis: ""}, {id: 188, requis: ""}, {id: 331, requis: ""}],
+    "155": [{id: 248, requis: ""}, {id: 191, requis: ""}],
+    "160": [{id: 78, requis: ""}, {id: 204, requis: exports.disciplines["CHASSE"]}, {id: 318, requis: exports.disciplines["COMMUNICATION"]}],
+    "167": [{id: 85, requis: ""}, {id: 300, requis: ""}],
+    "172": [{id: 134, requis: ""}],
+    "180": [{id: 70, requis: ""}, {id: 129, requis: ""}],
+    "204": [{id: 134, requis: ""}],
+    "209": [{id: 155, requis: ""}],
+    "245": [{id: 91, requis: ""}, {id: 172, requis: ""}],
+    "248": [],
+    "288": [{id: 167, requis: ""}],
+    "300": [{id: 12, requis: ""}, {id: 238, requis: ""}],
+    "318": [{id: 134, requis: ""}],
+    "331": [{id: 62, requis: ""}, {id: 288, requis: ""}],
+    "331": []
+};
+
+exports.pagesCombat = {
+    "78": {nomAdversaire: "Bakanal", enduranceAdversaire: 30, habileteAdversaire: 19},
+    "180": {nomAdversaire: "Languabarb", enduranceAdversaire: 35, habileteAdversaire: 11}
+};
+
+

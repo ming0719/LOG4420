@@ -1,4 +1,6 @@
 var express = require('express');
+var jade = require('jade');
+var fs = require('fs');
 var router = express.Router();
 
 /* GET home page. */
@@ -123,27 +125,57 @@ router.get('/jeu', function(req, res, next) {
 
 /* GET pages de jeu. */
 // Les pages de jeu proprement dites
-router.get('/jeu/:page', function(req, res, next) {
+router.get('/page/:page', function(req, res, next) {
   var pageNum = req.params.page;
-  var page = "pages/" + pageNum + "/page" + pageNum + ".jade";
+
+  //Retourne a la page de creation de personnage si le cookie de personnage n'existe pas
   var perso = req.session.perso;
-  
   if(!perso) {
     res.redirect('/perso');
   }
   req.session.pageActuelle = pageNum;
-  // le cookie perso est à la fois envoyé à page en particulier et au template, sinon 
-  // impossibilité d'y accèder sur la page de combat (dû à la l'include dans l'include)
-  res.render(page, { perso: perso }, function(err, html) {
-    res.render('pageJeuTemplate', { perso: perso, pageNum: pageNum, htmlPage: html});
-  });  
+
+  //Html de l'histoire
+  var htmlHistoire;
+  //Verifie si le fichier existe
+  try {
+    htmlHistoire = jade.renderFile("./views/pages/" + pageNum + "/page" + pageNum + "_1" + ".jade");
+  } catch (ex) {
+    htmlHistoire = "";
+  }
+
+  // Html de la decision
+  var htmlDecision;
+  //Verifie si le fichier existe
+  try {
+    htmlDecision = jade.renderFile("./views/pages/" + pageNum + "/page" + pageNum + "_2" + ".jade");
+  } catch (ex) {
+    htmlDecision = "";
+  }
+
+  //Html complet de la page separer en deux parties (histoire et decision)
+  var html = {"1": htmlHistoire, "2": htmlDecision};
+  //Info sur les combats provenant des objets javascript
+  var infoCombat = req.app.locals.pagesCombat[pageNum];
+   //Info sur les acces de pages provenant des objets javascript
+  var accesPage = req.app.locals.tableCorrespondancePage[pageNum];
+
+  // On initialise la variable que l'on va retourner en json
+  var page = {
+    id: pageNum,
+    html: html,
+    infoCombat: infoCombat,
+    accesPage: accesPage
+  }
+
+  res.json(page); 
 });
 
-router.get('/jeu/:page/:sousPage', function(req, res, next) {
+/* GET pages de jeu par sous page*/
+router.get('/page/:page/:sousPage', function(req, res, next) {
   var pageNum = req.params.page;
   var sousPage = req.params.sousPage;
   console.log(sousPage);
-  var page = "pages/" + pageNum + "/page" + pageNum + "_" + sousPage + ".jade";
   var perso = req.session.perso;
   if(!perso) {
     res.redirect('/perso');
@@ -151,9 +183,27 @@ router.get('/jeu/:page/:sousPage', function(req, res, next) {
   req.session.pageActuelle = pageNum;
   // le cookie perso est à la fois envoyé à page en particulier et au template, sinon 
   // impossibilité d'y accèder sur la page de combat (dû à la l'include dans l'include)
+  var page = "pages/" + pageNum + "/page" + pageNum + "_" + sousPage + ".jade";
   res.render(page, { perso: perso }, function(err, html) {
     res.render('pageJeuTemplate', { perso: perso, pageNum: pageNum, htmlPage: html});
-  });  
+  });
+
+  // if (sousPage == 1) {
+  //   var page = "pages/" + pageNum + "/page" + pageNum + "_" + sousPage + ".jade";
+  //   res.render(page, { perso: perso }, function(err, html) {
+  //     res.render('pageJeuTemplate', { perso: perso, pageNum: pageNum, htmlPage: html});
+  //   });
+  // } else {
+  //   var page = "pages/" + pageNum + "/page" + pageNum + "_1" + ".jade";
+  //   res.render(page, { perso: perso }, function(err, html) {
+  //     res.render('pageJeuTemplate', { perso: perso, pageNum: pageNum, htmlPage: html});
+  //   });
+
+  //   var page = "pages/" + pageNum + "/page" + pageNum + "_" + sousPage + ".jade";
+  //   res.render(page, { perso: perso }, function(err, html) {
+  //     res.render('pageJeuTemplate', { perso: perso, pageNum: pageNum, htmlPage: html});
+  //   });
+  // }  
 });
 
 
@@ -195,7 +245,7 @@ router.post('/jeu/:page', function(req, res, next) {
   }
   req.session.perso = perso;
   // Une fois le perso crée, on va à la 1ere page de jeu
-  res.redirect('/jeu/' + pageNum);
+  res.redirect('/page/' + pageNum);
 });
 
 /* GET pages d'aide. */

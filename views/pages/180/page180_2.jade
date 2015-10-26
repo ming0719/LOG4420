@@ -2,9 +2,10 @@
 - var nomAdversaire = "Languabarb";
 - var enduranceAdversaire = 35;
 - var habileteAdversaire = 11;
-include ../combat.jade
+include ../../combat.jade
 
-p Si vous tuez la créature sans perdre aucun point d'ENDURANCE, rendez-vous à la 
-	a.lien-page page 70
-p Si vous perdez des points d'ENDURANCE aucours du combat, rendez-vous immédiatement à la 
-	a.lien-page(href="/jeu/129") page 129
+div#decision
+	p Si vous tuez la créature sans perdre aucun point d'ENDURANCE, rendez-vous à la 
+		a.lien-page(/page/70) page 70
+	p Si vous perdez des points d'ENDURANCE aucours du combat, rendez-vous immédiatement à la 
+		a.lien-page(href="/page/129") page 129
