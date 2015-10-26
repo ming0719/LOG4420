@@ -160,14 +160,14 @@ router.get('/page/:page', function(req, res, next) {
   //Info sur les combats provenant des objets javascript
   var infoCombat = req.app.locals.pagesCombat[pageNum];
    //Info sur les acces de pages provenant des objets javascript
-  var accesPage = req.app.locals.tableCorrespondancePage[pageNum];
+  var accesPages = req.app.locals.tableCorrespondancePage[pageNum];
 
   // On initialise la variable que l'on va retourner en json
   var page = {
     id: pageNum,
     html: html,
     infoCombat: infoCombat,
-    accesPage: accesPage
+    accesPages: accesPages
   }
 
   res.json(page); 
@@ -188,24 +188,7 @@ router.get('/page/:page/:sousPage', function(req, res, next) {
   var page = "pages/" + pageNum + "/page" + pageNum + "_" + sousPage + ".jade";
   res.render(page, { perso: perso }, function(err, html) {
     res.render('pageJeuTemplate', { perso: perso, pageNum: pageNum, htmlPage: html});
-  });
-
-  // if (sousPage == 1) {
-  //   var page = "pages/" + pageNum + "/page" + pageNum + "_" + sousPage + ".jade";
-  //   res.render(page, { perso: perso }, function(err, html) {
-  //     res.render('pageJeuTemplate', { perso: perso, pageNum: pageNum, htmlPage: html});
-  //   });
-  // } else {
-  //   var page = "pages/" + pageNum + "/page" + pageNum + "_1" + ".jade";
-  //   res.render(page, { perso: perso }, function(err, html) {
-  //     res.render('pageJeuTemplate', { perso: perso, pageNum: pageNum, htmlPage: html});
-  //   });
-
-  //   var page = "pages/" + pageNum + "/page" + pageNum + "_" + sousPage + ".jade";
-  //   res.render(page, { perso: perso }, function(err, html) {
-  //     res.render('pageJeuTemplate', { perso: perso, pageNum: pageNum, htmlPage: html});
-  //   });
-  // }  
+  });  
 });
 
 
@@ -347,6 +330,29 @@ router.get('/combat/:habiletePerso/:habileteEnnemi', function(req, res, next) {
   }
 
   res.json(round);
+});
+
+/* WS pour renvoyer le json du choix aleatoire */
+router.get('/choixAleatoire/:page', function(req, res, next) {
+  var pageNum = req.params.page;
+  var intervalles = req.app.locals.pagesChoixAleatoires[pageNum].intervalles;
+  var accesPages = req.app.locals.pagesChoixAleatoires[pageNum].pages;
+  var randomNum = req.app.locals.pagesChoixAleatoires[pageNum].fonctionAleatoire();
+  var choix = [];
+
+  //Check dans quel intervalle est le numero aleatoire pour le choix de page
+  for (var i = 0; i < intervalles.length; i++) {
+    if (randomNum >= intervalles[i][0] && randomNum <= intervalles[i][1]) {
+      choix = accesPages[i];
+    }
+  };
+
+  var choixAleatoire = {
+    numeroAleatoire: randomNum,
+    choixPage: choix
+  };
+
+  res.json(choixAleatoire);
 });
 
 /* GET autres pages. */

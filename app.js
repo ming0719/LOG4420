@@ -71,5 +71,6 @@ app.locals.tableCombatPositifs = constantes.tableCombatPositifs;
 app.locals.tableCombatNegatifs = constantes.tableCombatNegatifs;
 app.locals.tableCorrespondancePage = constantes.tableCorrespondancePage;
 app.locals.pagesCombat = constantes.pagesCombat;
+app.locals.pagesChoixAleatoires = constantes.pagesChoixAleatoires;
 
 module.exports = app;

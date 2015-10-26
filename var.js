@@ -78,6 +78,7 @@ exports.tableCombatPositifs = [
     ["11,0", "12,0", "14,0", "16,0", "18,0", "K,0", "K,0"]
 ]
 
+// Objets comprenant toutes les correspondances page courante/pages accessibles(id et element requis) par numero de page
 exports.tableCorrespondancePage = {
     "1": [{id: 160, requis: ""}, {id: 273, requis: ""}],
     "4": [{id: 331, requis: ""}],
@@ -100,12 +101,23 @@ exports.tableCorrespondancePage = {
     "300": [{id: 12, requis: ""}, {id: 238, requis: ""}],
     "318": [{id: 134, requis: ""}],
     "331": [{id: 62, requis: ""}, {id: 288, requis: ""}],
-    "331": []
+    "339": []
 };
 
 exports.pagesCombat = {
     "78": {nomAdversaire: "Bakanal", enduranceAdversaire: 30, habileteAdversaire: 19},
     "180": {nomAdversaire: "Languabarb", enduranceAdversaire: 35, habileteAdversaire: 11}
+};
+
+// Objet comprenant toutes les page ayant un choix aleatoires avec comme cle le numero de la page.
+// Les intervalles sont ordonnee en fonction des pages accessibles prise dans la table de correspondance plus haut,
+// donc choixAleatoires["id"].intervalle[0] est l'intervalle pour aller a la page tableCorrespondancePage["id"][0]
+// La fonction aleatoire retourne un chiffre aleatoire entre 0 et 9
+exports.pagesChoixAleatoires = {
+    "134": {fonctionAleatoire: function () { return Math.floor(Math.random() * 10);}, intervalles: [[0, 3], [4, 6], [7, 9]], pages: exports.tableCorrespondancePage["134"]},
+    "155": {fonctionAleatoire: function () { return Math.floor(Math.random() * 10);}, intervalles: [[-2, 2], [3, 10]], pages: exports.tableCorrespondancePage["155"]},
+    "167": {fonctionAleatoire: function () { return Math.floor(Math.random() * 10);}, intervalles: [[0, 6], [7, 9]], pages: exports.tableCorrespondancePage["167"]},
+    "331": {fonctionAleatoire: function () { return Math.floor(Math.random() * 10);}, intervalles: [[0, 4], [5, 9]], pages: exports.tableCorrespondancePage["331"]}
 };
 
 
