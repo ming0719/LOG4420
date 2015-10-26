@@ -125,7 +125,7 @@ router.get('/jeu', function(req, res, next) {
 // Les pages de jeu proprement dites
 router.get('/jeu/:page', function(req, res, next) {
   var pageNum = req.params.page;
-  var page = "pages/page" + pageNum + ".jade";
+  var page = "pages/" + pageNum + "/page" + pageNum + ".jade";
   var perso = req.session.perso;
   
   if(!perso) {
@@ -143,7 +143,7 @@ router.get('/jeu/:page/:sousPage', function(req, res, next) {
   var pageNum = req.params.page;
   var sousPage = req.params.sousPage;
   console.log(sousPage);
-  var page = "pages/page" + pageNum + "_" + sousPage + ".jade";
+  var page = "pages/" + pageNum + "/page" + pageNum + "_" + sousPage + ".jade";
   var perso = req.session.perso;
   if(!perso) {
     res.redirect('/perso');

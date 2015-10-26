@@ -1,0 +1,21 @@
+p Si vous souhaitez tirer votre épée et aller voir de quoi il s'agit, rendez-vous à la 
+	a.lien-page(href="#popup") page 180
+p Si vous préférez retenir votre souffle en restant aussi immobile que possible, rendez-vous à la 
+	a.lien-page page 259
+
+// Popup de confirmation d'ajout/suppression d'items du sac a dos
+div#popup.overlay
+	// Ferme le popup si on clique a l'exterieur
+	a(href="#")
+		div.cancel
+	div.popup
+		h2= "Changements au sac à dos"
+		p Les objets suivant seront ajoutés à votre sac à dos: 3 Repas, des Couvertures en Fourrure et une Corde.
+		p Les objets suivant seront enlevés de votre sac à dos: 1 Repas.
+		form(action='/jeu/180',method='post', id='formSacADos')
+			input(type='hidden',value="Repas", name='objSacADos')
+			input(type='hidden',value="Repas", name='objSacADos')
+			input(type='hidden',value="Couvertures en Fourrure", name='objSacADos')
+			input(type='hidden',value="Corde", name='objSacADos')
+			div.form-submit
+				input.btn.close(type='submit', value='Ok')
