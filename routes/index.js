@@ -1,6 +1,4 @@
 var express = require('express');
-var jade = require('jade');
-var fs = require('fs');
 var router = express.Router();
 
 /* GET home page. */

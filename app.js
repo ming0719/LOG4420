@@ -62,6 +62,7 @@ app.use(function(err, req, res, next) {
   });
 });
 
+// On passe les objets et tableaux javascript crees
 app.locals.disciplines = constantes.disciplines;
 app.locals.armes = constantes.armes;
 app.locals.objSpeciaux = constantes.objSpeciaux;

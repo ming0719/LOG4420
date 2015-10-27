@@ -1,3 +1,4 @@
+// Objet comprenant toutes les disciplines
 exports.disciplines = 
 {  
     CAMOUFLAGE: "Le Camouflage",        
@@ -12,6 +13,7 @@ exports.disciplines =
     MAITRISE_MATIERE: "La Maîtrise Psychique de la Matière"
 };
 
+// Objet comprenant toutes les armes
 exports.armes = 
 {  
     EPEE: "Epée",        
@@ -25,12 +27,14 @@ exports.armes =
     POIGNARD: "Poignard"
 };
 
+// Objet comprenant tous les objets speciaux
 exports.objSpeciaux =
 {
     GILET: "Gilet De Cuir Matelassé",
     HUILE: "Huile de Bakanal"
 };
 
+// Objet comprenant tous les objets qui vont dans le sac a dos
 exports.objSacADos =
 {
     POTION: "Potion de Lampsur",
@@ -65,6 +69,7 @@ exports.tableCombatNegatifs = [
     ["11,0", "10,0", "9,0", "8,0", "7,2", "6,3", "5,3"]
 ]
 
+// Table de calcul des pertes d'endurance pour les ratios positifs
 exports.tableCombatPositifs = [
     ["12,0", "14,0", "16,0", "18,0", "K,0", "K,0", "K,0"],
     ["3,5", "4,5", "5,4", "6,4", "7,4", "8,3", "9,3"],
@@ -104,6 +109,7 @@ exports.tableCorrespondancePage = {
     "339": []
 };
 
+// Objet comprenant toutes les pages ayant un combat
 exports.pagesCombat = {
     "78": {nomAdversaire: "Bakanal", enduranceAdversaire: 30, habileteAdversaire: 19},
     "180": {nomAdversaire: "Languabarb", enduranceAdversaire: 35, habileteAdversaire: 11}
