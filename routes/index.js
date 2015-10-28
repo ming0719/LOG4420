@@ -139,8 +139,9 @@ router.get('/page/:page', function(req, res, next) {
   var htmlHistoire;
   //Verifie si le fichier existe
   try {
-    htmlHistoire = jade.renderFile("./views/pages/" + pageNum + "/page" + pageNum + "_1" + ".jade");
+    htmlHistoire = jade.renderFile("./views/pages/" + pageNum + "/page" + pageNum + "_1" + ".jade", {perso: perso});
   } catch (ex) {
+    console.log(ex);
     htmlHistoire = "";
   }
 
@@ -148,8 +149,9 @@ router.get('/page/:page', function(req, res, next) {
   var htmlDecision;
   //Verifie si le fichier existe
   try {
-    htmlDecision = jade.renderFile("./views/pages/" + pageNum + "/page" + pageNum + "_2" + ".jade");
+    htmlDecision = jade.renderFile("./views/pages/" + pageNum + "/page" + pageNum + "_2" + ".jade", {perso: perso});
   } catch (ex) {
+    console.log(ex);
     htmlDecision = "";
   }
 
