@@ -136,24 +136,22 @@ router.get('/page/:page', function(req, res, next) {
   req.session.pageActuelle = pageNum;
 
   //Html de l'histoire
-  var htmlHistoire;
-  //Verifie si le fichier existe
-  try {
-    htmlHistoire = jade.renderFile("./views/pages/" + pageNum + "/page" + pageNum + "_1" + ".jade", {perso: perso});
-  } catch (ex) {
-    console.log(ex);
-    htmlHistoire = "";
-  }
+  var htmlHistoire = ""; 
+  var page1 = "pages/" + pageNum + "/page" + pageNum + "_1" + ".jade"
+  res.render(page1, function(err, html) {
+    if (html) {
+      htmlHistoire += html;
+    }
+  });
 
   // Html de la decision
-  var htmlDecision;
-  //Verifie si le fichier existe
-  try {
-    htmlDecision = jade.renderFile("./views/pages/" + pageNum + "/page" + pageNum + "_2" + ".jade", {perso: perso});
-  } catch (ex) {
-    console.log(ex);
-    htmlDecision = "";
-  }
+  var htmlDecision = "";
+  var page2 = "pages/" + pageNum + "/page" + pageNum + "_2" + ".jade"
+  res.render(page2, { perso: perso } , function(err, html) {
+    if (html) {
+      htmlDecision += html;
+    }
+  });
 
   //Html complet de la page separer en deux parties (histoire et decision)
   var html = {"1": htmlHistoire, "2": htmlDecision};
@@ -178,23 +176,35 @@ router.get('/page/:page/:sousPage', function(req, res, next) {
   var pageNum = req.params.page;
   var sousPage = req.params.sousPage;
   console.log(sousPage);
+  
+  // Cookie de session pour les infos du personnage
   var perso = req.session.perso;
   if(!perso) {
     res.redirect('/perso');
   }
   req.session.pageActuelle = pageNum;
+  
+  //Pour le numero de section demandee, generer le html de toutes les sections precedentes inculant celle demandee
+  var htmlString = "";
+  for (var i = 1; i <= parseInt(sousPage); i++) {
+    var page = "pages/" + pageNum + "/page" + pageNum + "_" + i + ".jade";
+    res.render(page, { perso: perso }, function(err, html) {
+      if (html) {
+        htmlString += html;
+      }
+    });
+  }
+  
+  // Render la page html des sections demande
   // le cookie perso est à la fois envoyé à page en particulier et au template, sinon 
   // impossibilité d'y accèder sur la page de combat (dû à la l'include dans l'include)
-  var page = "pages/" + pageNum + "/page" + pageNum + "_" + sousPage + ".jade";
-  res.render(page, { perso: perso }, function(err, html) {
-    res.render('pageJeuTemplate', { perso: perso, pageNum: pageNum, htmlPage: html});
-  });  
+  res.render('pageJeuTemplate', { perso: perso, pageNum: pageNum, htmlPage: htmlString});
 });
 
 
 /* POST page de jeu. */
 // Objets speciaux ammasses au cours du jeu
-router.post('/jeu/:page', function(req, res, next) {
+router.post('/page/:page', function(req, res, next) {
   var pageNum = req.params.page;
   var objSpeciaux = req.body.objSpeciaux;
   var objSacADos = req.body.objSacADos;

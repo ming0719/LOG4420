@@ -81,13 +81,13 @@ exports.tableCombatPositifs = [
 // Objets comprenant toutes les correspondances page courante/pages accessibles(id et element requis) par numero de page
 exports.tableCorrespondancePage = {
     "1": [{id: 160, requis: ""}, {id: 273, requis: ""}],
-    "4": [{id: 331, requis: ""}],
     "12": [{id: 180, requis: ""}, {id: 259, requis: ""}],
+    "57": [{id: 331, requis: ""}],
     "70": [{id: 209, requis: exports.objSpeciaux["HUILE"]}, {id: 339, requis: ""}],
     "78": [{id: 245, requis: ""}],
     "91": [{id: 134, requis: ""}],
     "129": [{id: 155, requis: ""}],
-    "134": [{id: 4, requis: ""}, {id: 188, requis: ""}, {id: 331, requis: ""}],
+    "134": [{id: 57, requis: ""}, {id: 188, requis: ""}, {id: 331, requis: ""}],
     "155": [{id: 248, requis: ""}, {id: 191, requis: ""}],
     "160": [{id: 78, requis: ""}, {id: 204, requis: exports.disciplines["CHASSE"]}, {id: 318, requis: exports.disciplines["COMMUNICATION"]}],
     "167": [{id: 85, requis: ""}, {id: 300, requis: ""}],
