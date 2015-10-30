@@ -1,15 +1,22 @@
-// Ce template est valable pour toutes les pages du site
 doctype html
 html
   head
-    title Lone Wolf : Les Grottes de Katle
-    link(rel='stylesheet', href='/stylesheets/normalize.css')
-    link(rel='stylesheet', href='https://fonts.googleapis.com/css?family=Cinzel+Decorative')
-    link(rel='stylesheet', href='/stylesheets/style.css')
+    title= title
+    link(rel='stylesheet', href='/stylesheets/globale.css')
+    block head
   body
-    div.conteneur
-      h1 Lone Wolf : Les Grottes de Katle
-      include ./menu.jade
-      block content
-      include ./footer.jade
-  script(src='/js/script.js')
+    nav
+        ul
+            li
+                a#accueil(href="/") Accueil
+            li
+                a#creationJoueur(href="/creationJoueur") Jeu
+            li
+                a#reglesJeu(href="/aide") Règles du jeu
+
+    block content
+
+    footer
+        p Les Grottes de Kalte - Lone Wolf
+        p Utilisé pour LOG4420 par Konstantinos Lambrou-Latreille
+

@@ -1,13 +1,15 @@
 var express = require('express');
+var session = require('express-session');
 var path = require('path');
 var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
-var session = require('express-session');
+
 var routes = require('./routes/index');
-var users = require('./routes/users');
-var constantes = require('./var.js');
+var creationJoueur = require('./routes/creationJoueur')
+var pageJeu = require('./routes/pageJeu')
+var serviceweb = require('./routes/serviceweb');
 
 var app = express();
 
@@ -21,15 +23,16 @@ app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
+// session setup
+app.use(session({ secret: "secreetttt", resave: true, saveUninitialized: true/*, cookie: { secure: true }*/ }));
 app.use(express.static(path.join(__dirname, 'public')));
-app.use(session({
-  secret: 'ouvre un coca, ouvre du bonheur',
-  resave: false,
-  saveUninitialized: true
-}))
 
 app.use('/', routes);
-app.use('/users', users);
+app.use('/', creationJoueur);
+app.use('/', pageJeu);
+
+app.use('/api/*', bodyParser.json({ type: 'application/json' }));
+app.use('/api', serviceweb);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -62,16 +65,5 @@ app.use(function(err, req, res, next) {
   });
 });
 
-// On passe les objets et tableaux javascript crees
-app.locals.disciplines = constantes.disciplines;
-app.locals.armes = constantes.armes;
-app.locals.objSpeciaux = constantes.objSpeciaux;
-app.locals.objSacADos = constantes.objSacADos;
-app.locals.armes_ids = constantes.armes_ids;
-app.locals.tableCombatPositifs = constantes.tableCombatPositifs;
-app.locals.tableCombatNegatifs = constantes.tableCombatNegatifs;
-app.locals.tableCorrespondancePage = constantes.tableCorrespondancePage;
-app.locals.pagesCombat = constantes.pagesCombat;
-app.locals.pagesChoixAleatoires = constantes.pagesChoixAleatoires;
 
 module.exports = app;
