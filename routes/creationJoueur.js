@@ -43,17 +43,12 @@ router.post('/jeu/1', function(req, res) {
     // S'il y au moins une erreur, on revient à la page de création avec la
     // liste d'erreurs. Sinon, on se dirige vers la 1ere page de l'histoire.
     if (u.isEmpty(erreursMsg)) {
-        var joueur = new Joueur({
-            habilete: u.random(10, 19),
-            endurance: u.random(20, 29),
-            pieceOr: u.random(10, 19),
+        var joueur = Joueur.creerJoueur({
             disciplines: disciplines,
             armes: armes,
             objets: objets,
             objetsSpeciaux: objetsSpeciaux
         });
-        joueur.ajouterHabilete();
-        joueur.ajouterEndurance();
         
         // Sauvegarde le joueur et vérifie s'il y a des erreurs
         joueur.save(function(err) {
