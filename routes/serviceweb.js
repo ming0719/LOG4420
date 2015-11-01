@@ -5,6 +5,7 @@ var fs = require('fs');
 var constantes = require('../lib/constantes.js');
 var pagesJeu = require('../lib/pagesJeu.js');
 var Joueur = require('../models/joueur');
+var Avancement = require('../models/avancement');
 
 var router = express.Router();
 
@@ -91,6 +92,20 @@ router.delete('/joueur/:id', function(req, res) {
             res.send(err);
         }
         res.json({ message: 'Joueur supprimé' });
+    });
+});
+
+/**
+ * Ce service web qui récupère en base l'avancement correspondant à l'id du joueur.
+ */
+router.get('/avancement/:idJoueur', function(req, res) {
+    var id = req.params.idJoueur;
+    Avancement.findOne({'idJoueur': id}, function (err, avancement) {
+      if (err)
+        {
+            res.send(err);
+        }
+        res.json(avancement);
     });
 });
 
