@@ -4,14 +4,35 @@ var fs = require('fs');
 
 var constantes = require('../lib/constantes.js');
 var pagesJeu = require('../lib/pagesJeu.js');
+var Joueur = require('../models/joueur');
 
 var router = express.Router();
 
 /**
- * Ce service web envoie la représentation du joueur.
+ * Ce service web qui récupère tous les joueurs en base.
  */
 router.get('/joueur', function(req, res) {
-    res.json(req.session.joueur);
+    Joueur.find(function(err, joueurs) {
+            if (err)
+            {
+                res.send(err);
+            }
+            res.json(joueurs);
+        });
+});
+
+/**
+ * Ce service web qui récupère en base le joueur correspondant à l'id.
+ */
+router.get('/joueur/:id', function(req, res) {
+    var id = req.params.id;
+    Joueur.findById(id, function(err, joueur) {
+            if (err)
+            {
+                res.send(err);
+            }
+            res.json(joueur);
+        });
 });
 
 /**
