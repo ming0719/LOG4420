@@ -80,6 +80,9 @@ router.put('/joueur/:id', function(req, res) {
     });
 });
 
+/**
+ * Ce service web supprime un joueur de la base.
+ */
 router.delete('/joueur/:id', function(req, res) {
     var id = req.params.id;
     Joueur.remove({_id: id}, function(err, joueur) {
