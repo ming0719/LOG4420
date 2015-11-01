@@ -109,6 +109,36 @@ router.get('/avancement/:idJoueur', function(req, res) {
     });
 });
 
+
+/**
+ * Ce service web modifie l'avancement en base de données
+ */
+router.put('/avancement/:idJoueur', function(req, res) {
+    var id = req.params.idJoueur;
+    Avancement.findOne({'idJoueur': id}, function(err, avancement) {
+        if (err)
+        {
+            res.send(err);
+        }
+        // Mise à jour des infos de l'avancement
+        if(typeof req.body.pageEnCours != 'undefined'){
+            avancement.pageEnCours = req.body.pageEnCours;
+        }
+        if(typeof req.body.combatEnCours != 'undefined'){
+            avancement.combatEnCours = req.body.combatEnCours;
+        }
+
+        // Sauvegarde de l'avancement
+        avancement.save(function(err) {
+            if (err)
+            {
+                res.send(err);
+            }
+            res.json({message: "Avancement mis à jour"});
+        });
+    });
+});
+
 /**
  * Ce service web envoie la représentation d'une page de jeu.
  */
