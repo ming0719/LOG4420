@@ -27,12 +27,12 @@ router.get('/joueur', function(req, res) {
 router.get('/joueur/:id', function(req, res) {
     var id = req.params.id;
     Joueur.findById(id, function(err, joueur) {
-            if (err)
-            {
-                res.send(err);
-            }
-            res.json(joueur);
-        });
+        if (err)
+        {
+            res.send(err);
+        }
+        res.json(joueur);
+    });
 });
 
 /**
@@ -77,7 +77,17 @@ router.put('/joueur/:id', function(req, res) {
             }
             res.json({message: "Joueur mis à jour"});
         });
+    });
+});
 
+router.delete('/joueur/:id', function(req, res) {
+    var id = req.params.id;
+    Joueur.remove({_id: id}, function(err, joueur) {
+        if (err)
+        {
+            res.send(err);
+        }
+        res.json({ message: 'Joueur supprimé' });
     });
 });
 
