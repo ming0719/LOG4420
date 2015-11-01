@@ -2,6 +2,7 @@ var express = require('express');
 var u = require("underscore");
 var constantes = require('../lib/constantes.js');
 var Joueur = require('../models/joueur');
+var Avancement = require('../models/avancement');
 var router = express.Router();
 
 // GET page de création du joueur.
@@ -51,7 +52,7 @@ router.post('/jeu/1', function(req, res) {
         });
         
         // Sauvegarde le joueur et vérifie s'il y a des erreurs
-        joueur.save(function(err) {
+        joueur.save(function(err, joueur) {
             if (err)
             {
                 console.log(err);
@@ -59,6 +60,17 @@ router.post('/jeu/1', function(req, res) {
             console.log("Joueur sauvegardé en base");
             // On ajoute le joueur dans la session
             req.session.joueur = joueur;
+            var avancement = new Avancement({
+                pageEnCours: 1,
+                idJoueur: joueur._id,
+            })
+            avancement.save(function(err) {
+                if (err)
+                {
+                    console.log(err);
+                }
+                console.log("Avancement sauvegardé en base");
+            })
             res.redirect('/jeu/1');
         });
     } else {

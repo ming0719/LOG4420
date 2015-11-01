@@ -13,6 +13,7 @@ var serviceweb = require('./routes/serviceweb');
 
 var mongoose = require('mongoose');
 var Joueur = require('./models/joueur');
+var Avancement = require('./models/avancement');
 
 var app = express();
 

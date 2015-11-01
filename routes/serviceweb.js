@@ -13,12 +13,12 @@ var router = express.Router();
  */
 router.get('/joueur', function(req, res) {
     Joueur.find(function(err, joueurs) {
-            if (err)
-            {
-                res.send(err);
-            }
-            res.json(joueurs);
-        });
+        if (err)
+        {
+            res.send(err);
+        }
+        res.json(joueurs);
+    });
 });
 
 /**
