@@ -109,7 +109,6 @@ router.get('/avancement/:idJoueur', function(req, res) {
     });
 });
 
-
 /**
  * Ce service web modifie l'avancement en base de données
  */
@@ -136,6 +135,20 @@ router.put('/avancement/:idJoueur', function(req, res) {
             }
             res.json({message: "Avancement mis à jour"});
         });
+    });
+});
+
+/**
+ * Ce service web supprime un avancement de la base.
+ */
+router.delete('/avancement/:idJoueur', function(req, res) {
+    var id = req.params.idJoueur;
+    Avancement.remove({idJoueur: id}, function(err, avancement) {
+        if (err)
+        {
+            res.send(err);
+        }
+        res.json({ message: 'Avancement supprimé' });
     });
 });
 
