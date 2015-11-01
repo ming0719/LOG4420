@@ -36,6 +36,52 @@ router.get('/joueur/:id', function(req, res) {
 });
 
 /**
+ * Ce service web modifie le joueur en base de données
+ */
+router.put('/joueur/:id', function(req, res) {
+    var id = req.params.id;
+    // Utilise le modèle de Joueur pour trouver le joueur que l'on veut
+    Joueur.findById(id, function(err, joueur) {
+        if (err)
+        {
+            res.send(err);
+        }
+        // Mise à jour des infos du joueur
+        if(typeof req.body.habilete != 'undefined'){
+            joueur.habilete = req.body.habilete;
+        }
+        if(typeof req.body.endurance != 'undefined'){
+            joueur.endurance = req.body.endurance;
+        }
+        if(typeof req.body.pieceOr != 'undefined'){
+            joueur.pieceOr = req.body.pieceOr;
+        }
+        if(typeof req.body.disciplines != 'undefined'){
+            joueur.disciplines = req.body.disciplines;
+        }
+        if(typeof req.body.armes != 'undefined'){
+            joueur.armes = req.body.armes;
+        }
+        if(typeof req.body.objets != 'undefined'){
+            joueur.objets = req.body.objets;
+        }
+        if(typeof req.body.objetsSpeciaux != 'undefined'){
+            joueur.objetsSpeciaux = req.body.objetsSpeciaux;
+        }
+
+        // Sauvegarde du joueur
+        joueur.save(function(err) {
+            if (err)
+            {
+                res.send(err);
+            }
+            res.json({message: "Joueur mis à jour"});
+        });
+
+    });
+});
+
+/**
  * Ce service web envoie la représentation d'une page de jeu.
  */
 router.get('/page/:pageId', function(req, res, next) {
