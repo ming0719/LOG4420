@@ -4,8 +4,8 @@ var Schema = mongoose.Schema;
 var u = require("underscore");
 
 var JoueurSchema   = new Schema({
-    habileteBase: Number,
-    enduranceBase: Number,
+    habilete: Number,
+    endurance: Number,
     pieceOr: Number,
     disciplines: Array,
     armes: Array,
