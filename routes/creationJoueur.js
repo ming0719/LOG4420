@@ -1,6 +1,7 @@
 var express = require('express');
 var u = require("underscore");
-var constantes = require('../lib/constantes.js')
+var constantes = require('../lib/constantes.js');
+var Joueur = require('../models/joueur');
 var router = express.Router();
 
 // GET page de création du joueur.
@@ -42,21 +43,29 @@ router.post('/jeu/1', function(req, res) {
     // S'il y au moins une erreur, on revient à la page de création avec la
     // liste d'erreurs. Sinon, on se dirige vers la 1ere page de l'histoire.
     if (u.isEmpty(erreursMsg)) {
-        var joueur = {
-            habileteBase: u.random(10, 19),
-            enduranceBase: u.random(20, 29),
+        var joueur = new Joueur({
+            habilete: u.random(10, 19),
+            endurance: u.random(20, 29),
             pieceOr: u.random(10, 19),
             disciplines: disciplines,
             armes: armes,
             objets: objets,
             objetsSpeciaux: objetsSpeciaux
-        };
-        joueur = ajouterHabilete(joueur);
-        joueur = ajouterEndurance(joueur);
-
-        // On ajoute le joueur dans la session
-        req.session.joueur = joueur;
-        res.redirect('/jeu/1');
+        });
+        joueur.ajouterHabilete();
+        joueur.ajouterEndurance();
+        
+        // Sauvegarde le joueur et vérifie s'il y a des erreurs
+        joueur.save(function(err) {
+            if (err)
+            {
+                console.log(err);
+            }
+            console.log("Joueur sauvegardé en base");
+            // On ajoute le joueur dans la session
+            req.session.joueur = joueur;
+            res.redirect('/jeu/1');
+        });
     } else {
         res.render('creationJoueur', {
             c: constantes,
@@ -66,39 +75,6 @@ router.post('/jeu/1', function(req, res) {
 });
 
 
-/**
- * On calcul les points d'habiletes du joueur en fonction de ses disciplines
- * et de ses objets.
- *
- * @param joueur Joueur du jeu
- * @return Joueur avec ses points d'habileté
- */
-function ajouterHabilete(joueur) {
-    var joueurCopie = u.clone(joueur);
-    if (u.contains(joueurCopie.disciplines, constantes.discipline.MAITRISE_ARMES) && !u.isEmpty(joueurCopie.armes)) {
-        joueurCopie.habilete = joueurCopie.habileteBase + 2;
-    } else {
-        joueurCopie.habilete = joueurCopie.habileteBase - 4;
-    }
-    return joueurCopie;
-}
-
-/**
- * On calcul les points d'endurance du joueur en fonction de ses disciplines
- * et de ses objets.
- *
- * @param joueur Joueur du jeu
- * @return Joueur avec ses points d'endurance
- */
-function ajouterEndurance(joueur) {
-    var joueurCopie = u.clone(joueur);
-    if (u.contains(joueur.objetsSpeciaux, constantes.objetSpecial.GILET_CUIR_MARTELE)) {
-        joueurCopie.endurance = joueurCopie.enduranceBase + 2;
-    } else {
-        joueurCopie.endurance = joueurCopie.enduranceBase;
-    }
-    return joueurCopie;
-}
 
 module.exports = router;
 

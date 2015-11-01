@@ -11,6 +11,9 @@ var creationJoueur = require('./routes/creationJoueur')
 var pageJeu = require('./routes/pageJeu')
 var serviceweb = require('./routes/serviceweb');
 
+var mongoose = require('mongoose');
+var Joueur = require('./models/joueur');
+
 var app = express();
 
 // view engine setup
@@ -66,4 +69,15 @@ app.use(function(err, req, res, next) {
 });
 
 
+
+// Connection URL
+var url = 'mongodb://user:log4420@ds045734.mongolab.com:45734/log4420';
+// Use connect method to connect to the Server
+var db = mongoose.connect(url, function(err, db) {
+  console.log("Connected correctly to server");
+  //db.close();
+});
+
+
 module.exports = app;
+
