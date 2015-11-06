@@ -86,18 +86,19 @@ router.put('/joueur/:id', function(req, res) {
  */
 router.delete('/joueur/:id', function(req, res) {
     var id = req.params.id;
-    Avancement.remove({idJoueur: id}, function(err, avancement) {
-        if (err)
-        {
-            res.send(err);
-        }
-    });
     Joueur.remove({_id: id}, function(err, joueur) {
         if (err)
         {
             res.send(err);
         }
-        res.json({ message: 'Joueur supprimé' });
+        Avancement.remove({idJoueur: id}, function(err, avancement) {
+            if (err)
+            {
+                res.send(err);
+            }
+            req.session.clear();
+            res.json({ message: 'Joueur supprimé' });
+        });
     });
 });
 
@@ -154,7 +155,14 @@ router.delete('/avancement/:idJoueur', function(req, res) {
         {
             res.send(err);
         }
-        res.json({ message: 'Avancement supprimé' });
+        Joueur.remove({_id: id}, function(err, joueur) {
+            if (err)
+            {
+                res.send(err);
+            }
+            req.session.clear();
+            res.json({ message: 'Avancement supprimé' });
+        });
     });
 });
 
