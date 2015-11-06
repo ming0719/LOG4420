@@ -86,6 +86,12 @@ router.put('/joueur/:id', function(req, res) {
  */
 router.delete('/joueur/:id', function(req, res) {
     var id = req.params.id;
+    Avancement.remove({idJoueur: id}, function(err, avancement) {
+        if (err)
+        {
+            res.send(err);
+        }
+    });
     Joueur.remove({_id: id}, function(err, joueur) {
         if (err)
         {
@@ -292,4 +298,3 @@ function lrcmm(enduranceMonstre) {
 }
 
 module.exports = router;
-
