@@ -5,6 +5,7 @@ var fs = require('fs');
 var constantes = require('../lib/constantes.js');
 var pagesJeu = require('../lib/pagesJeu.js');
 var Joueur = require('../models/joueur');
+var AvancementJoueur = require('../models/avancement');
 
 var router = express.Router();
 
@@ -32,6 +33,20 @@ router.get('/joueur/:id', function(req, res) {
             res.send(err);
         }
         res.json(joueur);
+    });
+});
+
+/**
+ * Ce service web qui récupère en base l'avancement du joueur selon son id.
+ */
+router.get('/avancement/:id', function(req, res) {
+    var id = req.params.id;
+    AvancementJoueur.find({idJoueur: id}, function(err, avancement) {
+        if (err)
+        {
+            res.send(err);
+        }
+        res.json(avancement);
     });
 });
 
@@ -81,16 +96,68 @@ router.put('/joueur/:id', function(req, res) {
 });
 
 /**
+ * Ce service web modifie l'avancement du joueur en base de données
+ */
+router.put('/avancement/:id/:page', function(req, res) {
+    var id = req.params.id;
+    var page = req.params.page;
+
+    // Utilise le modèle de Joueur pour trouver le joueur que l'on veut
+    AvancementJoueur.find({idJoueur: id}, function(err, avancement) {
+        if (err)
+        {
+            res.send(err);
+        }
+
+        avancement.pageCourante = page;
+
+        // Sauvegarde du joueur
+        avancement.save(function(err) {
+            if (err)
+            {
+                res.send(err);
+            }
+            res.json({message: "Avancement mis à jour"});
+        });
+    });
+});
+
+/**
  * Ce service web supprime un joueur de la base.
  */
 router.delete('/joueur/:id', function(req, res) {
     var id = req.params.id;
+    //Suppression de l'avancement du joueur
+    AvancementJoueur.remove({idJoueur: id}, function(err, avancement) {
+        if (err)
+        {
+            res.send(err);
+        }
+        res.json({ message: 'Avancement supprimé' });
+    });
+
+    //Suppression du joueur
     Joueur.remove({_id: id}, function(err, joueur) {
         if (err)
         {
             res.send(err);
         }
         res.json({ message: 'Joueur supprimé' });
+    });
+});
+
+/**
+ * Ce service web supprime l'avancement d'un joueur de la base.
+ */
+router.delete('/avancement/:id', function(req, res) {
+    var id = req.params.id;
+    //Suppression de l'avancement du joueur
+    AvancementJoueur.remove({idJoueur: id}, function(err, avancement) {
+        if (err)
+        {
+            res.send(err);
+        }
+        res.json({ message: 'Avancement supprimé' });
     });
 });
 

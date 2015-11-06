@@ -2,6 +2,7 @@ var express = require('express');
 var u = require("underscore");
 var constantes = require('../lib/constantes.js');
 var Joueur = require('../models/joueur');
+var AvancementJoueur = require('../models/avancement');
 var router = express.Router();
 
 // GET page de création du joueur.
@@ -50,17 +51,36 @@ router.post('/jeu/1', function(req, res) {
             objetsSpeciaux: objetsSpeciaux
         });
         
+        var _idJoueur;
         // Sauvegarde le joueur et vérifie s'il y a des erreurs
-        joueur.save(function(err) {
+        joueur.save(function(err, objJoueur) {
             if (err)
             {
                 console.log(err);
             }
             console.log("Joueur sauvegardé en base");
+
+            var avancement = new AvancementJoueur ({
+                idJoueur: objJoueur._id,
+                pageCourante: 1,
+                combatCourant: []
+            });
+
+            // Sauvegarde l'avancement du joueur et vérifie s'il y a des erreurs
+            avancement.save(function(err) {
+                if (err)
+                {
+                    console.log(err);
+                }
+                console.log("Avancement du joueur sauvegardé en base");
+            });
+
+            //Redirection vers la premiere page de jeu
+            res.redirect('/jeu/1');
             // On ajoute le joueur dans la session
             req.session.joueur = joueur;
-            res.redirect('/jeu/1');
         });
+
     } else {
         res.render('creationJoueur', {
             c: constantes,
