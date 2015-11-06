@@ -39,8 +39,8 @@ router.get('/joueur/:id', function(req, res) {
 /**
  * Ce service web qui récupère en base l'avancement du joueur selon son id.
  */
-router.get('/avancement/:id', function(req, res) {
-    var id = req.params.id;
+router.get('/avancement/:idJoueur', function(req, res) {
+    var id = req.params.idJoueur;
     AvancementJoueur.find({idJoueur: id}, function(err, avancement) {
         if (err)
         {
@@ -98,9 +98,8 @@ router.put('/joueur/:id', function(req, res) {
 /**
  * Ce service web modifie l'avancement du joueur en base de données
  */
-router.put('/avancement/:id/:page', function(req, res) {
-    var id = req.params.id;
-    var page = req.params.page;
+router.put('/avancement/:idJoueur', function(req, res) {
+    var id = req.params.idJoueur;
 
     // Utilise le modèle de Joueur pour trouver le joueur que l'on veut
     AvancementJoueur.find({idJoueur: id}, function(err, avancement) {
@@ -109,7 +108,13 @@ router.put('/avancement/:id/:page', function(req, res) {
             res.send(err);
         }
 
-        avancement.pageCourante = page;
+        // Mise à jour des infos de l'avancement
+        if(typeof req.body.pageCourante != 'undefined'){
+            avancement.pageCourante = req.body.pageEnCours;
+        }
+        if(typeof req.body.combatEnCours != 'undefined'){
+            avancement.combatEnCours = req.body.combatEnCours;
+        }
 
         // Sauvegarde du joueur
         avancement.save(function(err) {
@@ -149,8 +154,8 @@ router.delete('/joueur/:id', function(req, res) {
 /**
  * Ce service web supprime l'avancement d'un joueur de la base.
  */
-router.delete('/avancement/:id', function(req, res) {
-    var id = req.params.id;
+router.delete('/avancement/:idJoueur', function(req, res) {
+    var id = req.params.idJoueur;
     //Suppression de l'avancement du joueur
     AvancementJoueur.remove({idJoueur: id}, function(err, avancement) {
         if (err)
