@@ -2,7 +2,7 @@ var express = require('express');
 var u = require("underscore");
 var constantes = require('../lib/constantes.js');
 var Joueur = require('../models/joueur');
-var AvancementJoueur = require('../models/avancement');
+var Avancement = require('../models/avancement');
 var router = express.Router();
 
 // GET page de création du joueur.
@@ -60,10 +60,10 @@ router.post('/jeu/1', function(req, res) {
             }
             console.log("Joueur sauvegardé en base");
 
-            var avancement = new AvancementJoueur ({
+            var avancement = new Avancement ({
                 idJoueur: objJoueur._id,
                 pageCourante: 1,
-                combatCourant: []
+                combatEnCours: []
             });
 
             // Sauvegarde l'avancement du joueur et vérifie s'il y a des erreurs

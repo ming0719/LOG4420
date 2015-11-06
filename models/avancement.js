@@ -4,7 +4,7 @@ var Schema = mongoose.Schema;
 var AvancementSchema = new Schema ({
 	idJoueur: String,
 	pageCourante: Number,
-	combatCourant: Object
+	combatEnCours: Array
 });
 
 module.exports = mongoose.model('Avancement', AvancementSchema);

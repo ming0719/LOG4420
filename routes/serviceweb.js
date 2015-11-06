@@ -5,7 +5,7 @@ var fs = require('fs');
 var constantes = require('../lib/constantes.js');
 var pagesJeu = require('../lib/pagesJeu.js');
 var Joueur = require('../models/joueur');
-var AvancementJoueur = require('../models/avancement');
+var Avancement = require('../models/avancement');
 
 var router = express.Router();
 
@@ -41,7 +41,7 @@ router.get('/joueur/:id', function(req, res) {
  */
 router.get('/avancement/:idJoueur', function(req, res) {
     var id = req.params.idJoueur;
-    AvancementJoueur.find({idJoueur: id}, function(err, avancement) {
+    Avancement.find({idJoueur: id}, function(err, avancement) {
         if (err)
         {
             res.send(err);
@@ -101,8 +101,8 @@ router.put('/joueur/:id', function(req, res) {
 router.put('/avancement/:idJoueur', function(req, res) {
     var id = req.params.idJoueur;
 
-    // Utilise le modèle de Joueur pour trouver le joueur que l'on veut
-    AvancementJoueur.find({idJoueur: id}, function(err, avancement) {
+    // Utilise le modèle de Avancement pour trouver l'avancement que l'on veut
+    Avancement.find({'idJoueur': id}, function(err, avancement) {
         if (err)
         {
             res.send(err);
@@ -110,7 +110,7 @@ router.put('/avancement/:idJoueur', function(req, res) {
 
         // Mise à jour des infos de l'avancement
         if(typeof req.body.pageCourante != 'undefined'){
-            avancement.pageCourante = req.body.pageEnCours;
+            avancement.pageCourante = req.body.pageCourante;
         }
         if(typeof req.body.combatEnCours != 'undefined'){
             avancement.combatEnCours = req.body.combatEnCours;
@@ -133,7 +133,7 @@ router.put('/avancement/:idJoueur', function(req, res) {
 router.delete('/joueur/:id', function(req, res) {
     var id = req.params.id;
     //Suppression de l'avancement du joueur
-    AvancementJoueur.remove({idJoueur: id}, function(err, avancement) {
+    Avancement.remove({idJoueur: id}, function(err, avancement) {
         if (err)
         {
             res.send(err);
@@ -157,7 +157,7 @@ router.delete('/joueur/:id', function(req, res) {
 router.delete('/avancement/:idJoueur', function(req, res) {
     var id = req.params.idJoueur;
     //Suppression de l'avancement du joueur
-    AvancementJoueur.remove({idJoueur: id}, function(err, avancement) {
+    Avancement.remove({idJoueur: id}, function(err, avancement) {
         if (err)
         {
             res.send(err);
