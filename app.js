@@ -72,12 +72,36 @@ app.use(function(err, req, res, next) {
 
 
 // Connection URL
-var url = 'mongodb://user:log4420@ds045734.mongolab.com:45734/log4420';
+var dbURI = 'mongodb://user:log4420@ds045734.mongolab.com:45734/log4420';
 // Use connect method to connect to the Server
-var db = mongoose.connect(url, function(err, db) {
+mongoose.connect(dbURI, function(err, dbURI) {
   console.log("Connected correctly to server");
-  //db.close();
 });
+
+// Successfully connected
+mongoose.connection.on('connected', function () {  
+  console.log('Mongoose default connection open to ' + dbURI);
+}); 
+
+// Connection throws an error
+mongoose.connection.on('error',function (err) {  
+  console.log('Mongoose default connection error: ' + err);
+}); 
+
+// Connection is disconnected
+mongoose.connection.on('disconnected', function () {  
+  console.log('Mongoose default connection disconnected'); 
+});
+
+function disconnect() {  
+  mongoose.connection.close(function () { 
+    console.log('Mongoose default connection disconnected through app termination'); 
+    process.exit(0); 
+  });
+}
+
+// If the Node process ends, close the Mongoose connection 
+process.on('SIGINT', disconnect).on('SIGTERM', disconnect);
 
 
 module.exports = app;
