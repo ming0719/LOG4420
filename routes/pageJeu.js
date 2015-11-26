@@ -6,6 +6,10 @@ var u = require('underscore');
 var pagesJeu = require('../lib/pagesJeu.js')
 var router = express.Router();
 
+router.get('/jeu', function(req, res) {
+    var joueur = req.session.joueur;
+});
+
 /**
  * On envoie le HTML de la page complète désirée au client.
  * Le HTML des sous-sections de la page demandée sont combinées.

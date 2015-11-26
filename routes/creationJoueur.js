@@ -1,9 +1,11 @@
 var express = require('express');
+var rest = require('restler');
 var u = require("underscore");
-var constantes = require('../lib/constantes.js');
+var constantes = require('../lib/constantes.js')
+var router = express.Router();
+
 var Joueur = require('../models/joueur');
 var Avancement = require('../models/avancement');
-var router = express.Router();
 
 // GET page de création du joueur.
 router.get('/creationJoueur', function(req, res, next) {
@@ -44,34 +46,29 @@ router.post('/jeu/1', function(req, res) {
     // S'il y au moins une erreur, on revient à la page de création avec la
     // liste d'erreurs. Sinon, on se dirige vers la 1ere page de l'histoire.
     if (u.isEmpty(erreursMsg)) {
-        var joueur = Joueur.creerJoueur({
-            disciplines: disciplines,
-            armes: armes,
-            objets: objets,
-            objetsSpeciaux: objetsSpeciaux
-        });
-        
-        // Sauvegarde le joueur et vérifie s'il y a des erreurs
+        var joueur = new Joueur;
+        joueur.habileteBase = u.random(10, 19);
+        joueur.enduranceBase = u.random(20, 29);
+        joueur.pieceOr = u.random(10, 19);
+        joueur.disciplines = disciplines;
+        joueur.armes = armes;
+        joueur.objets = objets;
+        joueur.objetsSpeciaux = objetsSpeciaux;
+        joueur.habiletePlus = habiletePlus(joueur);
+        joueur.endurancePlus = endurancePlus(joueur);
+
+        // On ajoute le joueur dans la session
         joueur.save(function(err, joueur) {
-            if (err)
-            {
-                console.log(err);
+            if (err) {
+                res.send(err);
+            } else {
+                rest.post('http://localhost:3000/api/joueurs/avancement/' + joueur.id)
+                .on('complete', function(data, response) {
+                    console.log(response);
+                });
+                req.session.joueur = joueur;
+                res.redirect('/jeu/1');
             }
-            console.log("Joueur sauvegardé en base");
-            // On ajoute le joueur dans la session
-            req.session.joueur = joueur;
-            var avancement = new Avancement({
-                pageEnCours: 1,
-                idJoueur: joueur._id,
-            })
-            avancement.save(function(err) {
-                if (err)
-                {
-                    console.log(err);
-                }
-                console.log("Avancement sauvegardé en base");
-            })
-            res.redirect('/jeu/1');
         });
     } else {
         res.render('creationJoueur', {
@@ -82,6 +79,37 @@ router.post('/jeu/1', function(req, res) {
 });
 
 
+/**
+ * On calcul les points d'habiletes du joueur en fonction de ses disciplines
+ * et de ses objets.
+ *
+ * @param joueur Joueur du jeu
+ * @return Habilete calculer en fonction du joueur
+ */
+function habiletePlus(joueur) {
+    var habilete = joueur.habileteBase;
+    if (u.contains(joueur.disciplines, constantes.discipline.MAITRISE_ARMES) && !u.isEmpty(joueur.armes)) {
+        habilete = joueur.habileteBase + 2;
+    } else {
+        habilete = joueur.habileteBase - 4;
+    }
+    return habilete;
+}
+
+/**
+ * On calcul les points d'endurance du joueur en fonction de ses disciplines
+ * et de ses objets.
+ *
+ * @param joueur Joueur du jeu
+ * @return Endurance calculée en fonction du joueur
+ */
+function endurancePlus(joueur) {
+    var endurance = joueur.enduranceBase;
+    if (u.contains(joueur.objetsSpeciaux, constantes.objetSpecial.GILET_CUIR_MARTELE)) {
+        endurance = joueur.enduranceBase + 2;
+    }
+    return endurance;
+}
 
 module.exports = router;
 

@@ -1,4 +1,4 @@
-var express = require('express') ;
+var express = require('express');
 var session = require('express-session');
 var path = require('path');
 var favicon = require('serve-favicon');
@@ -6,14 +6,19 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 
+// Configuration de la base de données MongoDB.
+var mongoose = require('mongoose');
+var utilisateur = 'user:log4420@ds045734.mongolab.com';
+var mdp = '45734';
+var adresse = '/log4420';
+mongoose.connect('mongodb://' + utilisateur + ':' + mdp + adresse);
+
 var routes = require('./routes/index');
 var creationJoueur = require('./routes/creationJoueur')
-var pageJeu = require('./routes/pageJeu')
-var serviceweb = require('./routes/serviceweb');
-
-var mongoose = require('mongoose');
-var Joueur = require('./models/joueur');
-var Avancement = require('./models/avancement');
+var pageJeu = require('./routes/pageJeu');
+var pages = require('./routes/api/pages');
+var joueurs = require('./routes/api/joueurs');
+var combat = require('./routes/api/combat');
 
 var app = express();
 
@@ -22,13 +27,13 @@ app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
 
 // uncomment after placing your favicon in /public
-//app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
+app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 // session setup
-app.use(session({ secret: "secreetttt", resave: true, saveUninitialized: true/*, cookie: { secure: true }*/ }));
+app.use(session({ secret: "secreetttt", resave: true, saveUninitialized: true }));
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', routes);
@@ -36,7 +41,9 @@ app.use('/', creationJoueur);
 app.use('/', pageJeu);
 
 app.use('/api/*', bodyParser.json({ type: 'application/json' }));
-app.use('/api', serviceweb);
+app.use('/api/pages', pages);
+app.use('/api/joueurs', joueurs);
+app.use('/api/combat', combat);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -70,39 +77,4 @@ app.use(function(err, req, res, next) {
 });
 
 
-
-// Connection URL
-var dbURI = 'mongodb://user:log4420@ds045734.mongolab.com:45734/log4420';
-// Use connect method to connect to the Server
-mongoose.connect(dbURI, function(err, dbURI) {
-  console.log("Connected correctly to server");
-});
-
-// Successfully connected
-mongoose.connection.on('connected', function () {  
-  console.log('Mongoose default connection open to ' + dbURI);
-}); 
-
-// Connection throws an error
-mongoose.connection.on('error',function (err) {  
-  console.log('Mongoose default connection error: ' + err);
-}); 
-
-// Connection is disconnected
-mongoose.connection.on('disconnected', function () {  
-  console.log('Mongoose default connection disconnected'); 
-});
-
-function disconnect() {  
-  mongoose.connection.close(function () { 
-    console.log('Mongoose default connection disconnected through app termination'); 
-    process.exit(0); 
-  });
-}
-
-// If the Node process ends, close the Mongoose connection 
-process.on('SIGINT', disconnect).on('SIGTERM', disconnect);
-
-
 module.exports = app;
-
