@@ -14,77 +14,81 @@ block content
                 each e in erreursMsg
                     li=e
 
-        form(action="/jeu/1" method="post")
+        form(action="/jeu/1" method="post" ng-controller="validationFormulaire")
             fieldset
                 legend Disciplines
                 p Choisir 5 disciplines:
                 div#gauche
                     label
-                        input(type="checkbox" name="discipline" value=c.discipline.CAMOUFLAGE checked)
+                        input(type="checkbox" name="discipline" value=c.discipline.CAMOUFLAGE ng-model="formData.disciplines['CAMOUFLAGE']")
                         | Le camouflage
                     label
-                        input(type="checkbox" name="discipline" value=c.discipline.CHASSE checked)
+                        input(type="checkbox" name="discipline" value=c.discipline.CHASSE ng-model="formData.disciplines['CHASSE']")
                         | La chasse
                     label
-                        input(type="checkbox" name="discipline" value=c.discipline.SIXIEME_SENS checked)
+                        input(type="checkbox" name="discipline" value=c.discipline.SIXIEME_SENS ng-model="formData.disciplines['SIXIEME_SENS']")
                         | Sixième Sens
                     label
-                        input(type="checkbox" name="discipline" value=c.discipline.ORIENTATION checked)
+                        input(type="checkbox" name="discipline" value=c.discipline.ORIENTATION ng-model="formData.disciplines['ORIENTATION']")
                         | L'Orientation
                     label
-                        input(type="checkbox" name="discipline" value=c.discipline.GUERISON checked)
+                        input(type="checkbox" name="discipline" value=c.discipline.GUERISON ng-model="formData.disciplines['GUERISON']")
                         | La guérison
                 div#droite
                     label
-                        input(type="checkbox" name="discipline" value=c.discipline.MAITRISE_ARMES)
+                        input(type="checkbox" name="discipline" value=c.discipline.MAITRISE_ARMES ng-model="formData.disciplines['MAITRISE_ARMES']")
                         | La Maîtrise des Armes
                     label
-                        input(type="checkbox" name="discipline" value=c.discipline.BOUCLIER_PSYCHIQUE)
+                        input(type="checkbox" name="discipline" value=c.discipline.BOUCLIER_PSYCHIQUE ng-model="formData.disciplines['BOUCLIER_PSYCHIQUE']")
                         | Bouclier Psychique
                     label
-                        input(type="checkbox" name="discipline" value=c.discipline.PUISSANCE_PSYCHIQUE)
+                        input(type="checkbox" name="discipline" value=c.discipline.PUISSANCE_PSYCHIQUE ng-model="formData.disciplines['PUISSANCE_PSYCHIQUE']")
                         | Puissance Psychique
                     label
-                        input(type="checkbox" name="discipline" value=c.discipline.COMMUNICATION_ANIMALE)
+                        input(type="checkbox" name="discipline" value=c.discipline.COMMUNICATION_ANIMALE ng-model="formData.disciplines['COMMUNICATION_ANIMALE']")
                         | Communication Animale
                     label
-                        input(type="checkbox" name="discipline" value=c.discipline.MAITRISE_PSYCHIQUE_MATIERE)
+                        input(type="checkbox" name="discipline" value=c.discipline.MAITRISE_PSYCHIQUE_MATIERE ng-model="formData.disciplines['MAITRISE_PSYCHIQUE_MATIERE']")
                         | Maîtrise Psychique de la Matière
             fieldset
                 legend Équipement
                 p Choisir 2 items:
                 div
                     label
-                        input(type="checkbox" name="arme" value=c.arme.EPEE)
+                        input(type="checkbox" name="arme" value=c.arme.EPEE ng-model="formData.armes['EPEE']")
                         | Épée (Arme)
                     label
-                        input(type="checkbox" name="arme" value=c.arme.SABRE)
+                        input(type="checkbox" name="arme" value=c.arme.SABRE ng-model="formData.armes['SABRE']")
                         | Sabre (Arme)
                     label
-                        input(type="checkbox" name="arme" value=c.arme.LANCE)
+                        input(type="checkbox" name="arme" value=c.arme.LANCE ng-model="formData.armes['LANCE']")
                         | Lance (Arme)
                     label
-                        input(type="checkbox" name="arme" value=c.arme.MASSE_ARME)
+                        input(type="checkbox" name="arme" value=c.arme.MASSE_ARME ng-model="formData.armes['MASSE_ARME']")
                         | Masse d'Arme (Arme)
                     label
-                        input(type="checkbox" name="arme" value=c.arme.MARTEAU_GUERRE)
+                        input(type="checkbox" name="arme" value=c.arme.MARTEAU_GUERRE ng-model="formData.armes['MARTEAU_GUERRE']")
                         | Marteau de Guerre (Arme)
                     label
-                        input(type="checkbox" name="arme" value=c.arme.HACHE)
+                        input(type="checkbox" name="arme" value=c.arme.HACHE ng-model="formData.armes['HACHE']")
                         | Hâche (Arme)
                     label
-                        input(type="checkbox" name="arme" value=c.arme.BATON)
+                        input(type="checkbox" name="arme" value=c.arme.BATON ng-model="formData.armes['BATON']")
                         | Bâton (Arme)
                     label
-                        input(type="checkbox" name="arme" value=c.arme.GLAIVE)
+                        input(type="checkbox" name="arme" value=c.arme.GLAIVE ng-model="formData.armes['GLAIVE']")
                         | Glaive (Arme)
                     label
-                        input(type="checkbox" name="objetSpecial" value=c.objetSpecial.GILET_CUIR_MARTELE checked)
+                        input(type="checkbox" name="objetSpecial" value=c.objetSpecial.GILET_CUIR_MARTELE ng-model="formData.objetsSpeciaux['GILET_CUIR_MARTELE']")
                         | Gilet de Cuir Martelé (Objet Spécial)
                     label
-                        input(type="checkbox" name="objet" value=c.objet.POTION_LAMPSUR checked)
+                        input(type="checkbox" name="objet" value=c.objet.POTION_LAMPSUR ng-model="formData.objets['POTION_LAMPSUR']")
                         | Potion de Lampsur (Objet dans le sac à dos)
                     label
-                        input(type="checkbox" name="objet" value=c.objet.RATIONS_SPECIALES)
+                        input(type="checkbox" name="objet" value=c.objet.RATIONS_SPECIALES ng-model="formData.objets['RATIONS_SPECIALES']")
                         | Rations spéciales (Objet dans le sac à dos)
-            input.button(type="submit" value="Commencer la partie!")
+            
+            // span(ng-disabled="showErrorDisciplines()") Vous devez choisir EXACTEMENT 5 disciplines Kai.
+            // span(ng-disabled="showErrorEquipement()") Vous devez choisir EXACTEMENT 2 objets.
+            
+            input.button(type="submit" value="Commencer la partie!" ng-disabled="bloquerFormulaire()")

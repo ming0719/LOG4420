@@ -1,37 +1,232 @@
 0 info it worked if it ends with ok
-1 verbose cli [ '/usr/local/bin/node', '/usr/local/bin/npm', 'start' ]
-2 info using npm@2.14.2
-3 info using node@v4.0.0
-4 verbose run-script [ 'prestart', 'start', 'poststart' ]
-5 info prestart tp1@0.0.0
-6 info start tp1@0.0.0
-7 verbose unsafe-perm in lifecycle true
-8 info tp1@0.0.0 Failed to exec start script
-9 verbose stack Error: tp1@0.0.0 start: `node ./bin/www`
-9 verbose stack Exit status 1
-9 verbose stack     at EventEmitter.<anonymous> (/usr/local/lib/node_modules/npm/lib/utils/lifecycle.js:214:16)
-9 verbose stack     at emitTwo (events.js:87:13)
-9 verbose stack     at EventEmitter.emit (events.js:172:7)
-9 verbose stack     at ChildProcess.<anonymous> (/usr/local/lib/node_modules/npm/lib/utils/spawn.js:24:14)
-9 verbose stack     at emitTwo (events.js:87:13)
-9 verbose stack     at ChildProcess.emit (events.js:172:7)
-9 verbose stack     at maybeClose (internal/child_process.js:817:16)
-9 verbose stack     at Process.ChildProcess._handle.onexit (internal/child_process.js:211:5)
-10 verbose pkgid tp1@0.0.0
-11 verbose cwd /Users/Sonia/Documents/Poly/LOG4420 - Conception de sites web/TP5/solution_tp4
-12 error Darwin 14.5.0
-13 error argv "/usr/local/bin/node" "/usr/local/bin/npm" "start"
-14 error node v4.0.0
-15 error npm  v2.14.2
-16 error code ELIFECYCLE
-17 error tp1@0.0.0 start: `node ./bin/www`
-17 error Exit status 1
-18 error Failed at the tp1@0.0.0 start script 'node ./bin/www'.
-18 error This is most likely a problem with the tp1 package,
-18 error not with npm itself.
-18 error Tell the author that this fails on your system:
-18 error     node ./bin/www
-18 error You can get their info via:
-18 error     npm owner ls tp1
-18 error There is likely additional logging output above.
-19 verbose exit [ 1, true ]
+1 verbose cli [ '/home/ubuntu/.nvm/v0.10.35/bin/node',
+1 verbose cli   '/home/ubuntu/.nvm/v0.10.35/bin/npm',
+1 verbose cli   'install',
+1 verbose cli   'angular',
+1 verbose cli   '1.4.7' ]
+2 info using npm@1.4.28
+3 info using node@v0.10.35
+4 verbose readDependencies using package.json deps
+5 verbose cache add [ 'angular', null ]
+6 verbose cache add name=undefined spec="angular" args=["angular",null]
+7 verbose parsed url { protocol: null,
+7 verbose parsed url   slashes: null,
+7 verbose parsed url   auth: null,
+7 verbose parsed url   host: null,
+7 verbose parsed url   port: null,
+7 verbose parsed url   hostname: null,
+7 verbose parsed url   hash: null,
+7 verbose parsed url   search: null,
+7 verbose parsed url   query: null,
+7 verbose parsed url   pathname: 'angular',
+7 verbose parsed url   path: 'angular',
+7 verbose parsed url   href: 'angular' }
+8 verbose cache add [ '1.4.7', null ]
+9 verbose cache add name=undefined spec="1.4.7" args=["1.4.7",null]
+10 verbose parsed url { protocol: null,
+10 verbose parsed url   slashes: null,
+10 verbose parsed url   auth: null,
+10 verbose parsed url   host: null,
+10 verbose parsed url   port: null,
+10 verbose parsed url   hostname: null,
+10 verbose parsed url   hash: null,
+10 verbose parsed url   search: null,
+10 verbose parsed url   query: null,
+10 verbose parsed url   pathname: '1.4.7',
+10 verbose parsed url   path: '1.4.7',
+10 verbose parsed url   href: '1.4.7' }
+11 silly lockFile 54e0c177-angular angular
+12 verbose lock angular /home/ubuntu/.npm/54e0c177-angular.lock
+13 silly lockFile c3000a6d-1-4-7 1.4.7
+14 verbose lock 1.4.7 /home/ubuntu/.npm/c3000a6d-1-4-7.lock
+15 silly lockFile 54e0c177-angular angular
+16 silly lockFile 54e0c177-angular angular
+17 silly lockFile c3000a6d-1-4-7 1.4.7
+18 silly lockFile c3000a6d-1-4-7 1.4.7
+19 verbose addNamed [ 'angular', '' ]
+20 verbose addNamed [ null, '*' ]
+21 silly lockFile fdbbf89d-angular angular@
+22 verbose lock angular@ /home/ubuntu/.npm/fdbbf89d-angular.lock
+23 verbose addNamed [ '1.4.7', '' ]
+24 verbose addNamed [ null, '*' ]
+25 silly lockFile 005d64b9-1-4-7 1.4.7@
+26 verbose lock 1.4.7@ /home/ubuntu/.npm/005d64b9-1-4-7.lock
+27 silly addNameRange { name: 'angular', range: '*', hasData: false }
+28 silly addNameRange { name: '1.4.7', range: '*', hasData: false }
+29 verbose request where is /angular
+30 verbose request registry https://registry.npmjs.org/
+31 verbose request id 12de047064328107
+32 verbose url raw /angular
+33 verbose url resolving [ 'https://registry.npmjs.org/', './angular' ]
+34 verbose url resolved https://registry.npmjs.org/angular
+35 verbose request where is https://registry.npmjs.org/angular
+36 info trying registry request attempt 1 at 17:05:40
+37 http GET https://registry.npmjs.org/angular
+38 verbose request where is /1.4.7
+39 verbose request registry https://registry.npmjs.org/
+40 verbose url raw /1.4.7
+41 verbose url resolving [ 'https://registry.npmjs.org/', './1.4.7' ]
+42 verbose url resolved https://registry.npmjs.org/1.4.7
+43 verbose request where is https://registry.npmjs.org/1.4.7
+44 info trying registry request attempt 1 at 17:05:40
+45 http GET https://registry.npmjs.org/1.4.7
+46 http 404 https://registry.npmjs.org/1.4.7
+47 silly registry.get cb [ 404,
+47 silly registry.get   { 'content-type': 'application/json',
+47 silly registry.get     'cache-control': 'max-age=0',
+47 silly registry.get     'content-length': '2',
+47 silly registry.get     'accept-ranges': 'bytes',
+47 silly registry.get     date: 'Thu, 26 Nov 2015 17:05:40 GMT',
+47 silly registry.get     via: '1.1 varnish',
+47 silly registry.get     age: '0',
+47 silly registry.get     connection: 'keep-alive',
+47 silly registry.get     'x-served-by': 'cache-ord1723-ORD',
+47 silly registry.get     'x-cache': 'MISS',
+47 silly registry.get     'x-cache-hits': '0',
+47 silly registry.get     'x-timer': 'S1448557540.178876,VS0,VE74' } ]
+48 silly lockFile 005d64b9-1-4-7 1.4.7@
+49 silly lockFile 005d64b9-1-4-7 1.4.7@
+50 http 200 https://registry.npmjs.org/angular
+51 silly registry.get cb [ 200,
+51 silly registry.get   { server: 'CouchDB/1.5.0 (Erlang OTP/R16B03)',
+51 silly registry.get     etag: '"2PIB5ZM7XR0C5ID5G8J3LP583"',
+51 silly registry.get     'content-type': 'application/json',
+51 silly registry.get     'cache-control': 'max-age=60',
+51 silly registry.get     'content-length': '111096',
+51 silly registry.get     'accept-ranges': 'bytes',
+51 silly registry.get     date: 'Thu, 26 Nov 2015 17:05:40 GMT',
+51 silly registry.get     via: '1.1 varnish',
+51 silly registry.get     age: '0',
+51 silly registry.get     connection: 'keep-alive',
+51 silly registry.get     'x-served-by': 'cache-ord1731-ORD',
+51 silly registry.get     'x-cache': 'HIT',
+51 silly registry.get     'x-cache-hits': '1',
+51 silly registry.get     'x-timer': 'S1448557540.169924,VS0,VE76',
+51 silly registry.get     vary: 'Accept' } ]
+52 silly addNameRange number 2 { name: 'angular', range: '*', hasData: true }
+53 silly addNameRange versions [ 'angular',
+53 silly addNameRange   [ '0.0.1',
+53 silly addNameRange     '0.0.1-1',
+53 silly addNameRange     '0.0.1-2',
+53 silly addNameRange     '0.0.2',
+53 silly addNameRange     '0.0.3',
+53 silly addNameRange     '0.0.4',
+53 silly addNameRange     '1.0.0',
+53 silly addNameRange     '1.0.1',
+53 silly addNameRange     '1.0.2',
+53 silly addNameRange     '1.0.3',
+53 silly addNameRange     '1.0.4',
+53 silly addNameRange     '1.0.5',
+53 silly addNameRange     '1.0.6',
+53 silly addNameRange     '1.0.7',
+53 silly addNameRange     '1.0.8',
+53 silly addNameRange     '1.1.0',
+53 silly addNameRange     '1.1.1',
+53 silly addNameRange     '1.1.2',
+53 silly addNameRange     '1.1.3',
+53 silly addNameRange     '1.1.4',
+53 silly addNameRange     '1.1.5',
+53 silly addNameRange     '1.2.0',
+53 silly addNameRange     '1.2.1',
+53 silly addNameRange     '1.2.2',
+53 silly addNameRange     '1.2.3',
+53 silly addNameRange     '1.2.4',
+53 silly addNameRange     '1.2.5',
+53 silly addNameRange     '1.2.6',
+53 silly addNameRange     '1.2.7',
+53 silly addNameRange     '1.2.8',
+53 silly addNameRange     '1.2.9',
+53 silly addNameRange     '1.2.10',
+53 silly addNameRange     '1.2.11',
+53 silly addNameRange     '1.2.12',
+53 silly addNameRange     '1.2.13',
+53 silly addNameRange     '1.2.14',
+53 silly addNameRange     '1.2.15',
+53 silly addNameRange     '1.2.16',
+53 silly addNameRange     '1.2.17',
+53 silly addNameRange     '1.2.18',
+53 silly addNameRange     '1.2.19',
+53 silly addNameRange     '1.2.20',
+53 silly addNameRange     '1.2.21',
+53 silly addNameRange     '1.2.22',
+53 silly addNameRange     '1.2.23',
+53 silly addNameRange     '1.3.0-rc.5',
+53 silly addNameRange     '1.3.0',
+53 silly addNameRange     '1.3.1',
+53 silly addNameRange     '1.3.2',
+53 silly addNameRange     '1.3.3',
+53 silly addNameRange     '1.3.4-build.3588',
+53 silly addNameRange     '1.2.27',
+53 silly addNameRange     '1.3.4',
+53 silly addNameRange     '1.3.5',
+53 silly addNameRange     '1.3.6',
+53 silly addNameRange     '1.3.7',
+53 silly addNameRange     '1.2.28',
+53 silly addNameRange     '1.3.8',
+53 silly addNameRange     '1.4.0-beta.0',
+53 silly addNameRange     '1.3.9',
+53 silly addNameRange     '1.3.10',
+53 silly addNameRange     '1.4.0-beta.1',
+53 silly addNameRange     '1.4.0-beta.2',
+53 silly addNameRange     '1.3.11',
+53 silly addNameRange     '1.4.0-beta.3',
+53 silly addNameRange     '1.3.12',
+53 silly addNameRange     '1.3.13',
+53 silly addNameRange     '1.4.0-beta.4',
+53 silly addNameRange     '1.3.14',
+53 silly addNameRange     '1.4.0-beta.5',
+53 silly addNameRange     '1.4.0-beta.6',
+53 silly addNameRange     '1.3.15',
+53 silly addNameRange     '1.4.0-rc.0',
+53 silly addNameRange     '1.4.0-rc.1',
+53 silly addNameRange     '1.4.0-rc.2',
+53 silly addNameRange     '1.4.0',
+53 silly addNameRange     '1.3.16',
+53 silly addNameRange     '1.4.1',
+53 silly addNameRange     '1.4.2',
+53 silly addNameRange     '1.3.17',
+53 silly addNameRange     '1.4.3',
+53 silly addNameRange     '1.4.4',
+53 silly addNameRange     '1.3.18',
+53 silly addNameRange     '1.4.5',
+53 silly addNameRange     '1.3.19',
+53 silly addNameRange     '1.4.6',
+53 silly addNameRange     '1.5.0-beta.0',
+53 silly addNameRange     '1.2.29',
+53 silly addNameRange     '1.3.20',
+53 silly addNameRange     '1.4.7',
+53 silly addNameRange     '1.5.0-beta.2',
+53 silly addNameRange     '1.4.8' ] ]
+54 verbose addNamed [ 'angular', '1.4.8' ]
+55 verbose addNamed [ '1.4.8', '1.4.8' ]
+56 silly lockFile 5457ad3a-angular-1-4-8 angular@1.4.8
+57 verbose lock angular@1.4.8 /home/ubuntu/.npm/5457ad3a-angular-1-4-8.lock
+58 silly lockFile c308fac4-js-org-angular-angular-1-4-8-tgz https://registry.npmjs.org/angular/-/angular-1.4.8.tgz
+59 verbose lock https://registry.npmjs.org/angular/-/angular-1.4.8.tgz /home/ubuntu/.npm/c308fac4-js-org-angular-angular-1-4-8-tgz.lock
+60 verbose addRemoteTarball [ 'https://registry.npmjs.org/angular/-/angular-1.4.8.tgz',
+60 verbose addRemoteTarball   'f4573d5019d21ebf44a6b5c28a14fbd9d5967449' ]
+61 info retry fetch attempt 1 at 17:05:40
+62 verbose fetch to= /tmp/npm-1871-auTehk47/registry.npmjs.org/angular/-/angular-1.4.8.tgz
+63 http GET https://registry.npmjs.org/angular/-/angular-1.4.8.tgz
+64 http 200 https://registry.npmjs.org/angular/-/angular-1.4.8.tgz
+65 silly lockFile c308fac4-js-org-angular-angular-1-4-8-tgz https://registry.npmjs.org/angular/-/angular-1.4.8.tgz
+66 silly lockFile c308fac4-js-org-angular-angular-1-4-8-tgz https://registry.npmjs.org/angular/-/angular-1.4.8.tgz
+67 silly lockFile 5457ad3a-angular-1-4-8 angular@1.4.8
+68 silly lockFile 5457ad3a-angular-1-4-8 angular@1.4.8
+69 silly lockFile fdbbf89d-angular angular@
+70 silly lockFile fdbbf89d-angular angular@
+71 error 404 Not Found
+71 error 404
+71 error 404 '1.4.7' is not in the npm registry.
+71 error 404 You should bug the author to publish it
+71 error 404 It was specified as a dependency of 'tp1'
+71 error 404
+71 error 404 Note that you can also install from a
+71 error 404 tarball, folder, or http url, or git url.
+72 error System Linux 4.2.0-c9
+73 error command "/home/ubuntu/.nvm/v0.10.35/bin/node" "/home/ubuntu/.nvm/v0.10.35/bin/npm" "install" "angular" "1.4.7"
+74 error cwd /home/ubuntu/workspace
+75 error node -v v0.10.35
+76 error npm -v 1.4.28
+77 error code E404
+78 verbose exit [ 1, true ]

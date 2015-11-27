@@ -1,8 +1,10 @@
 doctype html
-html
+html(ng-app="monApp")
   head
     title= title
     link(rel='stylesheet', href='/stylesheets/globale.css')
+    script(src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.7/angular.min.js")
+    script(src="js/controller.js")
     block head
   body
     nav
@@ -19,4 +21,3 @@ html
     footer
         p Les Grottes de Kalte - Lone Wolf
         p Utilisé pour LOG4420 par Konstantinos Lambrou-Latreille
-
