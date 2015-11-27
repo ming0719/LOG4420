@@ -1,6 +1,7 @@
 var express = require('express');
 var u = require("underscore");
 var fs = require('fs');
+var rest = require('restler');
 var Joueur = require('../../models/joueur');
 var Avancement = require('../../models/avancement');
 
@@ -8,6 +9,24 @@ var constantes = require('../../lib/constantes.js');
 var pagesJeu = require('../../lib/pagesJeu.js');
 
 var router = express.Router();
+
+/**
+ * Charge un joueur en session.
+ * @param id
+ */
+router.get('/charger/:id', function(req, res) {
+    Joueur.findById(req.params.id, function(err, joueur) {
+        if (err) {
+            res.send(err);
+        } else if (joueur) {
+            req.session.joueur = joueur;
+            res.json(joueur);
+        } else {
+            res.json({});
+        }
+    });
+    
+});
 
 /**
  * Obtient la représentation du joueur.

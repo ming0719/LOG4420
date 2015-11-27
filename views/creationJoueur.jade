@@ -5,6 +5,17 @@ block head
 
 block content
     img(src="/images/loup_solitaire.png")
+    section(ng-controller="personnagesExistants")
+        h1 Gérer les personnages
+        fieldset
+            legend Personnages existants
+            div
+                span(ng-show ="!joueurs.length") Pas de personnages
+                ul
+                    li(ng-repeat="j in joueurs")
+                        {{ j.nom }}
+                        button(ng-click="utiliserJoueur(j._id)") Utiliser
+                        button(ng-click="supprimerJoueur(j._id)") Supprimer
 
     section
         h1 Création du personnage
@@ -14,7 +25,7 @@ block content
                 each e in erreursMsg
                     li=e
 
-        form(action="/jeu/1" method="post" ng-controller="validationFormulaire")
+        form(action="/jeu/1" method="post" ng-controller="nouveauPerso")
             fieldset
                 legend Nom du personnage
                 div
@@ -94,7 +105,9 @@ block content
                         input(type="checkbox" name="objet" value=c.objet.RATIONS_SPECIALES ng-model="formData.objets['RATIONS_SPECIALES']")
                         | Rations spéciales (Objet dans le sac à dos)
             
-            // span(ng-disabled="showErrorDisciplines()") Vous devez choisir EXACTEMENT 5 disciplines Kai.
-            // span(ng-disabled="showErrorEquipement()") Vous devez choisir EXACTEMENT 2 objets.
+            div.erreur(ng-show="afficherErreurNom()") Vous devez entrez un nom.
+            div.erreur(ng-show="afficherErreurDisciplines()") Vous devez choisir EXACTEMENT 5 disciplines Kai.
+            div.erreur(ng-show="afficherErreurEquipement()") Vous devez choisir EXACTEMENT 2 objets.
+            div.erreur(ng-show="afficherErreurMaitriseArme()") Vous ne pouvez pas choisir la maitrise des armes sans choisir au moins une arme et inversement.
             
             input.button(type="submit" value="Commencer la partie!" ng-disabled="bloquerFormulaire()")

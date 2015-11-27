@@ -2,7 +2,35 @@ var app = angular.module('monApp', []);
 var nbObjets = 2;
 var nbDisciplines = 5;
 
-app.controller('validationFormulaire', function($scope) {
+app.controller('personnagesExistants', ['$scope', '$location', '$http', 
+                                       function($scope, $location, $http) {
+    var LOCAL_URL = $location.protocol() + "://" + $location.host() + ":" + $location.port();
+    $scope.joueurs = {};
+    chargerJoueurs();
+    
+    function chargerJoueurs() {
+        $http.get(LOCAL_URL + "/api/joueurs").then(function(response) {
+           $scope.joueurs = response.data;
+        }); 
+    };
+
+    $scope.supprimerJoueur = function (id) {
+        if(confirm("Vous voulez supprimer ce joueur?"))
+            $http.delete(LOCAL_URL + "/api/joueurs/" + id).then(function() {
+                chargerJoueurs();
+            });
+    }
+    
+    $scope.utiliserJoueur = function (id) {
+        $http.get(LOCAL_URL + "/api/joueurs/charger/" + id).then(function() {
+            $http.get(LOCAL_URL + "/api/joueurs/avancement/" + id).then(function (response) {
+                window.location.pathname = "/jeu/" + response.data.pageId;
+            })
+        });
+    }
+}]);
+
+app.controller('nouveauPerso', function($scope) {
     $scope.formData = {
         nomJoueur : "",
         armes: {},
@@ -51,23 +79,26 @@ app.controller('validationFormulaire', function($scope) {
     }
     
     $scope.bloquerFormulaire = function() {
-        if($scope.formData.nomJoueur == "")
-        {
-            return true;
-        }
-        if($scope.formData.disciplines['MAITRISE_ARMES'] && nbArmesChoisies() == 0)
-        {
-            return true;
-        }
-        return !(nbDisciplinesChoisies() == nbDisciplines && nbObjetsChoisis() == nbObjets);
+        return $scope.afficherErreurNom() ||
+               $scope.afficherErreurMaitriseArme() ||
+               $scope.afficherErreurEquipement() ||
+               $scope.afficherErreurDisciplines();
     }
-    /*
-    $scope.showErrorDisciplines = function() {
+    
+    $scope.afficherErreurDisciplines = function() {
         return !(nbDisciplinesChoisies() == nbDisciplines);
     }
     
-    $scope.showErrorEquipement = function() {
+    $scope.afficherErreurEquipement = function() {
         return !(nbObjetsChoisis() == nbObjets);
     }
-    */
+    
+    $scope.afficherErreurNom = function() {
+        return ($scope.formData.nomJoueur == "");
+    }
+    
+    $scope.afficherErreurMaitriseArme = function() {
+        return ($scope.formData.disciplines['MAITRISE_ARMES'] && nbArmesChoisies() == 0) || 
+            (!$scope.formData.disciplines['MAITRISE_ARMES'] && nbArmesChoisies() > 0);
+    }
 });

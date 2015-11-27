@@ -64,7 +64,7 @@ router.post('/jeu/1', function(req, res) {
             if (err) {
                 res.send(err);
             } else {
-                rest.post('http://localhost:3000/api/joueurs/avancement/' + joueur.id)
+                rest.post(req.protocol +'://' + req.hostname + '/api/joueurs/avancement/' + joueur.id)
                 .on('complete', function(data, response) {
                     console.log(response);
                 });
@@ -114,4 +114,3 @@ function endurancePlus(joueur) {
 }
 
 module.exports = router;
-
