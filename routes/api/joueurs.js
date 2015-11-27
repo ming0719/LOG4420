@@ -25,7 +25,13 @@ router.get('/charger/:id', function(req, res) {
             res.json({});
         }
     });
-    
+});
+
+/**
+ * Recupère le joueur en session
+ */
+router.get('/joueurCourant', function(req, res){
+    res.json(req.session.joueur);
 });
 
 /**

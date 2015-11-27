@@ -1,4 +1,4 @@
-var app = angular.module('monApp', []);
+var app = angular.module('log4420', []);
 var nbObjets = 2;
 var nbDisciplines = 5;
 
@@ -24,7 +24,7 @@ app.controller('personnagesExistants', ['$scope', '$location', '$http',
     $scope.utiliserJoueur = function (id) {
         $http.get(LOCAL_URL + "/api/joueurs/charger/" + id).then(function() {
             $http.get(LOCAL_URL + "/api/joueurs/avancement/" + id).then(function (response) {
-                window.location.pathname = "/jeu/" + response.data.pageId;
+                window.location.pathname = "/jeu/";
             })
         });
     }

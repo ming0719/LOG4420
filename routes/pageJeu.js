@@ -8,6 +8,7 @@ var router = express.Router();
 
 router.get('/jeu', function(req, res) {
     var joueur = req.session.joueur;
+    res.render('page/pageJeu');
 });
 
 /**
