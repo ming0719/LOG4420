@@ -16,6 +16,12 @@ block content
 
         form(action="/jeu/1" method="post" ng-controller="validationFormulaire")
             fieldset
+                legend Nom du personnage
+                div
+                    label
+                        | Nom : 
+                        input(type="textbox" name="nomJoueur"  ng-model="formData.nomJoueur")
+            fieldset
                 legend Disciplines
                 p Choisir 5 disciplines:
                 div#gauche

@@ -4,6 +4,7 @@ var nbDisciplines = 5;
 
 app.controller('validationFormulaire', function($scope) {
     $scope.formData = {
+        nomJoueur : "",
         armes: {},
         objetsSpeciaux: {},
         objets: {},
@@ -50,6 +51,10 @@ app.controller('validationFormulaire', function($scope) {
     }
     
     $scope.bloquerFormulaire = function() {
+        if($scope.formData.nomJoueur == "")
+        {
+            return true;
+        }
         if($scope.formData.disciplines['MAITRISE_ARMES'] && nbArmesChoisies() == 0)
         {
             return true;

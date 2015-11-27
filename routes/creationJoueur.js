@@ -20,6 +20,7 @@ router.post('/jeu/1', function(req, res) {
     var erreursMsg = [];
 
     // Récupération des données du formulaire
+    var nom = req.body.nomJoueur;
     var disciplines = (req.body.discipline) ? [].concat(req.body.discipline) : [];
     var armes = (req.body.arme) ? [].concat(req.body.arme) : [];
     var objets = (req.body.objet) ? [].concat(req.body.objet) : [];
@@ -47,6 +48,7 @@ router.post('/jeu/1', function(req, res) {
     // liste d'erreurs. Sinon, on se dirige vers la 1ere page de l'histoire.
     if (u.isEmpty(erreursMsg)) {
         var joueur = new Joueur;
+        joueur.nom = nom;
         joueur.habileteBase = u.random(10, 19);
         joueur.enduranceBase = u.random(20, 29);
         joueur.pieceOr = u.random(10, 19);
