@@ -41,10 +41,10 @@ router.get('/decisionAleatoire/:pageId', function(req, res) {
             var decisions = u.map(choix.decision, function(decision) {
                 decision.valeurAleatoire = valeurAleatoire;
                 if (decision.min <= valeurAleatoire && decision.max >= valeurAleatoire) {
-                    decision.valid = true;
+                    decision.isValid = true;
                     return decision;
                 } else {
-                    decision.valid = false;
+                    decision.isValid = false;
                     return decision;
                 }
             });
@@ -67,7 +67,7 @@ router.get('/decision/:pageId', function(req, res) {
             res.json({message: "Le joueur n'existe pas dans la session."});
         } else {
             var decisions = u.map(choix.decision, function(decision) {
-                decision.valid = decision.valid(joueur);
+                decision.isValid = decision.valid(joueur);
                 return decision;
             });
             res.json(decisions);

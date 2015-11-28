@@ -18,9 +18,9 @@ block content
                 img(src="/images/decision.jpg")
                 div
                     p(ng-show="decision[0].valeurAleatoire != undefined") Votre valeur aléatoire est {{ decision[0].valeurAleatoire }}
-                    p(ng-repeat="d in decision" ng-show="d.valid") 
+                    p(ng-repeat="d in decision") 
                         | {{d.text}} 
-                        a(ng-click="chargerPage(d.page)") rendez-vous au {{d.page}}
+                        a(ng-class="{disabled: !d.isValid}" ng-click="d.isValid && chargerPage(d.page)") rendez-vous au {{d.page}}
                         
 
         include ./stats.jade
