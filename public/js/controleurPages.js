@@ -21,15 +21,26 @@ app.controller('controleurPages', ['$scope', '$location', '$http',
             .then(function(response){
                 $scope.page = response.data;
                 console.log($scope.page);
-                if($scope.page.decision){
-                    $http.get(LOCAL_URL + $scope.page.decision + "/" + $scope.page.id).then(function(response) {
-                        $scope.decision = response.data;
+                $http.get(LOCAL_URL + $scope.page.decision + "/" + $scope.page.id).then(function(response) {
+                    $scope.decision = response.data;
+                    console.log($scope.decision);
+                    // Si on est dans le cas d'une décision aléatoire
+                    /*
+                    if($scope.page.decision == "/api/pages/decisionAleatoire"){
+                        console.log("Aleatoire");
+                        var decisionRetenue;
+                        for(i in $scope.decision) {
+                            if($scope.decision[i].valid) {
+                                decisionRetenue = i;
+                                break;
+                            }
+                        }
+                        $scope.decision = [$scope.decision[decisionRetenue]];
                         console.log($scope.decision);
-                    })
-                }
+                    }*/
+                })
                 
             }
         )
     }
-    
 }]);

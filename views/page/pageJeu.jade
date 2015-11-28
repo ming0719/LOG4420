@@ -13,11 +13,14 @@ block content
             p(ng-repeat="c in page.contenu")
                 img(src="{{c.img}}" ng-show="c.img")
                 {{c.text}}
+                
             div#decision(ng-show="decision.length")
                 img(src="/images/decision.jpg")
                 div
-                    p(ng-repeat="d in decision") 
+                    p(ng-show="decision[0].valeurAleatoire != undefined") Votre valeur aléatoire est {{ decision[0].valeurAleatoire }}
+                    p(ng-repeat="d in decision" ng-show="d.valid") 
                         | {{d.text}} 
                         a(ng-click="chargerPage(d.page)") rendez-vous au {{d.page}}
+                        
 
         include ./stats.jade
