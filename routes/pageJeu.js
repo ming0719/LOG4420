@@ -3,12 +3,15 @@ var jade = require('jade');
 var fs = require('fs')
 var path = require('path');
 var u = require('underscore');
-var pagesJeu = require('../lib/pagesJeu.js')
+var pagesJeu = require('../lib/pagesJeu.js');
+var constantes = require('../lib/constantes.js');
 var router = express.Router();
 
 router.get('/jeu', function(req, res) {
     var joueur = req.session.joueur;
-    res.render('page/pageJeu');
+    res.render('page/pageJeu', {
+        consts: constantes,
+    });
 });
 
 /**

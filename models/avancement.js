@@ -3,7 +3,8 @@ var Schema = mongoose.Schema;
 
 var combatSchema = new Schema({
     chiffreAleatoire: Number,
-    enduranceMonstre: Number
+    enduranceMonstre: Number,
+    puissancePsychique: Boolean
 });
 
 var AvancementSchema = new Schema({

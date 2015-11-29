@@ -11,7 +11,7 @@ block content
 
         section#histoire
             p(ng-repeat="c in page.contenu")
-                img(src="{{c.img}}" ng-show="c.img")
+                img(ng-show="c.img" ng-src="{{c.img}}")
                 {{c.text}}
             
             // Dans le cas d'une décision    
@@ -50,8 +50,9 @@ block content
                         p et a maintenant {{ ronde.enduranceJoueur }} points d'endurance.
                         
                 div#choixCombat(ng-show="!combat.defaite && !combat.victoire && !combat.fuite")
-                    button#combattre.button(ng-click="combattre(false)")  COMBATTRE
-                    button#fuir.button(ng-click="combattre(true)") FUIR
+                    button#combattre.button(ng-click="combattre(false, false)")  COMBATTRE
+                    button#puissancePsy.button(ng-show="joueur.disciplines.indexOf('#{consts.discipline.PUISSANCE_PSYCHIQUE}') > -1" ng-click="combattre(false, true)")  PUISSANCE PSY
+                    button#fuir.button(ng-click="combattre(true, false)") FUIR
                     
                 div#victoire(ng-show="combat.victoire && !combat.defaite")
                     span Vous avez gagnez 

@@ -1,5 +1,3 @@
-//var Avancement = require('../../models/avancement');
-
 app.controller('controleurPages', ['$scope', '$location', '$http', 
                                     function($scope, $location, $http) {
     $scope.joueur = {};
@@ -71,31 +69,43 @@ app.controller('controleurPages', ['$scope', '$location', '$http',
                 $scope.combat = $scope.page.combat; 
                 // Charger un combat depuis l'avancement
                 if($scope.avancement.combats.length > 0) {
-                    for(ronde in $scope.avancement.combats) {
-                        var urlCombat = $scope.joueur.endurancePlus + "/" + $scope.joueur.habiletePlus + "/" + $scope.avancement.combats[ronde].enduranceMonstre + "/" + $scope.combat.habilete + "/" + $scope.avancement.combats[ronde].chiffreAleatoire ;
-                            $http.get(LOCAL_URL + "/api/combat/" + urlCombat).then(function(ronde){
-                                var enduranceMonstre = $scope.rondes.length > 0 ? $scope.rondes[$scope.rondes.length - 1].enduranceEnnemi : $scope.combat.endurance;
-                                $scope.joueur.endurancePlus -= ronde.data.degatJoueur;
-                                ronde.data.enduranceJoueur = $scope.joueur.endurancePlus;
-                                enduranceMonstre -= ronde.data.degatEnnemi;
-                                ronde.data.enduranceEnnemi = enduranceMonstre;
-                                $scope.rondes.push(ronde.data);
+                    var cnt = 0;
+                    for(ronde of $scope.avancement.combats) {
+                        var habileteJoueur = ronde.puissancePsychique ? $scope.joueur.habiletePlus + 2 : $scope.joueur.habiletePlus;
+                       
+                        var urlCombat = $scope.joueur.endurancePlus + "/" + habileteJoueur + "/" + ronde.enduranceMonstre + "/" + $scope.combat.habilete + "/" + ronde.chiffreAleatoire ;
+                        console.log(urlCombat);
+                        $http.get(LOCAL_URL + "/api/combat/" + urlCombat).then(function(ronde){
+                            var enduranceMonstre = $scope.rondes.length > 0 ? $scope.rondes[$scope.rondes.length - 1].enduranceEnnemi : $scope.combat.endurance;
+                            $scope.joueur.endurancePlus -= ronde.data.degatJoueur;
+                            ronde.data.enduranceJoueur = $scope.joueur.endurancePlus;
+                            enduranceMonstre -= ronde.data.degatEnnemi;
+                            ronde.data.enduranceEnnemi = enduranceMonstre;
+                            $scope.rondes.push(ronde.data);
+                            cnt++;
+                            if(cnt == $scope.avancement.combats.length) {
+                                console.log($scope.rondes);
+                                $scope.combat.defaite = ($scope.rondes[$scope.rondes.length - 1].enduranceJoueur <= 0);
+                                $scope.combat.victoire = ($scope.rondes[$scope.rondes.length - 1].enduranceEnnemi <= 0);
+                            }
                         });
                     }
                 }
                 else {
                     $scope.rondes = [];
                 }
-                console.log($scope.rondes);
+                console.log($scope.combat);
             }
             
         });
     }
     
     
-    $scope.combattre = function (fuite ) {
+    $scope.combattre = function (fuite, puissancePsy ) {
         var enduranceMonstre = $scope.rondes.length > 0 ? $scope.rondes[$scope.rondes.length - 1].enduranceEnnemi : $scope.combat.endurance;
-        var urlCombat = $scope.joueur.endurancePlus + "/" + $scope.joueur.habiletePlus + "/" + enduranceMonstre + "/" + $scope.combat.habilete;
+        var habileteJoueur = puissancePsy ? $scope.joueur.habiletePlus + 2 : $scope.joueur.habiletePlus;
+        var urlCombat = $scope.joueur.endurancePlus + "/" + habileteJoueur + "/" + enduranceMonstre + "/" + $scope.combat.habilete;
+        console.log(urlCombat);
         $http.get(LOCAL_URL + "/api/combat/" + urlCombat).then(function(ronde){
             $scope.joueur.endurancePlus -= ronde.data.degatJoueur;
             ronde.data.enduranceJoueur = $scope.joueur.endurancePlus;
@@ -109,6 +119,7 @@ app.controller('controleurPages', ['$scope', '$location', '$http',
             var rondeCombat = {};
             rondeCombat.chiffreAleatoire = ronde.data.chiffreAleatoire;
             rondeCombat.enduranceMonstre = ronde.data.enduranceEnnemi;
+            rondeCombat.puissancePsychique = puissancePsy;
             $scope.avancement.combats.push(rondeCombat);
             mettreAJourAvancement();
             
