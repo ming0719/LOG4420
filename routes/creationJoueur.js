@@ -69,7 +69,7 @@ router.post('/jeu/1', function(req, res) {
                     console.log(response);
                 });
                 req.session.joueur = joueur;
-                res.redirect('/jeu/1');
+                res.redirect('/jeu/');
             }
         });
     } else {

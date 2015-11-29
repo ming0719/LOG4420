@@ -6,36 +6,35 @@ section#stats
                 td
                     img(src="/images/points_endurance.png")
                 td
-                    p #[span#endurance_restante 18] / #[span#endurance_total 20]
+                    p {{ joueur.endurancePlus }} / {{ joueur.enduranceBase }}
             tr
                 td
                     img(src="/images/points_habilete.png")
                 td
-                    p#habilete 30
+                    p#habilete {{ joueur.habileteBase }} + {{ joueur.habiletePlus-joueur.habileteBase }} = {{ joueur.habiletePlus }}
             tr
                 td
                     img(src="/images/pieces_or.png")
                 td
-                    p #[span#pieceOr 10] / #[span#endurance_total 50]
+                    p {{ joueur.pieceOr }}
     div
         p Disciplines Kai
         ul#disciplines
-            li Communication Animale
-            li Écran Psychique
+            li(ng-repeat="d in joueur.disciplines") {{ d }}
 
     p
-        a.button(href="#sacADos") Sac à dos
-    div#sacADos
-        a#fermerSacADos(href="#")
+        a.button(ng-click="sacADos=true") Sac à dos
+    
+    div#sacADos(ng-show="sacADos")
+        a#fermerSacADos(ng-click="sacADos=false")
         img(src="/images/backpack.png")
         div
             div
                 p Objets
                 ul
-                    li Marteau de guerre
-                    li Rations spéciales
+                    li(ng-repeat="obj in joueur.objets") {{ obj }}
             div
                 p Objets Spéciaux
                 ul
-                    li Huile de Baknar
+                    li(ng-repeat="objSpe in joueur.objetsSpeciaux") {{ objSpe }}
 
