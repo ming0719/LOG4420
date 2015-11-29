@@ -81,7 +81,6 @@ router.get('/confirmation/:pageId', function(req, res) {
     var confirmation = u.find(p.perte, function(page) {
         return page.id == id;
     });
-    console.log(confirmation);
     
     if (confirmation == undefined) {
         res.json({message: "Cette page n'a pas de choix possibles."});

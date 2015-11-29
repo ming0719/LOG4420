@@ -23,6 +23,13 @@ block content
                         | {{d.text}} 
                         a(ng-class="{disabled: !d.isValid}" ng-click="d.isValid && chargerPage(d.page)") rendez-vous au {{d.page}}
                         
+            div#ajouterObjets(ng-show="page.ajouterObjets")
+                p {{ page.ajouterObjets.text}}
+                div(ng-repeat="item in page.ajouterObjets.items")
+                    input(type="checkbox" ng-model="objetsAAjouter[item]")
+                    |   {{ item }}
+                a(ng-click="mettreAJourObjets()") Continuer
+            
             div#confirmation(ng-show="confirmation")
                 p {{confirmation.message}}
                 a(ng-click="mettreAJourJoueur(confirmation.joueur, confirmation.lien)") Continuer

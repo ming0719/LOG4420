@@ -6,6 +6,8 @@ app.controller('controleurPages', ['$scope', '$location', '$http',
     $scope.decision = {};
     $scope.confirmation = null;
     $scope.rondes = [];
+    $scope.objetsAAjouter = {};
+    $scope.sacADos;
     
     var LOCAL_URL = $location.protocol() + "://" + $location.host() + ":" + $location.port();
     
@@ -18,16 +20,11 @@ app.controller('controleurPages', ['$scope', '$location', '$http',
     });
     
     
-    $scope.mettreAJourJoueur = function (joueur, page) {
-        $http.put(LOCAL_URL + "/api/joueurs/" + joueur._id, JSON.stringify({joueur: joueur})).then( function () {
-            $scope.chargerPage(page);
-        });
-    }
-    
-    $scope.mettreAJourJoueur = function ( ) {
-        $http.put(LOCAL_URL + "/api/joueurs/" + $scope.joueur._id, JSON.stringify({joueur: $scope.joueur,})).then( function () {
-            var sectionSuivante = $scope.page.section + 1;
-            $scope.chargerPage("/pages/" + $scope.page.id + "/" + sectionSuivante);
+    $scope.mettreAJourJoueur = function (joueur = null, page = null) {
+        $scope.joueur = joueur ? joueur : $scope.joueur;
+        var pageSuivante = page ? page : ("/pages/" + $scope.page.id + "/" +  $scope.page.section + 1);
+        $http.put(LOCAL_URL + "/api/joueurs/" + $scope.joueur._id, JSON.stringify({joueur: $scope.joueur})).then( function () {
+            $scope.chargerPage(pageSuivante);
         });
     }
     
@@ -40,10 +37,10 @@ app.controller('controleurPages', ['$scope', '$location', '$http',
         $scope.decision = {};
         $scope.confirmation = null;
         $scope.combat = null;
+        $scope.ajouterObjets = null;
         // Récupération de la page
         $http.get(LOCAL_URL + "/api" + page).then(function(response){
             $scope.page = response.data;
-            console.log($scope.page);
             
             if($scope.page.id != 1 
                 && $scope.page.section == 1
@@ -71,8 +68,15 @@ app.controller('controleurPages', ['$scope', '$location', '$http',
             // Si on a une confirmation
             if($scope.page.confirmation) {
                 $http.get(LOCAL_URL + $scope.page.confirmation + "/" + $scope.page.id).then(function(response) {
-                    $scope.confirmation = response.data;
+                    $scope.confirmation = response.data
+                    //console.log("BBBB");
+                    //console.log($scope.confirmation.joueur);
                 });
+            }
+            
+            // Si on a un ajout objet
+            if($scope.page.ajouterObjets) {
+                $scope.objetsAAjouter = {};
             }
             
             // Si on a un combat
@@ -85,7 +89,6 @@ app.controller('controleurPages', ['$scope', '$location', '$http',
                         var habileteJoueur = ronde.puissancePsychique ? $scope.joueur.habiletePlus + 2 : $scope.joueur.habiletePlus;
                        
                         var urlCombat = $scope.joueur.endurancePlus + "/" + habileteJoueur + "/" + ronde.enduranceMonstre + "/" + $scope.combat.habilete + "/" + ronde.chiffreAleatoire ;
-                        console.log(urlCombat);
                         $http.get(LOCAL_URL + "/api/combat/" + urlCombat).then(function(ronde){
                             var enduranceMonstre = $scope.rondes.length > 0 ? $scope.rondes[$scope.rondes.length - 1].enduranceEnnemi : $scope.combat.endurance;
                             $scope.joueur.endurancePlus -= ronde.data.degatJoueur;
@@ -95,7 +98,6 @@ app.controller('controleurPages', ['$scope', '$location', '$http',
                             $scope.rondes.push(ronde.data);
                             cnt++;
                             if(cnt == $scope.avancement.combats.length) {
-                                console.log($scope.rondes);
                                 $scope.combat.defaite = ($scope.rondes[$scope.rondes.length - 1].enduranceJoueur <= 0);
                                 $scope.combat.victoire = ($scope.rondes[$scope.rondes.length - 1].enduranceEnnemi <= 0);
                             }
@@ -105,10 +107,18 @@ app.controller('controleurPages', ['$scope', '$location', '$http',
                 else {
                     $scope.rondes = [];
                 }
-                console.log($scope.combat);
             }
             
         });
+    }
+    
+    $scope.mettreAJourObjets = function () {
+        Object.keys($scope.objetsAAjouter).forEach(function(key) {
+            if($scope.objetsAAjouter[key]) {
+                $scope.joueur.objets.push(key);
+            }
+        });
+        $scope.mettreAJourJoueur();
     }
     
     
@@ -116,14 +126,12 @@ app.controller('controleurPages', ['$scope', '$location', '$http',
         var enduranceMonstre = $scope.rondes.length > 0 ? $scope.rondes[$scope.rondes.length - 1].enduranceEnnemi : $scope.combat.endurance;
         var habileteJoueur = puissancePsy ? $scope.joueur.habiletePlus + 2 : $scope.joueur.habiletePlus;
         var urlCombat = $scope.joueur.endurancePlus + "/" + habileteJoueur + "/" + enduranceMonstre + "/" + $scope.combat.habilete;
-        console.log(urlCombat);
         $http.get(LOCAL_URL + "/api/combat/" + urlCombat).then(function(ronde){
             $scope.joueur.endurancePlus -= ronde.data.degatJoueur;
             ronde.data.enduranceJoueur = $scope.joueur.endurancePlus;
             if(!fuite) {
                 enduranceMonstre -= ronde.data.degatEnnemi;
                 ronde.data.enduranceEnnemi = enduranceMonstre;
-                console.log(ronde.data);
             }
             
              // Mise à jour de l'avancement du combat dans la BDD
@@ -143,5 +151,5 @@ app.controller('controleurPages', ['$scope', '$location', '$http',
         });
     }
     
-    $scope.sacADos;
+    
 }]);
