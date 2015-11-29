@@ -16,11 +16,18 @@ var router = express.Router();
  * @return La représentation d'une ronde de combat à partir des paramètres
  *
  */
-router.get('/:enduranceJoueur/:habileteJoueur/:enduranceMonstre/:habileteMonstre', function(req, res) {
+router.get('/:enduranceJoueur/:habileteJoueur/:enduranceMonstre/:habileteMonstre/:chiffreAleatoire?', function(req, res) {
     var ej = req.params.enduranceJoueur;
     var hj = req.params.habileteJoueur;
     var em = req.params.enduranceMonstre;
     var hm = req.params.habileteMonstre;
+    var chiffreAleatoire;
+    if(req.params.chiffreAleatoire) {
+        chiffreAleatoire = req.params.chiffreAleatoire;
+    }
+    else {
+        chiffreAleatoire = u.random(0, 9);
+    }
 
     // Calcul du quotient d'attaque
     var qa = hj - hm;
@@ -32,8 +39,8 @@ router.get('/:enduranceJoueur/:habileteJoueur/:enduranceMonstre/:habileteMonstre
     // Relation entre l'index du tableau et le quotient d'attaque.
     var indexQa = (qa >= 0) ? Math.ceil(qa / 2) + 7 : Math.floor(qa / 2) + 6;
 
-    var chiffreAleatoire = u.random(0, 9);
-
+    // Chiffre aleatoire
+    
     // On obtient la bonne case du tableau de combat
     var combat = TableCombat(ej,em)[indexQa][chiffreAleatoire];
 

@@ -154,7 +154,7 @@ router.put('/avancement/:joueurId', function(req, res) {
             var avancementAJour = req.body.avancement;
             avancement.pageId = avancementAJour.pageId;
             avancement.sectionId = avancementAJour.sectionId;
-            avancement.combat = avancementAJour.combat;
+            avancement.combats = avancementAJour.combats;
             avancement.save(function(err) {
                 if (err) {
                     res.send(err);
