@@ -17,6 +17,7 @@ app.controller('controleurPages', ['$scope', '$location', '$http',
         });
     });
     
+    
     $scope.mettreAJourJoueur = function (joueur, page) {
         $http.put(LOCAL_URL + "/api/joueurs/" + joueur._id, JSON.stringify({joueur: joueur})).then( function () {
             $scope.chargerPage(page);
@@ -42,6 +43,16 @@ app.controller('controleurPages', ['$scope', '$location', '$http',
         // Récupération de la page
         $http.get(LOCAL_URL + "/api" + page).then(function(response){
             $scope.page = response.data;
+            console.log($scope.page);
+            
+            if($scope.page.id != 1 
+                && $scope.page.section == 1
+                && $scope.joueur.disciplines.indexOf("Guérison") > -1 
+                && $scope.joueur.endurancePlus < $scope.joueur.enduranceBase)
+            {
+                alert("Vous disposez de la discipline Guérison : vous gagnez un point d'endurance");
+                $scope.joueur.endurancePlus++;
+            }
             
              // Mise à jour de l'avancement dans la BDD
             $scope.avancement.pageId = $scope.page.id;
