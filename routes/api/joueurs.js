@@ -70,10 +70,15 @@ router.put('/:id', function(req, res) {
         if (err) {
             res.send(err);
         } else {
-            joueur.pieceOr = req.body.pieceOr ? req.body.pieceOr : joueur.pieceOr;
-            joueur.armes = req.body.armes ? req.body.armes : joueur.armes;
-            joueur.objets = req.body.objets ? req.body.objets : joueur.objets;
-            joueur.objetsSpeciaux = req.body.objectsSpeciaux ? req.body.objetsSpeciaux : joueur.objetsSpeciaux;
+            var joueurAJour = req.body.joueur;
+            joueur.pieceOr = joueurAJour.pieceOr;
+            joueur.armes = joueurAJour.pieceOr;
+            joueur.objets = joueurAJour.objets;
+            joueur.objetsSpeciaux = joueurAJour.objetsSpeciaux;
+            joueur.habileteBase = joueurAJour.habileteBase;
+            joueur.enduranceBase = joueurAJour.enduranceBase;
+            joueur.habiletePlus = joueurAJour.habiletePlus;
+            joueur.endurancePlus = joueurAJour.endurancePlus;
             joueur.save(function(err) {
                 if (err) {
                     res.send(err);
@@ -146,9 +151,10 @@ router.put('/avancement/:joueurId', function(req, res) {
         if (err) {
             res.send(err);
         } else {
-            avancement.pageId = req.body.pageId ? req.body.pageId : avancement.pageId;
-            avancement.sectionId = req.body.sectionId ? req.body.sectionId : avancement.sectionId;
-            avancement.combat = req.body.combat ? req.body.combat : avancement.combat;
+            var avancementAJour = req.body.avancement;
+            avancement.pageId = avancementAJour.pageId;
+            avancement.sectionId = avancementAJour.sectionId;
+            avancement.combat = avancementAJour.combat;
             avancement.save(function(err) {
                 if (err) {
                     res.send(err);

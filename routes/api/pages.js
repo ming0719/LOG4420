@@ -6,6 +6,7 @@ var constantes = require('../../lib/constantes.js');
 var pagesJeu = require('../../lib/pagesJeu.js');
 var d = require('../../lib/decision.js')
 var da = require('../../lib/decisionsAleatoire.js');
+var p = require('../../lib/perte.js');
 
 var router = express.Router();
 
@@ -71,6 +72,26 @@ router.get('/decision/:pageId', function(req, res) {
                 return decision;
             });
             res.json(decisions);
+        }
+    }
+});
+
+router.get('/confirmation/:pageId', function(req, res) {
+    var id = req.params.pageId;
+    var confirmation = u.find(p.perte, function(page) {
+        return page.id == id;
+    });
+    console.log(confirmation);
+    
+    if (confirmation == undefined) {
+        res.json({message: "Cette page n'a pas de choix possibles."});
+    } else {
+        var joueur = req.session.joueur;
+        if (joueur == undefined) {
+            res.json({message: "Le joueur n'existe pas dans la session."});
+        } else {
+            var resultConf = confirmation.f(joueur);
+            res.json(resultConf);
         }
     }
 });

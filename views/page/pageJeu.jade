@@ -13,7 +13,8 @@ block content
             p(ng-repeat="c in page.contenu")
                 img(src="{{c.img}}" ng-show="c.img")
                 {{c.text}}
-                
+            
+            // Dans le cas d'une décision    
             div#decision(ng-show="decision.length")
                 img(src="/images/decision.jpg")
                 div
@@ -22,5 +23,8 @@ block content
                         | {{d.text}} 
                         a(ng-class="{disabled: !d.isValid}" ng-click="d.isValid && chargerPage(d.page)") rendez-vous au {{d.page}}
                         
-
+            div#confirmation(ng-show="confirmation")
+                p {{confirmation.message}}
+                a(ng-click="mettreAJourJoueur(confirmation.joueur, confirmation.lien)") Continuer
+            
         include ./stats.jade

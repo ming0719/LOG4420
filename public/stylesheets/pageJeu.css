@@ -113,7 +113,8 @@ p {
   margin: 0;
 }
 
-#decision {
+/* DECISIONS */
+#decision, #confirmation {
     border: 5px groove #808080;
     border-radius: 20px;
     padding: 20px;
@@ -127,21 +128,21 @@ p {
     margin-right: 30px;
 }
 
-#decision div {
+#decision div, #confirmation div {
     display: inline-block;
     width: 280px;
     vertical-align: top;
 }
 
-#decision div p {
+#decision div p, #confirmation div p {
     margin-bottom: 20px;
 }
 
-#decision div p:first-letter {
+#decision div p:first-letter, #confirmation div p:first-letter {
     text-transform: capitalize;
 }
 
-#decision a {
+#decision a, #confirmation a {
     text-decoration: none;
     color: #008000;
     font-weight: bold;
