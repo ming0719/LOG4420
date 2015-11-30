@@ -2,8 +2,14 @@
     background-color: #808080;
 }
 
-#erreurs {
+.erreurs {
+    margin : 0px 20px;
     color: red;
+    width: 560px;
+}
+
+.erreurs p {
+    text-align: center;
 }
 
 img {

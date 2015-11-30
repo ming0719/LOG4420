@@ -80,7 +80,7 @@ app.controller('nouveauPerso', function($scope) {
     
     $scope.bloquerFormulaire = function() {
         return $scope.afficherErreurNom() ||
-               $scope.afficherErreurMaitriseArme() ||
+               //$scope.afficherErreurMaitriseArme() ||
                $scope.afficherErreurEquipement() ||
                $scope.afficherErreurDisciplines();
     }

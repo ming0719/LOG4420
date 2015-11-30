@@ -16,7 +16,7 @@ router.get('/creationJoueur', function(req, res, next) {
 });
 
 // POST page de création du joueur
-router.post('/jeu/1', function(req, res) {
+router.post('/jeu', function(req, res) {
     var erreursMsg = [];
 
     // Récupération des données du formulaire
@@ -66,10 +66,11 @@ router.post('/jeu/1', function(req, res) {
             } else {
                 rest.post(req.protocol +'://' + req.hostname + '/api/joueurs/avancement/' + joueur.id)
                 .on('complete', function(data, response) {
-                    console.log(response);
+                    // console.log(response);
+                    req.session.joueur = joueur;
+                    res.redirect('/jeu');
                 });
-                req.session.joueur = joueur;
-                res.redirect('/jeu/');
+                
             }
         });
     } else {

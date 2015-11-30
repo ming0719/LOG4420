@@ -20,12 +20,12 @@ block content
     section
         h1 Création du personnage
 
-        div#erreurs
+        div.erreurs
             ul
                 each e in erreursMsg
                     li=e
 
-        form(action="/jeu/1" method="post" ng-controller="nouveauPerso")
+        form(action="/jeu" method="post" ng-controller="nouveauPerso")
             fieldset
                 legend Nom du personnage
                 div
@@ -105,9 +105,10 @@ block content
                         input(type="checkbox" name="objet" value=c.objet.RATIONS_SPECIALES ng-model="formData.objets['RATIONS_SPECIALES']")
                         | Rations spéciales (Objet dans le sac à dos)
             
-            div.erreur(ng-show="afficherErreurNom()") Vous devez entrez un nom.
-            div.erreur(ng-show="afficherErreurDisciplines()") Vous devez choisir EXACTEMENT 5 disciplines Kai.
-            div.erreur(ng-show="afficherErreurEquipement()") Vous devez choisir EXACTEMENT 2 objets.
-            div.erreur(ng-show="afficherErreurMaitriseArme()") Vous ne pouvez pas choisir la maitrise des armes sans choisir au moins une arme et inversement.
+            div.erreurs
+                p(ng-show="afficherErreurNom()") Vous devez entrez un nom.
+                p(ng-show="afficherErreurDisciplines()") Vous devez choisir EXACTEMENT 5 disciplines Kai.
+                p(ng-show="afficherErreurEquipement()") Vous devez choisir EXACTEMENT 2 objets.
+                p(ng-show="afficherErreurMaitriseArme()") Vous ne pouvez pas choisir la maitrise des armes sans choisir au moins une arme et inversement.
             
             input.button(type="submit" value="Commencer la partie!" ng-disabled="bloquerFormulaire()")
