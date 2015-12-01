@@ -14,62 +14,7 @@ block content
                 img(ng-show="c.img" ng-src="{{c.img}}")
                 {{c.text}}
             
-            // Dans le cas d'une décision    
-            div#decision(ng-show="decision.length")
-                img(src="/images/decision.jpg")
-                div
-                    p(ng-show="decision[0].valeurAleatoire != undefined") Votre valeur aléatoire est {{ decision[0].valeurAleatoire }}
-                    p(ng-repeat="d in decision") 
-                        | {{d.text}} 
-                        a(ng-class="{disabled: !d.isValid}" ng-click="d.isValid && chargerPage(d.page)") rendez-vous au {{d.page}}
-                        
-            div#ajouterObjets(ng-show="page.ajouterObjets")
-                p {{ page.ajouterObjets.text}}
-                div(ng-repeat="item in page.ajouterObjets.items")
-                    input(type="checkbox" ng-model="objetsAAjouter[item]")
-                    |   {{ item }}
-                a(ng-click="mettreAJourObjets()") Continuer
-            
-            div#confirmation(ng-show="confirmation")
-                p {{confirmation.message}}
-                a(ng-click="mettreAJourJoueur(confirmation.joueur, confirmation.lien)") Continuer
+            include ./decisions.jade
+            include ./combat.jade
                 
-            section#combat(ng-show="combat")
-                div#monstre
-                    span#nomMonstre {{combat.nom}}
-                    | HABILETÉ
-                    span#monstreAttaque {{combat.habilete}}
-                    | ENDURANCE
-                    span#monstreEndurance {{combat.endurance}}
-    
-                div.rondeCombat(ng-repeat="ronde in rondes")
-                    div
-                        | Ronde combat:
-                        span {{ rondes.indexOf(ronde)+1 }}
-                    div
-                        p Ratio de combat: {{ronde.quotientAttaque}}
-                        p Chiffre aléatoire: {{ronde.chiffreAleatoire}}
-                    div(ng-show="!combat.fuite")
-                        p Ton ennemi a obtenu {{ ronde.degatEnnemi }} dégâts -
-                        p et a maintenant {{ ronde.enduranceEnnemi }} points d'endurance.
-                    div
-                        p Loup Solitaire a eu {{ ronde.degatJoueur }} dégâts -
-                        p et a maintenant {{ ronde.enduranceJoueur }} points d'endurance.
-                        
-                div#choixCombat(ng-show="!combat.defaite && !combat.victoire && !combat.fuite")
-                    button#combattre.button(ng-click="combattre(false, false)")  COMBATTRE
-                    button#puissancePsy.button(ng-show="joueur.disciplines.indexOf('#{consts.discipline.PUISSANCE_PSYCHIQUE}') > -1" ng-click="combattre(false, true)")  PUISSANCE PSY
-                    button#fuir.button(ng-click="combattre(true, false)") FUIR
-                    
-                div#victoire(ng-show="combat.victoire && !combat.defaite")
-                    span Vous avez gagnez 
-                    a(ng-click="mettreAJourJoueur()") Continuer
-                  
-                div#victoire(ng-show="combat.defaite")
-                    span Vous avez perdu  
-                    
-                div#victoire(ng-show="combat.fuite")
-                    span Vous avez fuit
-                    a(ng-click="mettreAJourJoueur()") Continuer
-            
         include ./stats.jade

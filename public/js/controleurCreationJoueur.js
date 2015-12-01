@@ -5,12 +5,12 @@ var nbDisciplines = 5;
 app.controller('personnagesExistants', ['$scope', '$location', '$http', 
                                        function($scope, $location, $http) {
     var LOCAL_URL = $location.protocol() + "://" + $location.host() + ":" + $location.port();
-    $scope.joueurs = {};
+    $scope.joueurs = null;
     chargerJoueurs();
     
     function chargerJoueurs() {
         $http.get(LOCAL_URL + "/api/joueurs").then(function(response) {
-           $scope.joueurs = response.data;
+           $scope.joueurs = response.data || [];
         }); 
     };
 
@@ -80,7 +80,7 @@ app.controller('nouveauPerso', function($scope) {
     
     $scope.bloquerFormulaire = function() {
         return $scope.afficherErreurNom() ||
-               //$scope.afficherErreurMaitriseArme() ||
+               $scope.afficherErreurMaitriseArme() ||
                $scope.afficherErreurEquipement() ||
                $scope.afficherErreurDisciplines();
     }

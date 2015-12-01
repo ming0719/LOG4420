@@ -4,18 +4,19 @@ block head
     link(rel="stylesheet", href="/stylesheets/creationJoueur.css")
 
 block content
-    img(src="/images/loup_solitaire.png")
+    img(src="/images/loup_solitaire.png", class="logo")
     section(ng-controller="personnagesExistants")
         h1 Gérer les personnages
         fieldset
             legend Personnages existants
             div
-                span(ng-show ="!joueurs.length") Pas de personnages
-                ul
+                img.spinner(ng-show="!joueurs" src="images/spinner.gif")
+                span(ng-show ="joueurs && !joueurs.length") Aucun personnage n'a été crée
+                span(ng-show ="joueurs.length") Cliquez sur le nom d'un personnage pour commencer la partie avec.
+                ul#listeJoueurs
                     li(ng-repeat="j in joueurs")
-                        {{ j.nom }}
-                        button(ng-click="utiliserJoueur(j._id)") Utiliser
-                        button(ng-click="supprimerJoueur(j._id)") Supprimer
+                        a(ng-click="utiliserJoueur(j._id)") {{ j.nom }}
+                        img(ng-click="supprimerJoueur(j._id)", src="images/supprimer.png") 
 
     section
         h1 Création du personnage
@@ -38,72 +39,72 @@ block content
                 div#gauche
                     label
                         input(type="checkbox" name="discipline" value=c.discipline.CAMOUFLAGE ng-model="formData.disciplines['CAMOUFLAGE']")
-                        | Le camouflage
+                        | #{c.discipline.CAMOUFLAGE}
                     label
                         input(type="checkbox" name="discipline" value=c.discipline.CHASSE ng-model="formData.disciplines['CHASSE']")
-                        | La chasse
+                        | #{c.discipline.CHASSE}
                     label
                         input(type="checkbox" name="discipline" value=c.discipline.SIXIEME_SENS ng-model="formData.disciplines['SIXIEME_SENS']")
-                        | Sixième Sens
+                        | #{c.discipline.SIXIEME_SENS}
                     label
                         input(type="checkbox" name="discipline" value=c.discipline.ORIENTATION ng-model="formData.disciplines['ORIENTATION']")
-                        | L'Orientation
+                        | #{c.discipline.ORIENTATION}
                     label
                         input(type="checkbox" name="discipline" value=c.discipline.GUERISON ng-model="formData.disciplines['GUERISON']")
-                        | La guérison
+                        | #{c.discipline.GUERISON}
                 div#droite
                     label
                         input(type="checkbox" name="discipline" value=c.discipline.MAITRISE_ARMES ng-model="formData.disciplines['MAITRISE_ARMES']")
-                        | La Maîtrise des Armes
+                        | #{c.discipline.MAITRISE_ARMES}
                     label
                         input(type="checkbox" name="discipline" value=c.discipline.BOUCLIER_PSYCHIQUE ng-model="formData.disciplines['BOUCLIER_PSYCHIQUE']")
-                        | Bouclier Psychique
+                        | #{c.discipline.BOUCLIER_PSYCHIQUE}
                     label
                         input(type="checkbox" name="discipline" value=c.discipline.PUISSANCE_PSYCHIQUE ng-model="formData.disciplines['PUISSANCE_PSYCHIQUE']")
-                        | Puissance Psychique
+                        | #{c.discipline.PUISSANCE_PSYCHIQUE}
                     label
                         input(type="checkbox" name="discipline" value=c.discipline.COMMUNICATION_ANIMALE ng-model="formData.disciplines['COMMUNICATION_ANIMALE']")
-                        | Communication Animale
+                        | #{c.discipline.COMMUNICATION_ANIMALE}
                     label
                         input(type="checkbox" name="discipline" value=c.discipline.MAITRISE_PSYCHIQUE_MATIERE ng-model="formData.disciplines['MAITRISE_PSYCHIQUE_MATIERE']")
-                        | Maîtrise Psychique de la Matière
+                        | #{c.discipline.MAITRISE_PSYCHIQUE_MATIERE}
             fieldset
                 legend Équipement
                 p Choisir 2 items:
                 div
                     label
                         input(type="checkbox" name="arme" value=c.arme.EPEE ng-model="formData.armes['EPEE']")
-                        | Épée (Arme)
+                        | #{c.arme.EPEE} (Arme)
                     label
                         input(type="checkbox" name="arme" value=c.arme.SABRE ng-model="formData.armes['SABRE']")
-                        | Sabre (Arme)
+                        | #{c.arme.SABRE} (Arme)
                     label
                         input(type="checkbox" name="arme" value=c.arme.LANCE ng-model="formData.armes['LANCE']")
-                        | Lance (Arme)
+                        | #{c.arme.LANCE} (Arme)
                     label
                         input(type="checkbox" name="arme" value=c.arme.MASSE_ARME ng-model="formData.armes['MASSE_ARME']")
-                        | Masse d'Arme (Arme)
+                        | #{c.arme.MASSE_ARME} (Arme)
                     label
                         input(type="checkbox" name="arme" value=c.arme.MARTEAU_GUERRE ng-model="formData.armes['MARTEAU_GUERRE']")
-                        | Marteau de Guerre (Arme)
+                        | #{c.arme.MARTEAU_GUERRE} (Arme)
                     label
                         input(type="checkbox" name="arme" value=c.arme.HACHE ng-model="formData.armes['HACHE']")
-                        | Hâche (Arme)
+                        | #{c.arme.HACHE} (Arme)
                     label
                         input(type="checkbox" name="arme" value=c.arme.BATON ng-model="formData.armes['BATON']")
-                        | Bâton (Arme)
+                        | #{c.arme.BATON} (Arme)
                     label
                         input(type="checkbox" name="arme" value=c.arme.GLAIVE ng-model="formData.armes['GLAIVE']")
-                        | Glaive (Arme)
+                        | #{c.arme.GLAIVE} (Arme)
                     label
                         input(type="checkbox" name="objetSpecial" value=c.objetSpecial.GILET_CUIR_MARTELE ng-model="formData.objetsSpeciaux['GILET_CUIR_MARTELE']")
-                        | Gilet de Cuir Martelé (Objet Spécial)
+                        | #{c.objetSpecial.GILET_CUIR_MARTELE} (Objet Spécial)
                     label
                         input(type="checkbox" name="objet" value=c.objet.POTION_LAMPSUR ng-model="formData.objets['POTION_LAMPSUR']")
-                        | Potion de Lampsur (Objet dans le sac à dos)
+                        | #{c.objet.POTION_LAMPSUR} (Objet dans le sac à dos)
                     label
                         input(type="checkbox" name="objet" value=c.objet.RATIONS_SPECIALES ng-model="formData.objets['RATIONS_SPECIALES']")
-                        | Rations spéciales (Objet dans le sac à dos)
+                        | #{c.objet.RATIONS_SPECIALES} (Objet dans le sac à dos)
             
             div.erreurs
                 p(ng-show="afficherErreurNom()") Vous devez entrez un nom.

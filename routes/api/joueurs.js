@@ -130,7 +130,6 @@ router.get('/avancement/:id', function(req, res) {
  * Ajoute l'état initial du joueur au commencement de l'histoire.
  */
 router.post('/avancement/:joueurId', function(req, res) {
-    console.log("1er avancement sauvé");
     var avancement = new Avancement;
     avancement.pageId = 1;
     avancement.sectionId = 1;
@@ -155,7 +154,7 @@ router.put('/avancement/:joueurId', function(req, res) {
             var avancementAJour = req.body.avancement;
             avancement.pageId = avancementAJour.pageId;
             avancement.sectionId = avancementAJour.sectionId;
-            avancement.combats = avancementAJour.combats;
+            avancement.combat = avancementAJour.combat;
             avancement.save(function(err) {
                 if (err) {
                     res.send(err);
