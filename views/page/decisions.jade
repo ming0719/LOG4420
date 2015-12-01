@@ -7,7 +7,7 @@ div#decision(ng-show="decisions.length")
             a(ng-class="{disabled: !decision.isValid}" ng-click="decision.isValid && chargerPage(decision.lien)") rendez-vous à la page {{decision.page}}
             
 div#ajouterObjets(ng-show="page.ajouterObjets")
-    p {{ page.ajouterObjets.text}}
+    p {{ objetsProposes.text }}
     div(ng-repeat="item in page.ajouterObjets.items")
         input(type="checkbox" ng-model="objetsAAjouter[item]")
         |   {{ item }}

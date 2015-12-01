@@ -3,16 +3,23 @@ var Schema = mongoose.Schema;
 
 var rondeSchema = new Schema({
     chiffreAleatoire: Number,
-    enduranceMonstre: Number,
-    puissancePsychique: Boolean,
-    fuite: Boolean
+    quotientAttaque: Number,
+    degatEnnemi: Number,
+    degatJoueur: Number,
+    enduranceEnnemi: Number,
+    enduranceJoueur: Number,
 });
 
 var AvancementSchema = new Schema({
     pageId: Number,
     sectionId: Number,
     joueurId: Schema.Types.ObjectId,
-    combat: [rondeSchema]
+    combat: {
+        defaite: Boolean,
+        victoire: Boolean,
+        fuite: Boolean,
+        rondes: [rondeSchema]
+    }
 });
 
 module.exports = mongoose.model('Avancement', AvancementSchema);

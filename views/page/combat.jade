@@ -1,19 +1,19 @@
-section#combat(ng-show="combat")
+section#combat(ng-show="page.combat")
     div#monstre
-        span#nomMonstre {{combat.nom}}
+        span#nomMonstre {{page.combat.nom}}
         | HABILETÉ
-        span#monstreAttaque {{combat.habilete}}
+        span#monstreAttaque {{page.combat.habilete}}
         | ENDURANCE
-        span#monstreEndurance {{combat.endurance}}
+        span#monstreEndurance {{page.combat.endurance}}
 
-    div.rondeCombat(ng-repeat="ronde in combat.rondes")
+    div.rondeCombat(ng-repeat="ronde in combat.rondes track by $index")
         div
             | Ronde combat:
-            span {{ rondes.indexOf(ronde)+1 }}
+            span {{ combat.rondes.indexOf(ronde)+1 }}
         div
             p Ratio de combat: {{ronde.quotientAttaque}}
             p Chiffre aléatoire: {{ronde.chiffreAleatoire}}
-        div(ng-show="!combat.fuite")
+        div(ng-show="!(ronde == combat.rondes[combat.rondes.length - 1] && combat.fuite)")
             p Ton ennemi a obtenu {{ ronde.degatEnnemi }} dégâts -
             p et a maintenant {{ ronde.enduranceEnnemi }} points d'endurance.
         div
