@@ -27,7 +27,7 @@ section#combat(ng-show="section.combat")
         
     div.victoire(ng-show="section.combat.victoire && !section.combat.defaite")
         p Vous avez gagnez !
-        a(ng-click="mettreAJourJoueur()") Cliquez pour continuer
+        //a(ng-click="mettreAJourJoueur()") Cliquez pour continuer
       
     div.defaite(ng-show="section.combat.defaite")
         span Vous avez perdu ! La partie est terminée !
@@ -35,5 +35,5 @@ section#combat(ng-show="section.combat")
         
     div.fuite(ng-show="section.combat.fuite")
         p Vous avez pris la fuite !
-        a(ng-click="mettreAJourJoueur()") Cliquez pour continuer
+        //a(ng-click="mettreAJourJoueur()") Cliquez pour continuer
     

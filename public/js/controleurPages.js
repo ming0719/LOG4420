@@ -1,5 +1,5 @@
-app.controller('controleurPages', ['$scope', '$location', '$http', 
-                                    function($scope, $location, $http) {
+app.controller('controleurPages', ['$scope', '$q', '$location', '$http', 
+                                    function($scope, $q, $location, $http) {
     // Représente le joueur
     $scope.joueur = null;
     // Représente l'avancement associé au joueur
@@ -8,14 +8,6 @@ app.controller('controleurPages', ['$scope', '$location', '$http',
     $scope.page = [];
     // Représente une section de la page avec son contenu
     $scope.sectionPage = null;
-    // Représente les décisions associées à la page
-    $scope.decisions = null;
-    // Représente la confrmation associée à la page
-    $scope.confirmation = null;
-    // Représente l'ensemble des objets à ajouter au sac à dos du joueur
-    $scope.objetsAAjouter = null;
-    // Représente le combat associé à la page
-    $scope.combat = null;
     
     var LOCAL_URL = $location.protocol() + "://" + $location.host() + ":" + $location.port();
     
@@ -24,7 +16,28 @@ app.controller('controleurPages', ['$scope', '$location', '$http',
         $scope.joueur = response.data;
         $http.get(LOCAL_URL + "/api/joueurs/avancement/" + $scope.joueur._id).then(function (response) {
             $scope.avancement = response.data;
-            $scope.chargerPage("/pages/" + $scope.avancement.pageId + "/" + $scope.avancement.sectionId);
+            if($scope.page.length == 0 && $scope.avancement.sectionId > 1) {
+                chargerPage(1, $scope.avancement.sectionId);
+            }
+            else {
+                $scope.chargerPage("/pages/" + $scope.avancement.pageId + "/" + $scope.avancement.sectionId).then(function (){ 
+                    $scope.page.push($scope.sectionPage);
+                });
+            }
+            
+            function chargerPage(i, maxI) {
+                $scope.chargerPage("/pages/" + $scope.avancement.pageId + "/" + i, false, false).then(function(){
+                    $scope.page.push($scope.sectionPage);
+                    if (i < maxI) {
+                        chargerPage(i + 1, maxI);
+                    }
+                    else if(i == maxI) {
+                        $scope.chargerPage("/pages/" + $scope.avancement.pageId + "/" + i).then(function(){
+                        });
+                    }
+                });
+                
+            }
         });
     });
     
@@ -35,7 +48,9 @@ app.controller('controleurPages', ['$scope', '$location', '$http',
         var sectionSuivante = $scope.sectionPage.section + 1;
         var pageSuivante = page ? page : ("/pages/" + $scope.sectionPage.id + "/" +  sectionSuivante);
         $http.put(LOCAL_URL + "/api/joueurs/" + $scope.joueur._id, JSON.stringify({joueur: $scope.joueur})).then( function () {
-            $scope.chargerPage(pageSuivante);
+            $scope.chargerPage(pageSuivante).then(function (){ 
+                    $scope.page.push($scope.sectionPage);
+                });
         });
     }
     
@@ -59,100 +74,115 @@ app.controller('controleurPages', ['$scope', '$location', '$http',
                 $scope.joueur.endurancePlus++;
             }
     }
-     
         
-    $scope.chargerPage = function (page, reinitialiserAleatoire) {
-        $scope.sectionPage = null;
-        $scope.decisions = null;
-        $scope.confirmation = null;
-        $scope.combat = null;
-        $scope.ajouterObjets = null;
-        // Récupération de la page
-        $http.get(LOCAL_URL + "/api" + page).then(function(response){
-            $scope.sectionPage = response.data
-            
-            // Mise à jour de l'avancement dans la BDD
-            $scope.avancement.pageId = $scope.sectionPage.id;
-            $scope.avancement.sectionId = $scope.sectionPage.section;
-            if(!$scope.sectionPage.combat) {
-                $scope.avancement.combat = null;
-            }
-            
-             // Si on est sur le début d'un nouvelle page
-            if($scope.sectionPage.section == 1) {
-                // On vide l'objet page
-                $scope.page = [];
-            }
-            
-            // Pop Up de guérison
-            popUpGuerison();
-
-            // Si on a une décision
-            if($scope.sectionPage.decision) {
-                $scope.sectionPage.decisions = [];
-                var urlDecision = LOCAL_URL + $scope.sectionPage.decision + "/" + $scope.sectionPage.id;
-                if(reinitialiserAleatoire) {
-                    $scope.avancement.valeurAleatoire = null;
+    $scope.chargerPage = function (page, reinitialiserAleatoire = false, estCourante = true) {
+        return $q(function(resolve, reject) {
+            $scope.sectionPage = null;
+            // Récupération de la page
+            $http.get(LOCAL_URL + "/api" + page).then(function(response){
+                $scope.sectionPage = response.data
+                
+                // Mise à jour de l'avancement
+                $scope.avancement.pageId = $scope.sectionPage.id;
+                $scope.avancement.sectionId = $scope.sectionPage.section;
+                if(!$scope.sectionPage.combat) {
+                    $scope.avancement.combat = null;
                 }
-                if($scope.avancement.valeurAleatoire) {
-                    urlDecision += "/" + $scope.avancement.valeurAleatoire;
+                
+                 // Si on est sur le début d'un nouvelle page
+                if($scope.sectionPage.section == 1) {
+                    // On vide l'objet page
+                    $scope.page = [];
                 }
-                $http.get(urlDecision).then(function(response) {
-                    // Pour chaque décision, on découpe le lien pour avoir en plus la page et la section à part
-                    for(decision of response.data)
-                    {
-                        decision.lien = decision.page;
-                        var splitLien = decision.page.split("/");
-                        decision.page = splitLien[2];
-                        decision.section = splitLien[3];
-                        if($scope.avancement.valeurAleatoire) {
-                            decision.valeurAleatoire = $scope.avancement.valeurAleatoire;
-                        }
-                        $scope.sectionPage.decisions.push(decision);
+                
+                // Pop Up de guérison
+                popUpGuerison();
+                
+                // Si on a un ajout objet
+                if($scope.sectionPage.ajouterObjets) {
+                    $scope.sectionPage.objetsAAjouter = {};
+                }
+                
+                // Si on a un combat
+                if($scope.sectionPage.combat) {
+                    $scope.sectionPage.combat.rondes = [];
+                    // Charger un combat depuis l'avancement
+                    if($scope.avancement.combat && $scope.avancement.combat.rondes.length > 0) {
+                        $scope.sectionPage.combat = $scope.avancement.combat;
+                        $scope.joueur.endurancePlus = $scope.sectionPage.combat.rondes[$scope.sectionPage.combat.rondes.length - 1].enduranceJoueur;
                     }
-                    // On supprime car ce n'est pas sous la forme que l'on veut utiliser
-                    delete $scope.sectionPage.decision ;
-                    
-                    $scope.avancement.valeurAleatoire = $scope.sectionPage.decisions[0].valeurAleatoire || null;
-                    mettreAJourAvancement();
-                });
-            } else {
-                $scope.avancement.valeurAleatoire = null;
-                mettreAJourAvancement();
-            }
-            
-            // Si on a une confirmation
-            if($scope.sectionPage.confirmation) {
-                $http.get(LOCAL_URL + $scope.sectionPage.confirmation + "/" + $scope.sectionPage.id).then(function(response) {
-                    $scope.sectionPage.confirmation = response.data
-                });
-            }
-            
-            // Si on a un ajout objet
-            if($scope.sectionPage.ajouterObjets) {
-                $scope.sectionPage.objetsAAjouter = {};
-            }
-            
-            // Si on a un combat
-            if($scope.sectionPage.combat) {
-                $scope.sectionPage.combat.rondes = [];
-                // Charger un combat depuis l'avancement
-                if($scope.avancement.combat && $scope.avancement.combat.rondes.length > 0) {
-                    $scope.sectionPage.combat = $scope.avancement.combat;
-                    $scope.joueur.endurancePlus = $scope.sectionPage.combat.rondes[$scope.sectionPage.combat.rondes.length - 1].enduranceJoueur;
                 }
-            }
-            
-            $scope.sectionPage.lienActif = true;
-            $scope.page.push($scope.sectionPage);
-            console.log($scope.sectionPage.decisions)
-                       
-             
-           
-            
+ 
+                // Le lien est activé en fonction de l'état de la section (courante ou non)
+                $scope.sectionPage.lienActif = estCourante;
+     
+                var confirmationFaite = false;
+                var decisionsFaite = false;
+                // Si on a une décision
+                if($scope.sectionPage.decision) {
+                    $scope.sectionPage.decisions = [];
+                    var urlDecision = LOCAL_URL + $scope.sectionPage.decision + "/" + $scope.sectionPage.id;
+                    if(reinitialiserAleatoire) {
+                        $scope.avancement.valeurAleatoire = null;
+                    }
+                    if($scope.avancement.valeurAleatoire) {
+                        urlDecision += "/" + $scope.avancement.valeurAleatoire;
+                    }
+                    $http.get(urlDecision).then(function(response) {
+                        // Pour chaque décision, on découpe le lien pour avoir en plus la page et la section à part
+                        $scope.sectionPage.decisions = [];
+                        for(decision of response.data)
+                        {
+                            decision.lien = decision.page;
+                            var splitLien = decision.page.split("/");
+                            decision.page = splitLien[2];
+                            decision.section = splitLien[3];
+                            if($scope.avancement.valeurAleatoire) {
+                                decision.valeurAleatoire = $scope.avancement.valeurAleatoire;
+                            }
+                            $scope.sectionPage.decisions.push(decision);
+                        }
+                        // On transforme en booleen (les decisions sont dans $scope.sectionPage.decisions)
+                        $scope.sectionPage.decision = true ;
+                        
+                        $scope.avancement.valeurAleatoire = $scope.sectionPage.decisions[0].valeurAleatoire || null;
+                        if(estCourante) {
+                            // Mise à jour de l'avancement dans la BDD
+                            mettreAJourAvancement();
+                        }
+                        if(!$scope.sectionPage.confirmation) {
+                            resolve();
+                        } else if(confirmationFaite) {
+                            resolve();
+                        }
+                        decisionsFaite = true;
+                    });
+                } else if(estCourante) {
+                    //$scope.avancement.valeurAleatoire = null;
+                    mettreAJourAvancement();
+                }
+                
+                // Si on a une confirmation
+                if($scope.sectionPage.confirmation) {
+                    $http.get(LOCAL_URL + $scope.sectionPage.confirmation + "/" + $scope.sectionPage.id).then(function(response) {
+                        $scope.sectionPage.confirmation = response.data;
+                        if(!$scope.sectionPage.decision) {
+                            resolve();
+                        } else if(decisionsFaite) {
+                            resolve();
+                        }
+                        confirmationFaite = true;
+                    });
+                }
+                
+                // Si on a bien fini nos requêtes sur décision et confirmation
+                if((!$scope.sectionPage.decision && 
+                    !$scope.sectionPage.confirmation) ||
+                    (confirmationFaite && decisionFaite)) {
+                    resolve();
+                }
+            });
         });
-        console.log($scope.page);
-        
     }
     
     $scope.mettreAJourObjets = function () {
@@ -195,10 +225,16 @@ app.controller('controleurPages', ['$scope', '$location', '$http',
             
             // Remplissage du tableau de rondes
             $scope.sectionPage.combat.rondes.push(ronde.data);
-
-            // Mise à jour de l'avancement du combat dans la BDD
+            
             $scope.avancement.combat = $scope.sectionPage.combat;
-            mettreAJourAvancement();
+            if(($scope.sectionPage.combat.victoire || $scope.sectionPage.combat.fuite) && !$scope.sectionPage.combat.defaite)
+            {
+                $scope.mettreAJourJoueur();
+            }
+            else {
+               // Mise à jour de l'avancement du combat dans la BDD
+                mettreAJourAvancement(); 
+            }
         });
     }
     

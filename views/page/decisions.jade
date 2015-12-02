@@ -1,4 +1,4 @@
-div#decision(ng-show="section.decisions.length")
+div#decision(ng-show="section.decisions")
     img(src="/images/decision.jpg")
     div
         p(ng-show="section.decisions[0].valeurAleatoire != undefined") Votre valeur aléatoire est {{ section.decisions[0].valeurAleatoire }}
@@ -9,7 +9,7 @@ div#decision(ng-show="section.decisions.length")
 div#ajouterObjets(ng-show="section.ajouterObjets")
     p {{ objetsProposes.text }}
     div(ng-repeat="item in section.ajouterObjets.items")
-        input(type="checkbox" ng-model="sectionPage.objetsAAjouter[item]")
+        input(type="checkbox" ng-model="section.objetsAAjouter[item]")
         |   {{ item }}
     br
     a(ng-click="section.lienActif && mettreAJourObjets()" ng-class="{disabled: !section.lienActif}") Valider et continuer
