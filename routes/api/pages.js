@@ -24,7 +24,7 @@ router.post('/', function(req, res) {
  *
  * @return La représentation du choix aléatoire de la page
  */
-router.get('/decisionAleatoire/:pageId', function(req, res) {
+router.get('/decisionAleatoire/:pageId/:va?', function(req, res) {
     var id = req.params.pageId;
     var choix = u.find(da.decisionsAleatoire, function(page) {
         return page.id == id;
@@ -39,6 +39,9 @@ router.get('/decisionAleatoire/:pageId', function(req, res) {
             res.json({message: "Le joueur n'existe pas dans la session."});
         } else {
             var valeurAleatoire = choix.f(joueur);
+            if (req.params.va) {
+                valeurAleatoire = parseInt(req.params.va);
+            }
             var decisions = u.map(choix.decision, function(decision) {
                 decision.valeurAleatoire = valeurAleatoire;
                 if (decision.min <= valeurAleatoire && decision.max >= valeurAleatoire) {

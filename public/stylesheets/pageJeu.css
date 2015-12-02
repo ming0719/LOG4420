@@ -323,9 +323,7 @@ body {
   line-height: 0;
 }
 
-#confirmation .disabled, #decision .disabled {
+#confirmation .disabled, #decision .disabled, #ajouterObjets .disabled {
     color: #FF0000;
     cursor: not-allowed;
 }
-
-.floatbox

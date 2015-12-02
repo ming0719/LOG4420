@@ -156,6 +156,7 @@ router.put('/avancement/:joueurId', function(req, res) {
             avancement.pageId = avancementAJour.pageId;
             avancement.sectionId = avancementAJour.sectionId;
             avancement.combat = avancementAJour.combat;
+            avancement.valeurAleatoire = avancementAJour.valeurAleatoire;
             avancement.save(function(err) {
                 if (err) {
                     res.send(err);

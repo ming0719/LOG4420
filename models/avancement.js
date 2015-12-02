@@ -19,7 +19,8 @@ var AvancementSchema = new Schema({
         victoire: Boolean,
         fuite: Boolean,
         rondes: [rondeSchema]
-    }
+    },
+    valeurAleatoire: Number
 });
 
 module.exports = mongoose.model('Avancement', AvancementSchema);
