@@ -1,4 +1,4 @@
-section#stats
+section#stats.floatbox
     p Feuille d'Aventure
     table
         tbody
@@ -32,9 +32,9 @@ section#stats
             div
                 p Objets
                 ul
-                    li(ng-repeat="obj in joueur.objets") {{ obj }}
+                    li(ng-repeat="obj in joueur.objets track by $index") {{ obj }}
             div
                 p Objets Spéciaux
                 ul
-                    li(ng-repeat="objSpe in joueur.objetsSpeciaux") {{ objSpe }}
+                    li(ng-repeat="objSpe in joueur.objetsSpeciaux track by $index") {{ objSpe }}
 

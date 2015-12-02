@@ -1,20 +1,20 @@
-div#decision(ng-show="decisions.length")
+div#decision(ng-show="section.decisions.length")
     img(src="/images/decision.jpg")
     div
-        p(ng-show="decisions[0].valeurAleatoire != undefined") Votre valeur aléatoire est {{ decisions[0].valeurAleatoire }}
-        p(ng-repeat="decision in decisions") 
+        p(ng-show="section.decisions[0].valeurAleatoire != undefined") Votre valeur aléatoire est {{ decisions[0].valeurAleatoire }}
+        p(ng-repeat="decision in section.decisions") 
             | {{decision.text}} 
             a(ng-class="{disabled: !decision.isValid}" ng-click="decision.isValid && chargerPage(decision.lien)") rendez-vous à la page {{decision.page}}
             
-div#ajouterObjets(ng-show="page.ajouterObjets")
+div#ajouterObjets(ng-show="section.ajouterObjets")
     p {{ objetsProposes.text }}
-    div(ng-repeat="item in page.ajouterObjets.items")
-        input(type="checkbox" ng-model="objetsAAjouter[item]")
+    div(ng-repeat="item in section.ajouterObjets.items")
+        input(type="checkbox" ng-model="sectionPage.objetsAAjouter[item]")
         |   {{ item }}
     br
     a(ng-click="mettreAJourObjets()") Valider et continuer
 
-div#confirmation(ng-show="confirmation")
-    p {{confirmation.message}}
+div#confirmation(ng-show="section.confirmation")
+    p {{section.confirmation.message}}
     br
-    a(ng-click="mettreAJourJoueur(confirmation.joueur, confirmation.lien)") Confirmer et continuer
+    a(ng-click="mettreAJourJoueur(section.confirmation.joueur, section.confirmation.lien)") Confirmer et continuer

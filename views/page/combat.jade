@@ -1,37 +1,39 @@
-section#combat(ng-show="page.combat")
+section#combat(ng-show="section.combat")
     div#monstre
-        span#nomMonstre {{page.combat.nom}}
+        span#nomMonstre {{section.combat.nom}}
         | HABILETÉ
-        span#monstreAttaque {{page.combat.habilete}}
+        span#monstreAttaque {{section.combat.habilete}}
         | ENDURANCE
-        span#monstreEndurance {{page.combat.endurance}}
+        span#monstreEndurance {{section.combat.endurance}}
 
-    div.rondeCombat(ng-repeat="ronde in combat.rondes track by $index")
+    div.rondeCombat(ng-repeat="ronde in section.combat.rondes track by $index")
         div
             | Ronde combat:
-            span {{ combat.rondes.indexOf(ronde)+1 }}
+            span {{ section.combat.rondes.indexOf(ronde)+1 }}
         div
             p Ratio de combat: {{ronde.quotientAttaque}}
             p Chiffre aléatoire: {{ronde.chiffreAleatoire}}
-        div(ng-show="!(ronde == combat.rondes[combat.rondes.length - 1] && combat.fuite)")
+        div(ng-show="!(ronde == section.combat.rondes[section.combat.rondes.length - 1] && section.combat.fuite)")
             p Ton ennemi a obtenu {{ ronde.degatEnnemi }} dégâts -
             p et a maintenant {{ ronde.enduranceEnnemi }} points d'endurance.
         div
             p Loup Solitaire a eu {{ ronde.degatJoueur }} dégâts -
             p et a maintenant {{ ronde.enduranceJoueur }} points d'endurance.
             
-    div#choixCombat(ng-show="!combat.defaite && !combat.victoire && !combat.fuite")
+    div#choixCombat(ng-show="!section.combat.defaite && !section.combat.victoire && !section.combat.fuite")
         button#combattre.button(ng-click="combattre(false, false)")  COMBATTRE
         button#puissancePsy.button(ng-show="joueur.disciplines.indexOf('#{consts.discipline.PUISSANCE_PSYCHIQUE}') > -1" ng-click="combattre(false, true)")  PUISSANCE PSY
         button#fuir.button(ng-click="combattre(true, false)") FUIR
         
-    div.victoire(ng-show="combat.victoire && !combat.defaite")
+    div.victoire(ng-show="section.combat.victoire && !section.combat.defaite")
         p Vous avez gagnez !
         a(ng-click="mettreAJourJoueur()") Cliquez pour continuer
       
-    div.defaite(ng-show="combat.defaite")
+    div.defaite(ng-show="section.combat.defaite")
         span Vous avez perdu ! La partie est terminée !
+        a(ng-click="supprimerJoueur()") Retour à l'accueil
         
-    div.fuite(ng-show="combat.fuite")
+    div.fuite(ng-show="section.combat.fuite")
         p Vous avez pris la fuite !
         a(ng-click="mettreAJourJoueur()") Cliquez pour continuer
+    

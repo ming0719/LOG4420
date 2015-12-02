@@ -83,6 +83,7 @@ router.put('/:id', function(req, res) {
                 if (err) {
                     res.send(err);
                 } else {
+                    req.session.joueur = joueur;
                     res.json({message: "Le joueur a été correctement mis à jour."});
                 }
             });

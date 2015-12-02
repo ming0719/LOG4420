@@ -5,39 +5,38 @@
 main {
     width: 1050px;
     margin: 0 auto;
+    display:flex;
+    justify-content: space-between;
 }
 
 body {
     font-family: Souvenir,Georgia,"Times New Roman",Times,serif;
 }
 
-#title {
-    width: 600px;
-    height: 100px;
-    /* margin: 30px 80px 10px; */
-    margin: 30px 80px 10px 0px;
+#contenu {
+    width:600px;
 }
 
-#title img {
-    display: inline-block;
+#title {
+    background: url("../images/pageTitre.png");
+    width: 552px;
+    height: 100px;
+    text-align:right;
+    margin: 30px 10px 10px 0px;
 }
+
 
 #title #numeroPage {
-    display: inline-block;
-    width: 50px;
-    vertical-align: top;
-    position: relative;
-    top: 50%;
-    right: 51px;
-    transform: translateY(-50%);
-    font-weight: bold;
-    font-size: 17px;
     text-align: center;
+    line-height: 100px;
+    margin-right: 8px;
+    width: 41px;
+    display: inline-block;
+    font-size: 17px;
 }
 
 #histoire {
   width: 550px;
-  /* margin: 0 50px 0 100px; */
   margin: 0 50px 0 0;
   display: inline-block;
 }
@@ -181,8 +180,6 @@ body {
 
 #stats {
     position: relative;
-    top: -100px;
-    display: inline-block;
     width: 425px;
     height: 700px;
     vertical-align: top;
@@ -330,3 +327,5 @@ body {
     color: #FF0000;
     cursor: not-allowed;
 }
+
+.floatbox
