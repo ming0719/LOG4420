@@ -2,6 +2,28 @@ var app = angular.module('log4420', []);
 var nbObjets = 2;
 var nbDisciplines = 5;
 
+app.factory('myRoutes',['$location', function($location){
+    var root = $location.protocol() + "://" + $location.host() + ":" + $location.port();
+    return {
+        root: root,
+        joueurCourant: root + "/api/joueurs/joueurCourant",
+        avancement: root + "/api/joueurs/avancement/",
+    }
+}]);
+
+function ServiceJoueur($location, $http, $q, $log, myRoutes) {
+    this.$location = $location;
+    this.$http = $http;
+    this.$q = $q;
+    this.$log = $log;
+    this.myRoutes = myRoutes;
+    this.joueur = function() {
+        return this.$http.get(this.myRoutes.joueurCourant);
+    }
+}
+
+app.service('ServiceJoueur', ['$location','$http', '$q', '$log','myRoutes', ServiceJoueur]);
+
 app.controller('personnagesExistants', ['$scope', '$location', '$http', 
                                        function($scope, $location, $http) {
     var LOCAL_URL = $location.protocol() + "://" + $location.host() + ":" + $location.port();

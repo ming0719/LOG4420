@@ -1,5 +1,56 @@
-app.controller('controleurPages', ['$scope', '$q', '$location', '$http', 
-                                    function($scope, $q, $location, $http) {
+function ServicePages($http, $q, myRoutes){
+    this.$http = $http;
+    this.$q = $q;
+    this.myRoutes = myRoutes;
+    
+    var avancement = null;
+    var page = [];
+    
+    var moi = this;
+    
+    this.recupererPageActuelle = function(joueur,powerPage, $scope /*to remove*/) {
+        return $q(function(resolve, reject) {
+            $http.get(myRoutes.avancement + joueur._id).then(function (response) {
+                avancement = response.data;
+                $scope.avancement = avancement;
+                if(page.length == 0 && avancement.sectionId > 1) {
+                    chargerPages(1, avancement.sectionId);
+                }
+                else {
+                    powerPage("/pages/" + avancement.pageId + "/" + avancement.sectionId).then(function (result){ 
+                        page.push(result.sectionPage);
+                        console.log(page);
+                    });
+                }
+                
+                function chargerPages(i, maxI) {
+                    powerPage("/pages/" + avancement.pageId + "/" + i, false, false).then(function(result){
+                        page.push(result.sectionPage);
+                        console.log(page);
+                        if (i < maxI) {
+                            chargerPages(i + 1, maxI);
+                        }
+                        else if(i == maxI) {
+                            powerPage("/pages/" + avancement.pageId + "/" + i).then(function(){
+                                moi.avancement = avancement;
+                                moi.page = page;
+                                resolve({
+                                    avancement: avancement,
+                                    page: page
+                                });
+                            });
+                        }
+                    });
+                }
+            });
+        });
+    }
+}
+
+app.service('ServicePages', ['$http', '$q', 'myRoutes', ServicePages]);
+
+app.controller('controleurPages', ['$scope', '$q', '$location', '$http', 'myRoutes', 'ServiceJoueur', 'ServicePages',
+                                    function($scope, $q, $location, $http, myRoutes, ServiceJoueur, ServicePages) {
     // Représente le joueur
     $scope.joueur = null;
     // Représente l'avancement associé au joueur
@@ -8,36 +59,17 @@ app.controller('controleurPages', ['$scope', '$q', '$location', '$http',
     $scope.page = [];
     // Représente une section de la page avec son contenu
     $scope.sectionPage = null;
-    
-    var LOCAL_URL = $location.protocol() + "://" + $location.host() + ":" + $location.port();
+    var LOCAL_URL = myRoutes.root;
     
     // Récupération du joueur et de son avancement en BDD
-    $http.get(LOCAL_URL + "/api/joueurs/joueurCourant").then(function(response) {
+    ServiceJoueur.joueur().then(function(response) {
+        if(response.status == 500) {
+            window.location.pathname = "/creationJoueur";
+        }
         $scope.joueur = response.data;
-        $http.get(LOCAL_URL + "/api/joueurs/avancement/" + $scope.joueur._id).then(function (response) {
-            $scope.avancement = response.data;
-            if($scope.page.length == 0 && $scope.avancement.sectionId > 1) {
-                chargerPage(1, $scope.avancement.sectionId);
-            }
-            else {
-                $scope.chargerPage("/pages/" + $scope.avancement.pageId + "/" + $scope.avancement.sectionId).then(function (){ 
-                    $scope.page.push($scope.sectionPage);
-                });
-            }
-            
-            function chargerPage(i, maxI) {
-                $scope.chargerPage("/pages/" + $scope.avancement.pageId + "/" + i, false, false).then(function(){
-                    $scope.page.push($scope.sectionPage);
-                    if (i < maxI) {
-                        chargerPage(i + 1, maxI);
-                    }
-                    else if(i == maxI) {
-                        $scope.chargerPage("/pages/" + $scope.avancement.pageId + "/" + i).then(function(){
-                        });
-                    }
-                });
-                
-            }
+        ServicePages.recupererPageActuelle($scope.joueur, $scope.chargerPage, $scope).then(function(result) {
+            $scope.avancement = result.avancement;
+            $scope.page = result.page;
         });
     });
     
@@ -50,6 +82,7 @@ app.controller('controleurPages', ['$scope', '$q', '$location', '$http',
         $http.put(LOCAL_URL + "/api/joueurs/" + $scope.joueur._id, JSON.stringify({joueur: $scope.joueur})).then( function () {
             $scope.chargerPage(pageSuivante).then(function (){ 
                     $scope.page.push($scope.sectionPage);
+                    console.log($scope.page);
                 });
         });
     }
@@ -78,6 +111,7 @@ app.controller('controleurPages', ['$scope', '$q', '$location', '$http',
     $scope.chargerPage = function (page, reinitialiserAleatoire = false, estCourante = true) {
         return $q(function(resolve, reject) {
             $scope.sectionPage = null;
+    
             // Récupération de la page
             $http.get(LOCAL_URL + "/api" + page).then(function(response){
                 $scope.sectionPage = response.data
@@ -85,7 +119,7 @@ app.controller('controleurPages', ['$scope', '$q', '$location', '$http',
                 // Mise à jour de l'avancement
                 $scope.avancement.pageId = $scope.sectionPage.id;
                 $scope.avancement.sectionId = $scope.sectionPage.section;
-                if(!$scope.sectionPage.combat) {
+                if($scope.sectionPage.section == 1 && !$scope.sectionPage.combat) {
                     $scope.avancement.combat = null;
                 }
                 
@@ -105,6 +139,7 @@ app.controller('controleurPages', ['$scope', '$q', '$location', '$http',
                 
                 // Si on a un combat
                 if($scope.sectionPage.combat) {
+                    $scope.joueur.enduranceAvantCombat = $scope.joueur.endurancePlus;
                     $scope.sectionPage.combat.rondes = [];
                     // Charger un combat depuis l'avancement
                     if($scope.avancement.combat && $scope.avancement.combat.rondes.length > 0) {
@@ -151,9 +186,9 @@ app.controller('controleurPages', ['$scope', '$q', '$location', '$http',
                             mettreAJourAvancement();
                         }
                         if(!$scope.sectionPage.confirmation) {
-                            resolve();
+                            resolve({sectionPage: $scope.sectionPage});
                         } else if(confirmationFaite) {
-                            resolve();
+                            resolve({sectionPage: $scope.sectionPage});
                         }
                         decisionsFaite = true;
                     });
@@ -167,9 +202,9 @@ app.controller('controleurPages', ['$scope', '$q', '$location', '$http',
                     $http.get(LOCAL_URL + $scope.sectionPage.confirmation + "/" + $scope.sectionPage.id).then(function(response) {
                         $scope.sectionPage.confirmation = response.data;
                         if(!$scope.sectionPage.decision) {
-                            resolve();
+                            resolve({sectionPage: $scope.sectionPage});
                         } else if(decisionsFaite) {
-                            resolve();
+                            resolve({sectionPage: $scope.sectionPage});
                         }
                         confirmationFaite = true;
                     });
@@ -179,7 +214,7 @@ app.controller('controleurPages', ['$scope', '$q', '$location', '$http',
                 if((!$scope.sectionPage.decision && 
                     !$scope.sectionPage.confirmation) ||
                     (confirmationFaite && decisionFaite)) {
-                    resolve();
+                    resolve({sectionPage: $scope.sectionPage});
                 }
             });
         });
@@ -188,7 +223,12 @@ app.controller('controleurPages', ['$scope', '$q', '$location', '$http',
     $scope.mettreAJourObjets = function () {
         Object.keys($scope.sectionPage.objetsAAjouter).forEach(function(key) {
             if($scope.sectionPage.objetsAAjouter[key]) {
-                $scope.joueur.objets.push(key);
+                if($scope.sectionPage.ajouterObjets.special) {
+                    $scope.joueur.objetsSpeciaux.push(key);
+                }
+                else {
+                    $scope.joueur.objets.push(key);
+                }
             }
         });
         $scope.mettreAJourJoueur();
