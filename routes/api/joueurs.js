@@ -67,15 +67,17 @@ router.get('/:id?', function(req, res) {
  * Modifie la représentation du joueur.
  * @param id Id du joueur
  */
-router.put('/:id', function(req, res) {
-    var id = req.params.id;
+router.put('/:id', miseAJourJoueur);
+
+function miseAJourJoueur(req, res) {
+    var id = req.params.id || req.session.joueur._id;
     Joueur.findById(id, function(err, joueur) {
         if (err) {
             res.send(err);
         } else {
-            var joueurAJour = req.body.joueur;
+            var joueurAJour = req.body.joueur || req.session.joueur;
             joueur.pieceOr = joueurAJour.pieceOr;
-            joueur.armes = joueurAJour.pieceOr;
+            joueur.armes = joueurAJour.armes;
             joueur.objets = joueurAJour.objets;
             joueur.objetsSpeciaux = joueurAJour.objetsSpeciaux;
             joueur.habileteBase = joueurAJour.habileteBase;
@@ -87,12 +89,12 @@ router.put('/:id', function(req, res) {
                     res.send(err);
                 } else {
                     req.session.joueur = joueur;
-                    res.json({message: "Le joueur a été correctement mis à jour."});
+                    res.json(joueur);
                 }
             });
         }
     });
-});
+}
 
 /**
  * Supprime un joueur de la BD selon l'ID.
@@ -191,7 +193,7 @@ router.delete('/avancement/:id', function(req, res) {
     });
 });
 
-router.put('/sacados/:pageId/:sectionId', function(req, res){
+router.put('/sacADos/:pageId/:sectionId', function(req, res){
     var joueur = req.session.joueur;
     var page = u.find(pagesJeu.pages, function(page) {
         return page.id == req.params.pageId && 
@@ -204,19 +206,19 @@ router.put('/sacados/:pageId/:sectionId', function(req, res){
         res.send("Pas une page d'ajout d'objet!");
     }
     if(!objets || objets.length < 1) {
-        res.send("Aucun objet a ajouter!");
+        res.send("Aucun objet à ajouter!");
     }
     
-    if(u.difference(objets,page.ajouterObjets.items).length) {
+    if(u.difference(objets, page.ajouterObjets.items).length) {
         res.send("Ajout d'objet non autorisé");
     }
-    
     if(page.ajouterObjets.special) {
-        joueur.objetsSpeciaux.concat(objets);
+        joueur.objetsSpeciaux = joueur.objetsSpeciaux.concat(objets);
     } else {
-        joueur.objets.concat(objets);
+        joueur.objets = joueur.objets.concat(objets);
     }
-    res.json(joueurs);
+    req.session.joueur = joueur;
+    miseAJourJoueur(req, res);
 });
 
 module.exports = router;
