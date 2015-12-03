@@ -4,7 +4,7 @@ div#decision(ng-show="section.decisions")
         p(ng-show="section.decisions[0].valeurAleatoire != undefined") Votre valeur aléatoire est {{ section.decisions[0].valeurAleatoire }}
         p(ng-repeat="decision in section.decisions") 
             | {{decision.text}} 
-            a(ng-class="{disabled: !decision.isValid}" ng-click="decision.isValid && chargerPage(decision.lien, true)") rendez-vous à la page {{decision.page}}
+            a(ng-class="{disabled: !decision.isValid}" ng-click="decision.isValid && chargerPage(decision.lien, true, true)") rendez-vous à la page {{decision.page}}
             
 div#ajouterObjets(ng-show="section.ajouterObjets")
     p {{ objetsProposes.text }}

@@ -13,6 +13,7 @@ block content
                 p(ng-repeat="c in section.contenu")
                     img(ng-show="c.img" ng-src="{{c.img}}")
                     {{c.text}}
+                a(ng-show="section.finPartie" ng-click="supprimerJoueur()") Retour à l'accueil
                 
                 include ./decisions.jade
                 include ./combat.jade
