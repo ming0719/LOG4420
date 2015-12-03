@@ -44,7 +44,7 @@ router.get('/decisionAleatoire/:pageId/:va?', function(req, res) {
             }
             var decisions = u.map(choix.decision, function(decision) {
                 decision.valeurAleatoire = valeurAleatoire;
-                if (decision.min <= valeurAleatoire && decision.max >= valeurAleatoire) {
+                if (!decision.nonValide && decision.min <= valeurAleatoire && decision.max >= valeurAleatoire) {
                     decision.isValid = true;
                     return decision;
                 } else {

@@ -31,6 +31,9 @@ router.get('/charger/:id', function(req, res) {
  * Recupère le joueur en session
  */
 router.get('/joueurCourant', function(req, res){
+    if(!req.session.joueur) {
+        res.status(500).send({error:"Aucun joueur"});
+    }
     res.json(req.session.joueur);
 });
 
@@ -161,6 +164,7 @@ router.put('/avancement/:joueurId', function(req, res) {
                 if (err) {
                     res.send(err);
                 } else {
+    
                     res.json({message: "L'avancement du joueur " + req.params.joueurId + " a été correctement mis à jour."});
                 }
             });
@@ -185,6 +189,34 @@ router.delete('/avancement/:id', function(req, res) {
             });
         }
     });
+});
+
+router.put('/sacados/:pageId/:sectionId', function(req, res){
+    var joueur = req.session.joueur;
+    var page = u.find(pagesJeu.pages, function(page) {
+        return page.id == req.params.pageId && 
+               page.section == req.params.sectionId;
+    });
+    
+    var objets = req.body.objets;
+    
+    if(!page.ajouterObjets) {
+        res.send("Pas une page d'ajout d'objet!");
+    }
+    if(!objets || objets.length < 1) {
+        res.send("Aucun objet a ajouter!");
+    }
+    
+    if(u.difference(objets,page.ajouterObjets.items).length) {
+        res.send("Ajout d'objet non autorisé");
+    }
+    
+    if(page.ajouterObjets.special) {
+        joueur.objetsSpeciaux.concat(objets);
+    } else {
+        joueur.objets.concat(objets);
+    }
+    res.json(joueurs);
 });
 
 module.exports = router;
