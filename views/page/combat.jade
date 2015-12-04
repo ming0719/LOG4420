@@ -21,19 +21,19 @@ section#combat(ng-show="section.combat")
             p et a maintenant {{ ronde.enduranceJoueur }} points d'endurance.
             
     div#choixCombat(ng-show="!section.combat.defaite && !section.combat.victoire && !section.combat.fuite")
-        button#combattre.button(ng-click="combattre(false, false)")  COMBATTRE
-        button#puissancePsy.button(ng-show="joueur.disciplines.indexOf('#{consts.discipline.PUISSANCE_PSYCHIQUE}') > -1" ng-click="combattre(false, true)")  PUISSANCE PSY
-        button#fuir.button(ng-click="combattre(true, false)") FUIR
+        button#combattre.button(ng-click="combattre(section, false, false)")  COMBATTRE
+        button#puissancePsy.button(ng-show="joueur.disciplines.indexOf('#{consts.discipline.PUISSANCE_PSYCHIQUE}') > -1" ng-click="combattre(section, false, true)")  PUISSANCE PSY
+        button#fuir.button(ng-click="combattre(section, true, false)") FUIR
         
     div.victoire(ng-show="section.combat.victoire && !section.combat.defaite")
         p Vous avez gagnez !
-        //a(ng-click="mettreAJourJoueur()") Cliquez pour continuer
-      
-    div.defaite(ng-show="section.combat.defaite")
-        span Vous avez perdu ! La partie est terminée !
-        a(ng-click="supprimerJoueur()") Retour à l'accueil
         
     div.fuite(ng-show="section.combat.fuite")
         p Vous avez pris la fuite !
-        //a(ng-click="mettreAJourJoueur()") Cliquez pour continuer
+        
+    div.defaite(ng-show="section.combat.defaite")
+        span Vous avez perdu ! La partie est terminée ! 
+        a(ng-click="supprimerJoueur()")  Retour à l'accueil
+        
+    
     

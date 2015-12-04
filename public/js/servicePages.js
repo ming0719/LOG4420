@@ -168,6 +168,27 @@ function ServicePages($http, $q, mesRoutes){
             });
         });
     }
+    
+    this.combattre = function (lien, joueur, enduranceMonstre, fuite) {
+        return $q(function(resolve, reject) {
+            $http.get(mesRoutes.combat + lien).then(function(ronde) {
+                // MAJ des données du joueur 
+                // (on rajoute un champ qui correspond à son endurance après perte des points, plus pratique pour l'affichage)
+                joueur.endurancePlus -= ronde.data.degatJoueur;
+                if(joueur.endurancePlus < 0) {
+                    joueur.endurancePlus = 0;
+                }
+                ronde.data.enduranceJoueur = joueur.endurancePlus;
+                if(!fuite) {
+                    ronde.data.enduranceEnnemi = enduranceMonstre - ronde.data.degatEnnemi;
+                }
+                if(ronde.data.enduranceEnnemi < 0) {
+                    ronde.data.enduranceEnnemi = 0;
+                }
+                resolve({ronde: ronde.data});
+            });
+        });
+    }
 }
 
 app.service('ServicePages', ['$http', '$q', 'mesRoutes', ServicePages]);

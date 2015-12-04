@@ -6,8 +6,6 @@ app.controller('controleurPages', ['$scope', '$q', '$location', '$http', 'mesRou
     $scope.avancement = null;
     // Représente la page au complet avec ses différentes sections
     $scope.page = [];
-    // Représente une section de la page avec son contenu
-    $scope.sectionPage = null;
     
     // Récupération du joueur et de son avancement en BDD
     ServiceJoueur.joueur().then(function(response) {
@@ -32,9 +30,12 @@ app.controller('controleurPages', ['$scope', '$q', '$location', '$http', 'mesRou
     // Confirmer 
     $scope.confirmer = function(section) {
         section.lienActif = false;
-        ServiceJoueurs.mettreAJourJoueur(section.confirmation.lien, section.confirmation.joueur).then(function(result){
+        ServiceJoueur.mettreAJourJoueur(section.confirmation.lien, section.confirmation.joueur).then(function(result){
             $scope.joueur = result.joueur;
             ServicePages.mettreAJourAvancement($scope.joueur, result.avancement);
+            if($scope.joueur.endurancePlus <= 0) {
+                result.sectionPage.finPartie = true;
+            }
             $scope.page.push(result.sectionPage);
         });
     }
@@ -57,47 +58,38 @@ app.controller('controleurPages', ['$scope', '$q', '$location', '$http', 'mesRou
     }
     
 
-    $scope.combattre = function (fuite, puissancePsy) {
+    $scope.combattre = function (section, fuite, puissancePsy) {
         // L'endurance du monstre correspond à l'endurance de ce dernier dans la ronde qui précède, ou celle indiqué dans l'objet combat
-        var enduranceMonstre = $scope.sectionPage.combat.rondes.length > 0 ? $scope.sectionPage.combat.rondes[$scope.sectionPage.combat.rondes.length - 1].enduranceEnnemi : $scope.sectionPage.combat.endurance;
+        var enduranceMonstre = section.combat.rondes.length > 0 ? section.combat.rondes[section.combat.rondes.length - 1].enduranceEnnemi : section.combat.endurance;
         // Si le joueur utilise la puissance psy on lui rajoute 2 points d'habileté en plus
         var habileteJoueur = puissancePsy ? $scope.joueur.habiletePlus + 2 : $scope.joueur.habiletePlus;
-        
-        // Appel au WS combat
-        var urlCombat = $scope.joueur.endurancePlus + "/" + habileteJoueur + "/" + enduranceMonstre + "/" + $scope.sectionPage.combat.habilete;
+        var urlCombat = $scope.joueur.endurancePlus + "/" + habileteJoueur + "/" + enduranceMonstre + "/" + section.combat.habilete;
         // Si on est dans le cas d'un combat spécial (p180) on passe le facteur "special" à la requête
-        if($scope.sectionPage.combat.special)
-        {
-            urlCombat += "/" + $scope.sectionPage.combat.special;
+        if(section.combat.special) {
+            urlCombat += "/" + section.combat.special;
         }
-        $http.get(LOCAL_URL + "/api/combat/" + urlCombat).then(function(ronde) {
-            // MAJ des données du joueur 
-            // (on rajoute un champ qui correspond à son endurance après perte des points, plus pratique pour l'affichage)
-            $scope.joueur.endurancePlus -= ronde.data.degatJoueur;
-            ronde.data.enduranceJoueur = $scope.joueur.endurancePlus;
-            
-            // Si on est pas en situation de fuite, on MAJ les données du monstres
-            if(!fuite) {
-                enduranceMonstre -= ronde.data.degatEnnemi;
-            }
-            ronde.data.enduranceEnnemi = enduranceMonstre;
+        // Appel au WS combat
+        ServicePages.combattre(urlCombat, $scope.joueur, enduranceMonstre, fuite).then(function (result) {
             // On vérifie les conditions de victoire et défaite
-            $scope.sectionPage.combat.defaite = (ronde.data.enduranceJoueur <= 0);
-            $scope.sectionPage.combat.victoire = (ronde.data.enduranceEnnemi <= 0);
-            $scope.sectionPage.combat.fuite = fuite;
+            section.combat.defaite = (result.ronde.enduranceJoueur == 0);
+            section.combat.victoire = (result.ronde.enduranceEnnemi == 0);
+            section.combat.fuite = fuite;
             
             // Remplissage du tableau de rondes
-            $scope.sectionPage.combat.rondes.push(ronde.data);
+            section.combat.rondes.push(result.ronde);
+            $scope.page[$scope.page.length - 1] = section;
             
-            $scope.avancement.combat = $scope.sectionPage.combat;
-            if(($scope.sectionPage.combat.victoire || $scope.sectionPage.combat.fuite) && !$scope.sectionPage.combat.defaite)
-            {
-                //TODO: $scope.sectionPage.lienActif = false;
-                $scope.mettreAJourJoueur();
+            $scope.avancement.combat = section.combat;
+            // Si combat ou fuite MAJ du joueur et de l'avancement
+            if((section.combat.victoire || section.combat.fuite) && !section.combat.defaite) {
+                ServiceJoueur.mettreAJourJoueur(section.combat.lien, $scope.joueur).then(function(result) {
+                    $scope.page.push(result.sectionPage);
+                    $scope.avancement = result.avancement;
+                    ServicePages.mettreAJourAvancement($scope.joueur, $scope.avancement); 
+                });
             }
             else {
-               // Mise à jour de l'avancement du combat dans la BDD
-/*FIXME*/                mettreAJourAvancement(); 
+                ServicePages.mettreAJourAvancement($scope.joueur, $scope.avancement);
             }
         });
     }

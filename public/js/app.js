@@ -11,5 +11,6 @@ app.factory('mesRoutes',['$location', function($location){
         joueur: racine + "/api/joueurs/",
         joueurCourant: racine + "/api/joueurs/joueurCourant",
         sacADos: racine + "/api/joueurs/sacADos/",
+        combat: racine + "/api/combat/"
     }
 }]);
