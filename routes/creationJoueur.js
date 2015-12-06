@@ -65,17 +65,11 @@ router.post('/jeu', function(req, res) {
             if (err) {
                 res.send(err);
             } else {
-                var options = {
-                  host: 'localhost',
-                  port: 3000,
-                  path: '/api/joueurs/avancement/' + joueur.id,
-                  method: 'POST'
-                };
-
-                http.request(options, function() {
+                rest.post('http://localhost:3000' + '/api/joueurs/avancement/' + joueur.id)
+                .on('complete', function(data, response) {
                     req.session.joueur = joueur;
                     res.redirect('/jeu');
-                }).end();
+                });
             }
         });
 
