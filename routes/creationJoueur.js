@@ -3,6 +3,7 @@ var rest = require('restler');
 var u = require("underscore");
 var constantes = require('../lib/constantes.js')
 var router = express.Router();
+var http = require('http');
 
 var Joueur = require('../models/joueur');
 var Avancement = require('../models/avancement');
@@ -64,15 +65,20 @@ router.post('/jeu', function(req, res) {
             if (err) {
                 res.send(err);
             } else {
-                rest.post(req.protocol +'://' + req.hostname + '/api/joueurs/avancement/' + joueur.id)
-                .on('complete', function(data, response) {
-                    // console.log(response);
+                var options = {
+                  host: 'localhost',
+                  port: 3000,
+                  path: '/api/joueurs/avancement/' + joueur.id,
+                  method: 'POST'
+                };
+
+                http.request(options, function() {
                     req.session.joueur = joueur;
                     res.redirect('/jeu');
-                });
-                
+                }).end();
             }
         });
+
     } else {
         res.render('creationJoueur', {
             c: constantes,
