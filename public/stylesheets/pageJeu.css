@@ -139,13 +139,6 @@ body {
     vertical-align: top;
     font-size: 16px;
 }
-/*
-#confirmation div , #ajouterObjets div{
-    display: inline-block;
-    vertical-align: top;
-    font-size: 16px;
-}
-*/
 
 #decision div p, #confirmation div p {
     margin-bottom: 20px;
@@ -153,6 +146,12 @@ body {
 
 #decision div p:first-letter, #confirmation div p:first-letter, #ajouterObjets div p:first-letter {
     text-transform: capitalize;
+}
+
+#finPartie p {
+    text-decoration: none;
+    color: #EC2525;
+    font-weight: bold;
 }
 
 #decision a, #confirmation a, #ajouterObjets a, #finPartie a {

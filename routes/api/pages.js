@@ -6,7 +6,7 @@ var constantes = require('../../lib/constantes.js');
 var pagesJeu = require('../../lib/pagesJeu.js');
 var d = require('../../lib/decision.js')
 var da = require('../../lib/decisionsAleatoire.js');
-var p = require('../../lib/perte.js');
+var c = require('../../lib/confirmation.js');
 
 var router = express.Router();
 
@@ -57,6 +57,15 @@ router.get('/decisionAleatoire/:pageId/:va?', function(req, res) {
     }
 });
 
+/**
+ * Service Web qui retourne l'information d'une page qui contient un choix
+ * libre.
+ *
+ * @param pageId ID de la page de l'histoire
+ * @param degatsDansCombat Si le joueur a perdu des points d'endurance lors du combat
+ *
+ * @return La représentation du choix libre de la page
+ */
 router.get('/decision/:pageId/:degatsDansCombat?', function(req, res) {
     var id = req.params.pageId;
     var choix = u.find(d.decisions, function(page) {
@@ -73,15 +82,21 @@ router.get('/decision/:pageId/:degatsDansCombat?', function(req, res) {
                 decision.isValid = decision.valid(joueur, req.params.degatsDansCombat);
                 return decision;
             });
-            console.log(decisions);
             res.json(decisions);
         }
     }
 });
 
+/**
+ * Service Web qui retourne l'information d'une page qui contient une confirmation
+ *
+ * @param pageId ID de la page de l'histoire
+ *
+ * @return La représentation de la confirmation de la page
+ */
 router.get('/confirmation/:pageId', function(req, res) {
     var id = req.params.pageId;
-    var confirmation = u.find(p.perte, function(page) {
+    var confirmation = u.find(c.confirmation, function(page) {
         return page.id == id;
     });
     

@@ -6,7 +6,8 @@ section#stats.floatbox
                 td
                     img(src="/images/points_endurance.png")
                 td
-                    p {{ joueur.endurancePlus }} / {{ joueur.enduranceBase }}
+                    p(ng-show="joueur.objetsSpeciaux.indexOf('Gilet en Cuir Martele') > -1") {{ joueur.endurancePlus }} ({{ joueur.endurancePlus-2 }} + 2)  / {{ joueur.enduranceBase }}
+                    p(ng-show="joueur.objetsSpeciaux.indexOf('Gilet en Cuir Martele') == -1") {{ joueur.endurancePlus }} / {{ joueur.enduranceBase }}
             tr
                 td
                     img(src="/images/points_habilete.png")
