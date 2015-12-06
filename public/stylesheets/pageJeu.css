@@ -155,7 +155,7 @@ body {
     text-transform: capitalize;
 }
 
-#decision a, #confirmation a, #ajouterObjets a {
+#decision a, #confirmation a, #ajouterObjets a, #finPartie a {
     text-decoration: none;
     color: #008000;
     font-weight: bold;

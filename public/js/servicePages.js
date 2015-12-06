@@ -1,6 +1,5 @@
 function ServicePages($http, $q, mesRoutes){
     var avancement = null;
-    
     var moi = this;
     
     this.recupererAvancement = function(joueur) {
@@ -35,7 +34,6 @@ function ServicePages($http, $q, mesRoutes){
                     moi.chargerPage("/pages/" + avancement.pageId + "/" + avancement.sectionId, joueur).then(function (result){ 
                         page.push(result.sectionPage);
                         resolve({
-                            avancement: avancement,
                             page: page
                         });
                     });
@@ -51,7 +49,6 @@ function ServicePages($http, $q, mesRoutes){
                                 moi.avancement = avancement;
                                 moi.page = page;
                                 resolve({
-                                    avancement: avancement,
                                     page: page
                                 });
                             });
@@ -113,7 +110,10 @@ function ServicePages($http, $q, mesRoutes){
                         sectionPage.combat.rondes = [];
                         // Charger un combat depuis l'avancement
                         if(avancement.combat && avancement.combat.rondes.length > 0) {
-                            sectionPage.combat = avancement.combat;
+                            sectionPage.combat.rondes = avancement.combat.rondes;
+                            sectionPage.combat.victoire = avancement.combat.victoire;
+                            sectionPage.combat.defaite = avancement.combat.defaite;
+                            sectionPage.combat.fuite = avancement.combat.fuite;
                             joueur.endurancePlus = sectionPage.combat.rondes[sectionPage.combat.rondes.length - 1].enduranceJoueur;
                         }
                     }
@@ -127,10 +127,17 @@ function ServicePages($http, $q, mesRoutes){
                         sectionPage.decisions = [];
                         var urlDecision = mesRoutes.racine + sectionPage.decision + "/" + sectionPage.id;
                         
+                        // Si la valeur aléatoire  est connue c'est elle qu'on utilise
                         if(avancement.valeurAleatoire) {
                             urlDecision += "/" + avancement.valeurAleatoire;
+                        } else {
+                            // Traite le cas de la page 180
+                            if (avancement.combat && avancement.combat.rondes &&
+                                avancement.combat.rondes.some((e) => e.degatJoueur > 0)) {
+                                urlDecision += "/true";
+                            }
                         }
-                        $http.get(urlDecision).then(function(response) {
+                        $http.get(urlDecision, JSON.stringify({avancement: avancement})).then(function(response) {
                             // Pour chaque décision, on découpe le lien pour avoir en plus la page et la section à part
                             sectionPage.decisions = [];
                             for(decision of response.data)

@@ -94,7 +94,6 @@ app.controller('nouveauPerso', function($scope) {
     }
     
     $scope.afficherErreurMaitriseArme = function() {
-        return ($scope.formData.disciplines['MAITRISE_ARMES'] && nbArmesChoisies() == 0) || 
-            (!$scope.formData.disciplines['MAITRISE_ARMES'] && nbArmesChoisies() > 0);
+        return (!$scope.formData.disciplines['MAITRISE_ARMES'] && nbArmesChoisies() > 0);
     }
 });

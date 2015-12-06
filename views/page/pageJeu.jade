@@ -10,16 +10,15 @@ block content
                 p#numeroPage {{page[0].id}}
     
             section#histoire(ng-repeat="section in page track by $index")
-                a(ng-show="section.finPartie" ng-click="supprimerJoueur()") La partie est terminée. Retour à l'accueil
-                
-                p(ng-show="!section.finPartie" ng-repeat="c in section.contenu")
+                p(ng-repeat="c in section.contenu")
                     img(ng-show="c.img" ng-src="{{c.img}}")
                     {{c.text}}
+
+                include ./decisions.jade
+                include ./combat.jade
                 
-                div(ng-show="!section.finPartie")
-                    include ./decisions.jade
-                    include ./combat.jade
-                
-                
-        
+                div#finPartie(ng-show="section.finPartie")
+                    p(ng-show="section.finPartieMessage") {{ section.finPartieMessage }}
+                    p La partie est terminée.
+
         include ./stats.jade

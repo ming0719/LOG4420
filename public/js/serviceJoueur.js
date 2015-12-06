@@ -35,6 +35,10 @@ function ServiceJoueur($location, $http, $q, mesRoutes, ServicePages) {
             });
         });
     }
+    
+    this.supprimerJoueur = function (joueur) {
+        return $http.delete(mesRoutes.joueur + joueur._id);
+    }
 }
 
 app.service('ServiceJoueur', ['$location','$http', '$q', 'mesRoutes','ServicePages', ServiceJoueur]);

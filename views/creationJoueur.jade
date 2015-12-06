@@ -110,6 +110,6 @@ block content
                 p(ng-show="afficherErreurNom()") Vous devez entrez un nom.
                 p(ng-show="afficherErreurDisciplines()") Vous devez choisir EXACTEMENT 5 disciplines Kai.
                 p(ng-show="afficherErreurEquipement()") Vous devez choisir EXACTEMENT 2 objets.
-                p(ng-show="afficherErreurMaitriseArme()") Vous ne pouvez pas choisir la maitrise des armes sans choisir au moins une arme et inversement.
+                p(ng-show="afficherErreurMaitriseArme()") Vous ne pouvez pas choisir une arme sans choisir la maitrise des armes.
             
             input.button(type="submit" value="Commencer la partie!" ng-disabled="bloquerFormulaire()")

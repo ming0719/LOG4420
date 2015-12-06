@@ -57,12 +57,11 @@ router.get('/decisionAleatoire/:pageId/:va?', function(req, res) {
     }
 });
 
-router.get('/decision/:pageId', function(req, res) {
+router.get('/decision/:pageId/:degatsDansCombat?', function(req, res) {
     var id = req.params.pageId;
     var choix = u.find(d.decisions, function(page) {
         return page.id == id;
     });
-
     if (choix == undefined) {
         res.json({message: "Cette page n'a pas de choix possibles."});
     } else {
@@ -71,9 +70,10 @@ router.get('/decision/:pageId', function(req, res) {
             res.json({message: "Le joueur n'existe pas dans la session."});
         } else {
             var decisions = u.map(choix.decision, function(decision) {
-                decision.isValid = decision.valid(joueur);
+                decision.isValid = decision.valid(joueur, req.params.degatsDansCombat);
                 return decision;
             });
+            console.log(decisions);
             res.json(decisions);
         }
     }

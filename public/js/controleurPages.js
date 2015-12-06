@@ -11,8 +11,10 @@ app.controller('controleurPages', ['$scope', '$q', '$location', '$http', 'mesRou
     ServiceJoueur.joueur().then(function(response) {
         $scope.joueur = response.joueur;
         ServicePages.recupererPageActuelle($scope.joueur, $scope).then(function(result) {
-            $scope.avancement = result.avancement;
             $scope.page = result.page;
+            if(result.page[0].finPartie) {
+                $scope.supprimerJoueur();
+            }
         });
     }, function(response){
         window.location.pathname = "/creationJoueur";
@@ -32,12 +34,16 @@ app.controller('controleurPages', ['$scope', '$q', '$location', '$http', 'mesRou
         section.lienActif = false;
         ServiceJoueur.mettreAJourJoueur(section.confirmation.lien, section.confirmation.joueur).then(function(result){
             $scope.joueur = result.joueur;
-            ServicePages.mettreAJourAvancement($scope.joueur, result.avancement);
             if($scope.joueur.endurancePlus <= 0) {
-                result.sectionPage.finPartie = true;
+                section.finPartie = true;
+                section.finPartieMessage = "Vos points d'endurance sont épuisés.";
+                $scope.supprimerJoueur();
+            } else {
+                ServicePages.mettreAJourAvancement($scope.joueur, result.avancement);
+                $scope.page.push(result.sectionPage);
             }
-            $scope.page.push(result.sectionPage);
         });
+        console.log($scope.page);
     }
     
     // Mise a jour des objets
@@ -79,27 +85,33 @@ app.controller('controleurPages', ['$scope', '$q', '$location', '$http', 'mesRou
             section.combat.rondes.push(result.ronde);
             $scope.page[$scope.page.length - 1] = section;
             
-            $scope.avancement.combat = section.combat;
-            // Si combat ou fuite MAJ du joueur et de l'avancement
-            if((section.combat.victoire || section.combat.fuite) && !section.combat.defaite) {
-                ServiceJoueur.mettreAJourJoueur(section.combat.lien, $scope.joueur).then(function(result) {
-                    $scope.page.push(result.sectionPage);
-                    $scope.avancement = result.avancement;
-                    ServicePages.mettreAJourAvancement($scope.joueur, $scope.avancement); 
-                });
-            }
-            else {
-                ServicePages.mettreAJourAvancement($scope.joueur, $scope.avancement);
-            }
+            ServicePages.recupererAvancement($scope.joueur).then(function (result) {
+                var avancement = result.avancement;
+                avancement.combat = section.combat;
+                // Si combat ou fuite MAJ du joueur et de l'avancement
+                if((section.combat.victoire || section.combat.fuite) && !section.combat.defaite) {
+                    ServiceJoueur.mettreAJourJoueur(section.combat.lien, $scope.joueur).then(function(result) {
+                        $scope.page.push(result.sectionPage);
+                        avancement = result.avancement;
+                        ServicePages.mettreAJourAvancement($scope.joueur, avancement); 
+                    });
+                }
+                else if(section.combat.defaite) {
+                    section.finPartie = true;
+                    section.finPartieMessage = "Vous avez été tué lors du combat."
+                    $scope.supprimerJoueur();
+                }
+                else {
+                    ServicePages.mettreAJourAvancement($scope.joueur, avancement);
+                }
+            });
         });
     }
     
     $scope.supprimerJoueur = function ()
     {
-        $http.delete(LOCAL_URL + "/api/joueurs/" + $scope.joueur._id).then(function () {
-            window.location.pathname = "/";
+        ServiceJoueur.supprimerJoueur($scope.joueur).then(function() {
+            localStorage.clear();
         });
     }
-    
-    /*TODO: detecter mort joueur dans les confirmations*/
 }]);
